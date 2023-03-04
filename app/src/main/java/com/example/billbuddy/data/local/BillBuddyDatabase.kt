@@ -4,11 +4,13 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.billbuddy.data.local.converter.DateConverter
+import com.example.billbuddy.data.local.model.Payment
 import com.example.billbuddy.data.local.model.TransactionDto
 
 
-@Database(entities = [TransactionDto::class], exportSchema = true, version = 1)
+@Database(entities = [TransactionDto::class, Payment::class], exportSchema = true, version = 1)
 @TypeConverters(value = [DateConverter::class])
-abstract class TransactionDatabase : RoomDatabase() {
+abstract class BillBuddyDatabase : RoomDatabase() {
     abstract val transactionDao: TransactionDao
+    abstract val paymentDao: PaymentDao
 }

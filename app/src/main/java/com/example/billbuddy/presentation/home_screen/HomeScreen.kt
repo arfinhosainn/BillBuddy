@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.billbuddy.R
+import com.example.billbuddy.presentation.components.CardView
 import com.example.billbuddy.presentation.navigation.BottomNavBar
 import com.example.billbuddy.presentation.navigation.BottomNavItem
 import com.example.billbuddy.ui.theme.DarkGreen
@@ -110,12 +111,15 @@ fun HomeScreen(navController: NavController) {
     ) { paddingValues ->
         Column(modifier = Modifier.padding(paddingValues)) {
 
-            val item = 1000
-            LazyColumn {
-                items(item) {
-                    Text(text = it.toString())
-                }
-            }
+         CardView(
+             billTitle = "Electricity Bill",
+             billAmount = " ${987.00}".toDouble(),
+             billDate = "Due Today",
+             remainingBudget = "Remaining Budget $20000",
+             billPay = "Pay Now",
+             billPaid = "Mark Paid",
+             billIcon = ImageVector.vectorResource(id = R.drawable.coins)
+         )
 
         }
     }
@@ -127,5 +131,4 @@ fun HomeScreen(navController: NavController) {
 fun PreviewHomeScreen() {
     val navigation = rememberNavController()
     HomeScreen(navController = navigation)
-
 }
