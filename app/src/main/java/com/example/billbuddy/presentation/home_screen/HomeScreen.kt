@@ -24,6 +24,8 @@ import com.example.billbuddy.R
 import com.example.billbuddy.presentation.components.CardView
 import com.example.billbuddy.presentation.navigation.BottomNavBar
 import com.example.billbuddy.presentation.navigation.BottomNavItem
+import com.example.billbuddy.presentation.navigation.Screens
+import com.example.billbuddy.presentation.your_payments.PaymentLazyList
 import com.example.billbuddy.ui.theme.DarkGreen
 import com.example.billbuddy.ui.theme.Heading
 import com.example.billbuddy.ui.theme.LightBlack200
@@ -72,7 +74,7 @@ fun HomeScreen(navController: NavController) {
         floatingActionButton = {
 
             FloatingActionButton(
-                onClick = { /*TODO*/ },
+                onClick = { navController.navigate(Screens.AddEditPayment.route) },
                 backgroundColor = DarkGreen,
                 contentColor = Color.White
             ) {
@@ -110,16 +112,18 @@ fun HomeScreen(navController: NavController) {
         }
     ) { paddingValues ->
         Column(modifier = Modifier.padding(paddingValues)) {
+            PaymentLazyList()
 
-         CardView(
-             billTitle = "Electricity Bill",
-             billAmount = " ${987.00}".toDouble(),
-             billDate = "Due Today",
-             remainingBudget = "Remaining Budget $20000",
-             billPay = "Pay Now",
-             billPaid = "Mark Paid",
-             billIcon = ImageVector.vectorResource(id = R.drawable.coins)
-         )
+
+//            CardView(
+//                billTitle = "Electricity Bill",
+//                billAmount = " ${987.00}".toDouble(),
+//                billDate = "Due Today",
+//                remainingBudget = "Remaining Budget $20000",
+//                billPay = "Pay Now",
+//                billPaid = "Mark Paid",
+//                billIcon = ImageVector.vectorResource(id = R.drawable.coins)
+//            )
 
         }
     }

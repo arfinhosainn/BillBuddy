@@ -1,65 +1,31 @@
 package com.example.billbuddy.presentation.home_screen
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.example.billbuddy.domain.model.Transaction
+import androidx.lifecycle.viewModelScope
+import com.example.billbuddy.data.local.model.Payment
+import com.example.billbuddy.domain.repository.PaymentRepository
 import com.example.billbuddy.domain.repository.TransactionRepository
-import com.example.billbuddy.util.UIEvent
+import com.example.billbuddy.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import java.util.*
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val transactionRepository: TransactionRepository
+    private val transactionRepository: TransactionRepository,
+    private val paymentRepository: PaymentRepository
 ) : ViewModel() {
 
-    private var decimal: String = String()
-    private var isDecimal = MutableStateFlow(false)
-    private var duration = MutableStateFlow(0)
 
-    var transactionAmount = MutableStateFlow("0.00")
-        private set
-
-    var dailyTransaction = MutableStateFlow(emptyList<Transaction>())
-        private set
+    var monthlyTransaction = mutableStateOf(mapOf<String, List<Payment>>())
 
 
-    var monthlyTransaction = MutableStateFlow(mapOf<String, List<Transaction>>())
-        private set
-
-    var currentExpenseAmount = MutableStateFlow(0.0)
-        private set
-
-
-    var transactionTitle = MutableStateFlow(String())
-        private set
-
-    var totalIncome = MutableStateFlow(0.0)
-        private set
-
-    var totalExpense = MutableStateFlow(0.0)
-        private set
-
-    var formattedDate = MutableStateFlow(String())
-        private set
-
-    var date = MutableStateFlow(String())
-        private set
-
-    var currentDate = MutableStateFlow(Calendar.getInstance().time)
-        private set
-
-    var selectedCurrencyCode = MutableStateFlow(String())
-        private set
-
-    var limitAlert = MutableSharedFlow<UIEvent>(replay = 1)
-        private set
-
-    var limitKey = MutableStateFlow(false)
-        private set
-
+    private val _paymentList = MutableStateFlow(PaymentListState())
+    val paymentList = _paymentList.asStateFlow()
 
     private fun calculateTransaction(transactions: List<Double>): Double {
         return transactions.sumOf {
@@ -67,15 +33,44 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun setTransactionTitle(title: String) {
-        transactionTitle.value = title
+    init {
+//        getAllTransactionByDate()
+        getPayments()
     }
 
-    fun setCurrentDate(date: Date) {
-        currentDate.value = date
+
+    private fun getPayments() {
+        paymentRepository.getAllPayments().onEach { result ->
+            when (result) {
+                is Resource.Success -> {
+                    _paymentList.value = PaymentListState(payments = result.data ?: emptyList())
+                }
+                is Resource.Error -> {
+                    _paymentList.value = PaymentListState(
+                        error = result.message ?: "An unexpected error occurred"
+                    )
+                }
+                is Resource.Loading -> {
+                    _paymentList.value = PaymentListState(
+                        isLoading = true
+                    )
+                }
+            }
+        }.launchIn(viewModelScope)
     }
 
-//    fun insertDailyTransaction
 
-
+//    private fun getAllTransactionByDate() {
+//        viewModelScope.launch {
+//            paymentRepository.getAllPayments().collect { allTrx ->
+//                allTrx.let { it ->
+//                    monthlyTransaction.value = it.groupBy {
+//                        it.paymentDate.toString()
+//                    }
+//                }
+//            }
+//        }
+//
+//
+//    }
 }

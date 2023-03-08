@@ -3,23 +3,27 @@ package com.example.billbuddy.presentation.add_edit_payment_screen
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.billbuddy.R
 import com.example.billbuddy.data.local.model.InvalidPaymentException
 import com.example.billbuddy.data.local.model.Payment
 import com.example.billbuddy.domain.repository.PaymentRepository
-import com.example.billbuddy.util.DateTimeProviderImpl
+import com.example.billbuddy.services.AndroidAlarmScheduler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
 class AddEditPaymentViewModel @Inject constructor(
     private val paymentRepository: PaymentRepository,
+    private val alarmScheduler: AndroidAlarmScheduler,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
+
 
     private val _paymentTitle = MutableStateFlow(
         PaymentTextFieldState(
@@ -46,11 +50,19 @@ class AddEditPaymentViewModel @Inject constructor(
 
     private val _paymentDate = MutableStateFlow(
         PaymentTextFieldState(
-            paymentDate = DateTimeProviderImpl().now()
+            paymentDate = LocalDate.now()
         )
     )
 
     val paymentDate = _paymentDate.asStateFlow()
+
+    private val _paymentIcon = MutableStateFlow(
+        PaymentTextFieldState(
+            paymentIcon = R.drawable.mobile
+        )
+    )
+
+    val paymentIcon = _paymentIcon.asStateFlow()
 
 
     init {
@@ -64,15 +76,18 @@ class AddEditPaymentViewModel @Inject constructor(
                             isHintVisible = false
                         )
                         _paymentAmount.value = paymentAmount.value.copy(
-                            amount = payment.paymentAmount!!,
+                            amount = payment.paymentAmount,
                             isHintVisible = false
                         )
                         _paymentDate.value = paymentDate.value.copy(
                             paymentDate = payment.paymentDate
                         )
                         _payerName.value = payerName.value.copy(
-                            text = payment.payerName,
+                            text = payment.payeeName,
                             isHintVisible = false
+                        )
+                        _paymentIcon.value = paymentIcon.value.copy(
+                            paymentIcon = paymentIcon.value.paymentIcon
                         )
                     }
                 }
@@ -124,18 +139,37 @@ class AddEditPaymentViewModel @Inject constructor(
                     paymentDate = event.value
                 )
             }
+            is AddEditPaymentEvent.ChoosePaymentIcon -> {
+                _paymentIcon.value = paymentIcon.value.copy(
+                    paymentIcon = event.value
+                )
+            }
             is AddEditPaymentEvent.SavePayment -> {
                 viewModelScope.launch {
                     try {
                         paymentRepository.insertPayments(
                             Payment(
                                 paymentTitle = paymentTitle.value.text,
-                                payerName = payerName.value.text,
+                                payeeName = payerName.value.text,
                                 paymentAmount = paymentAmount.value.amount,
                                 paymentDate = paymentDate.value.paymentDate,
-                                id = currentPaymentId
+                                id = currentPaymentId,
+                                paymentIcon = paymentIcon.value.paymentIcon
                             )
                         )
+                        _eventFlow.emit(UiEvent.SaveNote)
+
+                        alarmScheduler.schedule(
+                            Payment(
+                                paymentTitle = paymentTitle.value.text,
+                                payeeName = payerName.value.text,
+                                paymentAmount = paymentAmount.value.amount,
+                                paymentDate = paymentDate.value.paymentDate,
+                                id = currentPaymentId,
+                                paymentIcon = paymentIcon.value.paymentIcon
+                            )
+                        )
+
                     } catch (e: InvalidPaymentException) {
                         _eventFlow.emit(
                             UiEvent.ShowSnackbar(

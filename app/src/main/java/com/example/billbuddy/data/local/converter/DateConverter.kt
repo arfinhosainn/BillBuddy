@@ -1,6 +1,7 @@
 package com.example.billbuddy.data.local.converter
 
 import androidx.room.TypeConverter
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Date
@@ -17,16 +18,18 @@ class DateConverter {
         return date?.time
     }
 
-    private val formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME
+    private val formatter = DateTimeFormatter.ofPattern("MM dd yyyy")
 
     @TypeConverter
-    fun fromLocalDateTime(value: LocalDateTime?): String? {
+    fun fromLocalDateTime(value: LocalDate?): String? {
         return value?.format(formatter)
     }
 
     @TypeConverter
-    fun toLocalDateTime(value: String?): LocalDateTime? {
-        return value?.let { LocalDateTime.parse(it, formatter) }
+    fun toLocalDateTime(value: String?): LocalDate? {
+        return value?.let { LocalDate.parse(it, formatter) }
     }
+
+
 
 }

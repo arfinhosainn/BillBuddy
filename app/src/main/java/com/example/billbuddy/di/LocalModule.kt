@@ -11,6 +11,7 @@ import com.example.billbuddy.data.local.repository.TransactionRepositoryImpl
 import com.example.billbuddy.domain.repository.DataStoreOperation
 import com.example.billbuddy.domain.repository.PaymentRepository
 import com.example.billbuddy.domain.repository.TransactionRepository
+import com.example.billbuddy.services.AndroidAlarmScheduler
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,6 +34,11 @@ object LocalModule {
     @Singleton
     fun providePaymentRepository(paymentDao: PaymentDao): PaymentRepository {
         return PaymentRepositoryImpl(paymentDao = paymentDao)
+    }
+
+    @Provides
+    fun provideAndroidAlarmScheduler(@ApplicationContext context: Context): AndroidAlarmScheduler {
+        return AndroidAlarmScheduler(context)
     }
 
     @Provides

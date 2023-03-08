@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.navigation.compose.rememberNavController
-import com.example.billbuddy.presentation.add_edit_payment_screen.AddEditPaymentScreen
+import com.example.billbuddy.presentation.navigation.NavigationGraph
 import com.example.billbuddy.ui.theme.BillBuddyTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -15,9 +15,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             BillBuddyTheme {
-
+//                TestScreen()
                 val remNavController = rememberNavController()
-                AddEditPaymentScreen(navController = remNavController)
+                NavigationGraph(navHostController = remNavController)
 
             }
         }
