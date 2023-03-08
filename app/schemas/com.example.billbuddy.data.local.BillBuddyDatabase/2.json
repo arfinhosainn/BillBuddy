@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "01cf820287ae853cc66206f6afcb18ad",
+    "identityHash": "f720aa42e5fb7685b7c4a7176205a627",
     "entities": [
       {
         "tableName": "transaction_table",
@@ -56,7 +56,7 @@
       },
       {
         "tableName": "payment_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`paymentTitle` TEXT NOT NULL, `payeeName` TEXT NOT NULL, `paymentAmount` REAL NOT NULL, `paymentIcon` INTEGER NOT NULL, `paymentDate` TEXT NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL DEFAULT 0)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`paymentTitle` TEXT NOT NULL, `payeeName` TEXT NOT NULL, `paymentAmount` REAL NOT NULL, `paymentIcon` INTEGER NOT NULL, `paymentDate` TEXT NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT)",
         "fields": [
           {
             "fieldPath": "paymentTitle",
@@ -92,8 +92,7 @@
             "fieldPath": "id",
             "columnName": "id",
             "affinity": "INTEGER",
-            "notNull": true,
-            "defaultValue": "0"
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -104,12 +103,38 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "notification_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`notificationTitle` TEXT NOT NULL, `notificationDesc` TEXT NOT NULL, PRIMARY KEY(`notificationTitle`))",
+        "fields": [
+          {
+            "fieldPath": "notificationTitle",
+            "columnName": "notificationTitle",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "notificationDesc",
+            "columnName": "notificationDesc",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "notificationTitle"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '01cf820287ae853cc66206f6afcb18ad')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f720aa42e5fb7685b7c4a7176205a627')"
     ]
   }
 }

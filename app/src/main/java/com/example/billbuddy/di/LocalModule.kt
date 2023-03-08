@@ -3,12 +3,15 @@ package com.example.billbuddy.di
 import android.content.Context
 import androidx.room.Room
 import com.example.billbuddy.data.local.BillBuddyDatabase
+import com.example.billbuddy.data.local.NotificationDao
 import com.example.billbuddy.data.local.PaymentDao
 import com.example.billbuddy.data.local.TransactionDao
 import com.example.billbuddy.data.local.repository.DataStoreOperationImpl
+import com.example.billbuddy.data.local.repository.NotificationRepositoryImpl
 import com.example.billbuddy.data.local.repository.PaymentRepositoryImpl
 import com.example.billbuddy.data.local.repository.TransactionRepositoryImpl
 import com.example.billbuddy.domain.repository.DataStoreOperation
+import com.example.billbuddy.domain.repository.NotificationsRepository
 import com.example.billbuddy.domain.repository.PaymentRepository
 import com.example.billbuddy.domain.repository.TransactionRepository
 import com.example.billbuddy.services.AndroidAlarmScheduler
@@ -36,6 +39,7 @@ object LocalModule {
         return PaymentRepositoryImpl(paymentDao = paymentDao)
     }
 
+
     @Provides
     fun provideAndroidAlarmScheduler(@ApplicationContext context: Context): AndroidAlarmScheduler {
         return AndroidAlarmScheduler(context)
@@ -60,6 +64,19 @@ object LocalModule {
     fun providesPaymentDao(database: BillBuddyDatabase): PaymentDao {
         return database.paymentDao
     }
+
+    @Provides
+    @Singleton
+    fun providesNotificationDao(database: BillBuddyDatabase): NotificationDao {
+        return database.notificationDao
+    }
+
+    @Provides
+    @Singleton
+    fun providesNotificationRepository(notificationDao: NotificationDao): NotificationsRepository {
+        return NotificationRepositoryImpl(notificationDao = notificationDao)
+    }
+
 
     @Provides
     @Singleton

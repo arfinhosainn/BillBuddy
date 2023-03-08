@@ -90,7 +90,6 @@ fun AddEditPaymentScreen(
         }
     }
 
-
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {

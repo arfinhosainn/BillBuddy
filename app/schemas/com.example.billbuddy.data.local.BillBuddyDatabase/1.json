@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "bc0bf2d4e7d0321a398286c8d4af5a5c",
+    "identityHash": "c162394078a05e64b45c47571204f622",
     "entities": [
       {
         "tableName": "transaction_table",
@@ -103,12 +103,44 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "notification_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`notificationTitle` TEXT NOT NULL, `notificationDesc` TEXT NOT NULL, `notificationDate` TEXT NOT NULL, PRIMARY KEY(`notificationTitle`))",
+        "fields": [
+          {
+            "fieldPath": "notificationTitle",
+            "columnName": "notificationTitle",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "notificationDesc",
+            "columnName": "notificationDesc",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "notificationDate",
+            "columnName": "notificationDate",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "notificationTitle"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'bc0bf2d4e7d0321a398286c8d4af5a5c')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c162394078a05e64b45c47571204f622')"
     ]
   }
 }

@@ -20,8 +20,7 @@ class AndroidAlarmScheduler(
             putExtra("PAYMENT_EXTRA", item.paymentTitle)
             putExtra("NOTIFICATION_TITLE", item.paymentTitle)
             putExtra("NOTIFICATION_MESSAGE", "Your payment is due today")
-            Log.d("AndroidAlarmScheduler", "item id: ${item.id}")
-
+            putExtra("NOTIFICATION_DATE", item.paymentDate)
         }
         alarmManager.setExactAndAllowWhileIdle(
             AlarmManager.RTC_WAKEUP,

@@ -1,6 +1,7 @@
 package com.example.billbuddy.presentation.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -19,6 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.billbuddy.data.local.model.Payment
 import com.example.billbuddy.ui.theme.BILL_AMOUNT
 import com.example.billbuddy.ui.theme.LightBlack
 import com.example.billbuddy.ui.theme.LightBlack100
@@ -32,12 +34,16 @@ fun PaymentCardView(
     paymentTitle: String,
     paymentDate: String,
     paymentAmount: Double,
+    onClick: (Payment) -> Unit
 
-    ) {
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(70.dp),
+            .height(70.dp)
+            .clickable {
+                onClick
+            },
         shape = RoundedCornerShape(10.dp),
         elevation = 0.dp, backgroundColor = LightBlack
     ) {
@@ -88,14 +94,14 @@ fun PaymentCardView(
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewCard() {
-    PaymentCardView(
-        paymentIcon = painterResource(id = R.drawable.water),
-        paymentTitle = "House Rent",
-        paymentDate = LocalDate.now().toString(),
-        paymentAmount = 10.33
-    )
-
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewCard() {
+//    PaymentCardView(
+//        paymentIcon = painterResource(id = R.drawable.water),
+//        paymentTitle = "House Rent",
+//        paymentDate = LocalDate.now().toString(),
+//        paymentAmount = 10.33
+//    )
+//
+//}

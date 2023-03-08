@@ -30,6 +30,7 @@ import com.example.billbuddy.R
 import com.example.billbuddy.data.local.model.Payment
 import com.example.billbuddy.presentation.components.PaymentCardView
 import com.example.billbuddy.presentation.home_screen.HomeViewModel
+import com.example.billbuddy.presentation.navigation.Screens
 import com.example.billbuddy.ui.theme.DarkGreen
 import com.example.billbuddy.ui.theme.Heading
 import com.example.billbuddy.ui.theme.LightBlack200
@@ -116,7 +117,7 @@ fun YourPaymentScreen(navController: NavController) {
                 }
             }
             TabView(pagerState = pagerState)
-            TabPager(pagerState = pagerState)
+            TabPager(pagerState = pagerState, navController)
         }
     }
 }
@@ -151,7 +152,8 @@ fun TabView(
         },
         indicator = { tabPositions ->
             TabRowDefaults.Indicator(
-                modifier = Modifier.pagerTabIndicatorOffset(pagerState, tabPositions), color = DarkGreen
+                modifier = Modifier.pagerTabIndicatorOffset(pagerState, tabPositions),
+                color = DarkGreen
             )
         }
     ) {
@@ -198,7 +200,7 @@ fun TabView(
                         color = if (pagerState.currentPage == index) {
                             DarkGreen
                         } else {
-                           LightBlack200
+                            LightBlack200
                         },
                         fontWeight = if (pagerState.currentPage == index) {
                             FontWeight.Bold
@@ -221,7 +223,7 @@ fun TabView(
 @OptIn(ExperimentalFoundationApi::class, ExperimentalPagerApi::class)
 @Composable
 fun TabPager(
-    pagerState: PagerState
+    pagerState: PagerState, navController: NavController
 ) {
 
     CompositionLocalProvider(LocalOverscrollConfiguration provides null) {
@@ -229,7 +231,7 @@ fun TabPager(
             HorizontalPager(count = 3, state = pagerState) { pager ->
                 when (pager) {
                     0 -> {
-                        PaymentLazyList()
+                        PaymentLazyList(navController = navController)
 
                     }
                     1 -> {
@@ -252,20 +254,23 @@ fun TabPager(
 
 @Composable
 fun PaymentList(
-    payment: Payment
+    payment: Payment,
+    onClick: (Payment) -> Unit
 ) {
     PaymentCardView(
         paymentIcon = painterResource(id = R.drawable.tv),
         paymentTitle = payment.paymentTitle,
         paymentDate = payment.paymentDate.toString(),
-        paymentAmount = payment.paymentAmount
+        paymentAmount = payment.paymentAmount,
+        onClick = onClick
     )
 
 }
 
 @Composable
 fun PaymentLazyList(
-    homeViewModel: HomeViewModel = hiltViewModel()
+    homeViewModel: HomeViewModel = hiltViewModel(),
+    navController: NavController
 ) {
 
     val paymentListState by homeViewModel.paymentList.collectAsState()
@@ -279,7 +284,11 @@ fun PaymentLazyList(
     ) {
 
         items(paymentList) {
-            PaymentList(payment = it)
+            PaymentList(payment = it,
+                onClick = { payment ->
+                    navController.navigate(Screens.Notifications.route + "/${payment.id}")
+                }
+            )
 
         }
     }

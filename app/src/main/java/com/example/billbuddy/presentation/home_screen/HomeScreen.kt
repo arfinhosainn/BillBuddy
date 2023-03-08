@@ -51,7 +51,7 @@ fun HomeScreen(navController: NavController) {
                 )
             }, actions = {
                 IconButton(
-                    onClick = { /* Handle button click */ },
+                    onClick = { navController.navigate(Screens.Notifications.route) },
                     modifier = Modifier
                         .background(
                             LightGreen,
