@@ -2,7 +2,6 @@ package com.example.billbuddy.presentation.test
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Text
@@ -14,7 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.billbuddy.presentation.home_screen.HomeViewModel
+import com.example.billbuddy.presentation.home.HomeViewModel
 
 @Composable
 fun TestScreen(homeViewModel: HomeViewModel = hiltViewModel()) {

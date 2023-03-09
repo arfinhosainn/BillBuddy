@@ -1,8 +1,7 @@
-package com.example.billbuddy.presentation.add_edit_payment_screen
+package com.example.billbuddy.presentation.add_edit_payment
 
 import androidx.compose.ui.focus.FocusState
 import java.time.LocalDate
-import java.time.LocalDateTime
 
 sealed class AddEditPaymentEvent {
     data class EnteredTitle(val value: String) : AddEditPaymentEvent()

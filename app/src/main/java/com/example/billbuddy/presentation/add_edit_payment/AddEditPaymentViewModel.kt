@@ -1,4 +1,4 @@
-package com.example.billbuddy.presentation.add_edit_payment_screen
+package com.example.billbuddy.presentation.add_edit_payment
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel

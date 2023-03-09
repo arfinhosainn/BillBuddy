@@ -1,4 +1,4 @@
-package com.example.billbuddy.presentation.add_edit_payment_screen
+package com.example.billbuddy.presentation.add_edit_payment
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.*

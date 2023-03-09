@@ -1,10 +1,9 @@
-package com.example.billbuddy.presentation.home_screen
+package com.example.billbuddy.presentation.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -21,7 +20,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.billbuddy.R
-import com.example.billbuddy.presentation.components.CardView
 import com.example.billbuddy.presentation.navigation.BottomNavBar
 import com.example.billbuddy.presentation.navigation.BottomNavItem
 import com.example.billbuddy.presentation.navigation.Screens
@@ -112,7 +110,7 @@ fun HomeScreen(navController: NavController) {
         }
     ) { paddingValues ->
         Column(modifier = Modifier.padding(paddingValues)) {
-            PaymentLazyList()
+            PaymentLazyList(navController = navController)
 
 
 //            CardView(

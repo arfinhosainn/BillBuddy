@@ -1,5 +1,6 @@
 package com.example.billbuddy.presentation.your_payments
 
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.LocalOverscrollConfiguration
@@ -29,7 +30,7 @@ import androidx.navigation.NavController
 import com.example.billbuddy.R
 import com.example.billbuddy.data.local.model.Payment
 import com.example.billbuddy.presentation.components.PaymentCardView
-import com.example.billbuddy.presentation.home_screen.HomeViewModel
+import com.example.billbuddy.presentation.home.HomeViewModel
 import com.example.billbuddy.presentation.navigation.Screens
 import com.example.billbuddy.ui.theme.DarkGreen
 import com.example.billbuddy.ui.theme.Heading
@@ -255,7 +256,7 @@ fun TabPager(
 @Composable
 fun PaymentList(
     payment: Payment,
-    onClick: (Payment) -> Unit
+    onClick: () -> Unit
 ) {
     PaymentCardView(
         paymentIcon = painterResource(id = R.drawable.tv),
@@ -276,7 +277,7 @@ fun PaymentLazyList(
     val paymentListState by homeViewModel.paymentList.collectAsState()
     val paymentList = paymentListState.payments
 
-    val item = 11
+
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -285,8 +286,9 @@ fun PaymentLazyList(
 
         items(paymentList) {
             PaymentList(payment = it,
-                onClick = { payment ->
-                    navController.navigate(Screens.Notifications.route + "/${payment.id}")
+                onClick = {
+                    navController.navigate(Screens.AddEditPayment.route + "?paymentId=${it.id}")
+                    Log.d("paymentId", "PaymentLazyList: ${it.id}")
                 }
             )
 

@@ -1,6 +1,5 @@
-package com.example.billbuddy.presentation.add_edit_payment_screen
+package com.example.billbuddy.presentation.add_edit_payment
 
-import androidx.compose.ui.graphics.vector.ImageVector
 import com.example.billbuddy.R
 import java.time.LocalDate
 

@@ -1,4 +1,4 @@
-package com.example.billbuddy.presentation.home_screen
+package com.example.billbuddy.presentation.home
 
 import com.example.billbuddy.data.local.model.Payment
 

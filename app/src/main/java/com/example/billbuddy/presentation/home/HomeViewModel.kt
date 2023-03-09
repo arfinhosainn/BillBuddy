@@ -1,4 +1,4 @@
-package com.example.billbuddy.presentation.home_screen
+package com.example.billbuddy.presentation.home
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel

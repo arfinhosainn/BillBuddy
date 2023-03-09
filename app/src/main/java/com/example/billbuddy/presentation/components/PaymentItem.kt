@@ -34,7 +34,7 @@ fun PaymentCardView(
     paymentTitle: String,
     paymentDate: String,
     paymentAmount: Double,
-    onClick: (Payment) -> Unit
+    onClick: () -> Unit
 
 ) {
     Card(
@@ -42,7 +42,7 @@ fun PaymentCardView(
             .fillMaxWidth()
             .height(70.dp)
             .clickable {
-                onClick
+                onClick()
             },
         shape = RoundedCornerShape(10.dp),
         elevation = 0.dp, backgroundColor = LightBlack
