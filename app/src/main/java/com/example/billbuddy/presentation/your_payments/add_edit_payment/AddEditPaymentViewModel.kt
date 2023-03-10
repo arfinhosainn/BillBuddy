@@ -1,4 +1,4 @@
-package com.example.billbuddy.presentation.add_edit_payment
+package com.example.billbuddy.presentation.your_payments.add_edit_payment
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -6,9 +6,11 @@ import androidx.lifecycle.viewModelScope
 import com.example.billbuddy.R
 import com.example.billbuddy.data.local.model.InvalidPaymentException
 import com.example.billbuddy.data.local.model.Payment
+import com.example.billbuddy.domain.repository.DataStoreOperation
 import com.example.billbuddy.domain.repository.PaymentRepository
 import com.example.billbuddy.services.AndroidAlarmScheduler
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -21,8 +23,12 @@ import javax.inject.Inject
 class AddEditPaymentViewModel @Inject constructor(
     private val paymentRepository: PaymentRepository,
     private val alarmScheduler: AndroidAlarmScheduler,
+    private val dataStoreOperation: DataStoreOperation,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
+
+    var paymentCurrency = MutableStateFlow("")
+        private set
 
 
     private val _paymentTitle = MutableStateFlow(
@@ -94,6 +100,13 @@ class AddEditPaymentViewModel @Inject constructor(
             }
 
         }
+
+        viewModelScope.launch(Dispatchers.IO) {
+            dataStoreOperation.readCurrencyFromDataStore().collect { currency ->
+                paymentCurrency.value = currency
+            }
+        }
+
     }
 
 

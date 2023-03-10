@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.billbuddy.data.local.model.Notification
+import com.example.billbuddy.presentation.components.ProgressDots
 import com.example.billbuddy.ui.theme.Heading
 import com.example.billbuddy.ui.theme.LightBlack200
 import com.example.billbuddy.util.FontAverta
@@ -58,9 +59,11 @@ fun NotificationsScreen(
         }
     ) { paddingValues ->
 
-        Column(modifier = Modifier
-            .fillMaxSize()
-            .padding(paddingValues)) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+        ) {
             Box(modifier = Modifier.fillMaxSize()) {
                 LazyColumn(modifier = Modifier.fillMaxSize()) {
                     items(notificationState.value.payments) { notification ->
@@ -79,7 +82,7 @@ fun NotificationsScreen(
                     )
                 }
                 if (notificationState.value.isLoading) {
-                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                    ProgressDots(modifier = Modifier.align(Alignment.Center))
                 }
             }
 

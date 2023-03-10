@@ -259,7 +259,7 @@ fun PaymentList(
     onClick: () -> Unit
 ) {
     PaymentCardView(
-        paymentIcon = painterResource(id = R.drawable.tv),
+        paymentIcon = payment.paymentIcon,
         paymentTitle = payment.paymentTitle,
         paymentDate = payment.paymentDate.toString(),
         paymentAmount = payment.paymentAmount,

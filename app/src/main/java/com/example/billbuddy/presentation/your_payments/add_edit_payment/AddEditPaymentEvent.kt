@@ -1,4 +1,4 @@
-package com.example.billbuddy.presentation.add_edit_payment
+package com.example.billbuddy.presentation.your_payments.add_edit_payment
 
 import androidx.compose.ui.focus.FocusState
 import java.time.LocalDate

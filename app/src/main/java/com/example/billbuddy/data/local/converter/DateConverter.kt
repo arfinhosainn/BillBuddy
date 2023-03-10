@@ -4,7 +4,7 @@ import androidx.room.TypeConverter
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.Date
+import java.util.*
 
 class DateConverter {
 
@@ -30,6 +30,21 @@ class DateConverter {
         return value?.let { LocalDate.parse(it, formatter) }
     }
 
+
+    private val localDateTime = DateTimeFormatter.ofPattern("MM dd yyyy hh:mm:ss a")
+
+
+    @TypeConverter
+    fun fromLocalDate(date: LocalDateTime?): String? {
+        return date?.format(localDateTime)
+    }
+
+    @TypeConverter
+    fun toLocalDate(dateString: String?): LocalDateTime? {
+        return dateString?.let {
+            LocalDateTime.parse(it, localDateTime)
+        }
+    }
 
 
 }

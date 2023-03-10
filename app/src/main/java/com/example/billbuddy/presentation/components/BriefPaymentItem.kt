@@ -17,30 +17,26 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.billbuddy.ui.theme.BILL_AMOUNT
-import com.example.billbuddy.ui.theme.LightBlack
-import com.example.billbuddy.ui.theme.LightBlack100
-import com.example.billbuddy.ui.theme.LightBlack200
+import com.example.billbuddy.ui.theme.*
 import com.example.billbuddy.util.FontAverta
 
 @Composable
-fun PaymentCardView(
+fun BriefPaymentItem(
     paymentIcon: Int,
     paymentTitle: String,
     paymentDate: String,
-    paymentAmount: Double,
     onClick: () -> Unit
 
 ) {
     Card(
         modifier = Modifier
-            .fillMaxWidth()
+            .width(180.dp)
             .height(70.dp)
             .clickable {
                 onClick()
             },
         shape = RoundedCornerShape(10.dp),
-        elevation = 0.dp, backgroundColor = LightBlack
+        elevation = 0.dp, backgroundColor = LightGreen
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -54,7 +50,7 @@ fun PaymentCardView(
                 modifier = Modifier
                     .size(20.dp)
                     .align(CenterVertically),
-                colorFilter = ColorFilter.tint(LightBlack200)
+                colorFilter = ColorFilter.tint(DarkGreen)
             )
             Spacer(modifier = Modifier.width(16.dp))
             Column(modifier = Modifier.weight(1f)) {
@@ -75,28 +71,6 @@ fun PaymentCardView(
                 )
             }
             Spacer(modifier = Modifier.width(16.dp))
-            Text(
-                text = paymentAmount.toString(),
-                style = TextStyle(
-                    color = Color.Black,
-                    fontSize = BILL_AMOUNT,
-                    fontFamily = FontAverta,
-                    fontWeight = FontWeight.Medium
-                )
-            )
         }
     }
 }
-
-
-//@Preview(showBackground = true)
-//@Composable
-//fun PreviewCard() {
-//    PaymentCardView(
-//        paymentIcon = painterResource(id = R.drawable.water),
-//        paymentTitle = "House Rent",
-//        paymentDate = LocalDate.now().toString(),
-//        paymentAmount = 10.33
-//    )
-//
-//}

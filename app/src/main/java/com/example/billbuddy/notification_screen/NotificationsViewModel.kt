@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.billbuddy.domain.repository.NotificationsRepository
 import com.example.billbuddy.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
@@ -36,6 +37,7 @@ class NotificationsViewModel @Inject constructor(
                     _notificationsState.value = NotificationListState(isLoading = true)
                 }
                 is Resource.Success -> {
+                    delay(5000L)
                     _notificationsState.value =
                         NotificationListState(payments = result.data ?: emptyList())
 

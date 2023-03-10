@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.billbuddy.data.local.model.Payment
 import com.example.billbuddy.domain.repository.PaymentRepository
-import com.example.billbuddy.domain.repository.TransactionRepository
 import com.example.billbuddy.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +15,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val transactionRepository: TransactionRepository,
     private val paymentRepository: PaymentRepository
 ) : ViewModel() {
 
@@ -27,14 +25,8 @@ class HomeViewModel @Inject constructor(
     private val _paymentList = MutableStateFlow(PaymentListState())
     val paymentList = _paymentList.asStateFlow()
 
-    private fun calculateTransaction(transactions: List<Double>): Double {
-        return transactions.sumOf {
-            it
-        }
-    }
 
     init {
-//        getAllTransactionByDate()
         getPayments()
     }
 

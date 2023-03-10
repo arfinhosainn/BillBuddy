@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "f720aa42e5fb7685b7c4a7176205a627",
+    "identityHash": "82c955b387dcf8ed5b29e40451b41e54",
     "entities": [
       {
         "tableName": "transaction_table",
@@ -129,12 +129,50 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "expense_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`expenseAmount` TEXT NOT NULL, `expenseCategory` INTEGER NOT NULL, `expenseDate` TEXT NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT)",
+        "fields": [
+          {
+            "fieldPath": "expenseAmount",
+            "columnName": "expenseAmount",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "expenseCategory",
+            "columnName": "expenseCategory",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "expenseDate",
+            "columnName": "expenseDate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f720aa42e5fb7685b7c4a7176205a627')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '82c955b387dcf8ed5b29e40451b41e54')"
     ]
   }
 }

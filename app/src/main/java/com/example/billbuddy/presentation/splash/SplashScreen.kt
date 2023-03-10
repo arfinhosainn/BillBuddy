@@ -29,7 +29,6 @@ fun SplashScreen(
 
     val onBoardingCompleted by splashScreenViewModel.onBoardingCompleted.collectAsState()
 
-
     val degrees = remember {
         Animatable(0f)
     }
@@ -69,7 +68,6 @@ fun Splash(scale: Float) {
                 contentDescription = "Splash Screen"
             )
         }
-
     } else {
         Box(
             modifier = Modifier
@@ -85,7 +83,5 @@ fun Splash(scale: Float) {
                 contentDescription = "Splash Screen"
             )
         }
-
     }
-
 }

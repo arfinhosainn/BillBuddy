@@ -1,20 +1,16 @@
 package com.example.billbuddy.presentation.components
 
-import android.widget.Space
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.billbuddy.R
 import com.example.billbuddy.ui.theme.*
 import com.example.billbuddy.util.FontAverta
 
@@ -26,7 +22,7 @@ fun CardView(
     remainingBudget: String,
     billPay: String,
     billPaid: String,
-    billIcon: ImageVector,
+    billIcon: Int,
     modifier: Modifier = Modifier
 
 ) {
@@ -50,7 +46,7 @@ fun CardView(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Icon(
-                    imageVector = billIcon,
+                    painter = painterResource(id = billIcon),
                     modifier = modifier.size(21.dp),
                     contentDescription = "bill_icon",
                     tint = LightBlack100
@@ -148,18 +144,18 @@ fun CardView(
 
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewCardView() {
-    CardView(
-        billTitle = "Electricity Bill",
-        billAmount = " ${987.00}".toDouble(),
-        billDate = "Due Today",
-        remainingBudget = "Remaining Budget $20000",
-        billPay = "Pay Now",
-        billPaid = "Mark Paid",
-        billIcon = ImageVector.vectorResource(id = R.drawable.coins)
-    )
-
-
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewCardView() {
+//    CardView(
+//        billTitle = "Electricity Bill",
+//        billAmount = " ${987.00}".toDouble(),
+//        billDate = "Due Today",
+//        remainingBudget = "Remaining Budget $20000",
+//        billPay = "Pay Now",
+//        billPaid = "Mark Paid",
+//        billIcon = ImageVector.vectorResource(id = R.drawable.coins)
+//    )
+//
+//
+//}

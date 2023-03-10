@@ -1,7 +1,9 @@
-package com.example.billbuddy.presentation.add_edit_payment
+package com.example.billbuddy.presentation.your_payments.add_edit_payment
 
 import android.widget.Toast
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -16,6 +18,7 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,14 +28,17 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.billbuddy.ui.theme.*
+import com.example.billbuddy.util.ExpenseIcon
 import com.example.billbuddy.util.FontAverta
 import com.maxkeppeker.sheets.core.models.base.rememberSheetState
 import com.maxkeppeler.sheets.calendar.CalendarDialog
 import com.maxkeppeler.sheets.calendar.models.CalendarSelection
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun AddEditPaymentScreen(
     navController: NavController,
@@ -51,12 +57,14 @@ fun AddEditPaymentScreen(
     val amountState by paymentViewModel.paymentAmount.collectAsState()
     val payerNameState by paymentViewModel.payerName.collectAsState()
     val pickedDateState by paymentViewModel.paymentDate.collectAsState()
+    val currencyState by paymentViewModel.paymentCurrency.collectAsState()
     val iconState by paymentViewModel.paymentIcon.collectAsState()
 
-    val scaffoldState = rememberScaffoldState()
+    val scaffoldState = rememberBottomSheetScaffoldState(
+        bottomSheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed)
+    )
     val scope = rememberCoroutineScope()
     val calenderState = rememberSheetState()
-
 
     val formattedDate by remember {
         derivedStateOf {
@@ -90,8 +98,9 @@ fun AddEditPaymentScreen(
         }
     }
 
-    Scaffold(
+    BottomSheetScaffold(
         scaffoldState = scaffoldState,
+        sheetPeekHeight = 0.dp,
         topBar = {
             TopAppBar(backgroundColor = Color.White, elevation = 0.dp,
                 title = {
@@ -122,6 +131,17 @@ fun AddEditPaymentScreen(
                     }
                 }
             )
+        }, sheetContent = {
+            ExpenseIconGrid(
+                onIconSelected = {
+                    paymentViewModel.onEvent(AddEditPaymentEvent.ChoosePaymentIcon(it.icon))
+                    scope.launch {
+                        scaffoldState.bottomSheetState.collapse()
+                    }
+                }
+            )
+
+
         }
     ) { paddingValues ->
         Column(
@@ -143,15 +163,15 @@ fun AddEditPaymentScreen(
                         fontSize = Heading
                     )
                 )
-
-                Text(
-                    text = "Set Icon", style =
-                    TextStyle(
-                        fontFamily = FontAverta,
-                        color = DarkGreen,
-                        fontWeight = FontWeight.Bold
+                IconButton(onClick = { scope.launch {
+                    scaffoldState.bottomSheetState.expand()
+                } }) {
+                    Icon(
+                        painter = painterResource(id = iconState.paymentIcon),
+                        contentDescription = "paymentIcon", modifier = Modifier.size(20.dp)
                     )
-                )
+
+                }
             }
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -252,7 +272,7 @@ fun AddEditPaymentScreen(
             ) {
 
                 OutlinedTextField(
-                    value = amountState.text,
+                    value = "$currencyState ${amountState.amount}",
                     onValueChange = {
                         paymentViewModel.onEvent(
                             AddEditPaymentEvent.EnteredAmount(
@@ -454,7 +474,7 @@ fun AddEditPaymentScreen(
                     switchState.value = it
                 })
             }
-            Spacer(modifier = Modifier.height(80.dp))
+            Spacer(modifier = Modifier.height(50.dp))
 
             Button(
                 modifier = Modifier
@@ -476,6 +496,62 @@ fun AddEditPaymentScreen(
             }
         }
     }
+}
+
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun PaymentIconText(
+    icon: Int,
+    onIconSelected: (Int) -> Unit
+) {
+    val bottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
+    val scope = rememberCoroutineScope()
+
+    Text(
+        text = "Set Icon", style =
+        TextStyle(
+            fontFamily = FontAverta,
+            color = DarkGreen,
+            fontWeight = FontWeight.Bold
+        ), modifier = Modifier.clickable {
+            scope.launch {
+                bottomSheetState.show()
+            }
+        }
+    )
+
+    val expenseIcons = ExpenseIcon.values()
+    ModalBottomSheetLayout(
+        sheetContent = {
+            Column(Modifier.padding(16.dp)) {
+                Text(
+                    text = "Choose Icon",
+                    style = MaterialTheme.typography.subtitle1
+                )
+                LazyRow(Modifier.padding(top = 16.dp)) {
+                    items(expenseIcons.size) { index ->
+                        val expenseIcon = expenseIcons[index]
+                        Icon(
+                            painter = painterResource(expenseIcon.icon),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(40.dp)
+                                .padding(end = 16.dp)
+                                .clickable {
+                                    onIconSelected(expenseIcon.icon)
+                                    scope.launch {
+                                        bottomSheetState.hide()
+                                    }
+                                }
+                        )
+                    }
+                }
+            }
+        },
+        sheetState = bottomSheetState,
+        content = {}
+    )
 }
 
 

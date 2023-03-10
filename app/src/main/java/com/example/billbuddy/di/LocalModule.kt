@@ -2,18 +2,9 @@ package com.example.billbuddy.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.billbuddy.data.local.BillBuddyDatabase
-import com.example.billbuddy.data.local.NotificationDao
-import com.example.billbuddy.data.local.PaymentDao
-import com.example.billbuddy.data.local.TransactionDao
-import com.example.billbuddy.data.local.repository.DataStoreOperationImpl
-import com.example.billbuddy.data.local.repository.NotificationRepositoryImpl
-import com.example.billbuddy.data.local.repository.PaymentRepositoryImpl
-import com.example.billbuddy.data.local.repository.TransactionRepositoryImpl
-import com.example.billbuddy.domain.repository.DataStoreOperation
-import com.example.billbuddy.domain.repository.NotificationsRepository
-import com.example.billbuddy.domain.repository.PaymentRepository
-import com.example.billbuddy.domain.repository.TransactionRepository
+import com.example.billbuddy.data.local.*
+import com.example.billbuddy.data.local.repository.*
+import com.example.billbuddy.domain.repository.*
 import com.example.billbuddy.services.AndroidAlarmScheduler
 import dagger.Module
 import dagger.Provides
@@ -37,6 +28,18 @@ object LocalModule {
     @Singleton
     fun providePaymentRepository(paymentDao: PaymentDao): PaymentRepository {
         return PaymentRepositoryImpl(paymentDao = paymentDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideExpenseRepository(expenseDao: ExpenseDao): ExpenseRepository {
+        return ExpenseRepositoryImpl(expenseDao)
+    }
+
+    @Provides
+    @Singleton
+    fun providesExpenseDao(billBuddyDatabase: BillBuddyDatabase): ExpenseDao {
+        return billBuddyDatabase.expenseDao
     }
 
 
