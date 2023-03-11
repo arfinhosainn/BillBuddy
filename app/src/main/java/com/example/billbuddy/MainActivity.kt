@@ -15,7 +15,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             BillBuddyTheme {
-//                TestScreen()
                 val remNavController = rememberNavController()
                 NavigationGraph(navHostController = remNavController)
 

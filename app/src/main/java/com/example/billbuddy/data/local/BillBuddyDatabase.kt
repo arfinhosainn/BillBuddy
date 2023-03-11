@@ -11,10 +11,10 @@ import com.example.billbuddy.data.local.model.TransactionDto
 
 @Database(
     entities = [TransactionDto::class, Payment::class, Notification::class, Expense::class],
-    version = 3,
+    version = 4,
     autoMigrations = [AutoMigration(
-        from = 2,
-        to = 3,
+        from = 3,
+        to = 4,
         spec = BillBuddyDatabase.Migration2to3::class
     )]
 )

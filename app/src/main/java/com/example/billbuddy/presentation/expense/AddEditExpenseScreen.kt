@@ -1,5 +1,6 @@
 package com.example.billbuddy.presentation.expense
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -22,6 +23,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -121,8 +123,9 @@ fun AddEditExpenseScreen(
                 item {
                     Spacer(modifier = Modifier.height(10.dp))
                     TextField(
-                        value = expenseAmount.expenseAmount,
-                        onValueChange = { amount ->
+                        value = expenseAmount.expenseAmount.toString(),
+                        onValueChange = { newValue ->
+                            val amount = newValue.toDoubleOrNull() ?: 0.0
                             addEditExpenseViewModel.onEvent(
                                 AddEditExpenseEvent.EnteredAmount(
                                     amount
@@ -173,8 +176,15 @@ fun AddEditExpenseScreen(
                             ExpenseCategoryIconItem(expenseIcon = icon, onIconSelected = {
                                 addEditExpenseViewModel.onEvent(
                                     AddEditExpenseEvent.ChooseExpenseCategory(
-                                        it.icon
+                                        it.icon.toString()
                                     )
+                                )
+                                addEditExpenseViewModel.onEvent(
+                                    AddEditExpenseEvent.ExpenseCategoryTitle(it.title)
+                                )
+                                Log.d("titlecategory", "AddEditExpenseScreen: ${it.title}")
+                                addEditExpenseViewModel.onEvent(
+                                    AddEditExpenseEvent.ExpenseCategoryColor(it.bgRes.toString())
                                 )
                             })
                         }
@@ -220,14 +230,28 @@ fun ExpenseCategoryIconItem(
             }
             .background(if (isSelected) DarkGreen else LightBlackUltra)
     ) {
-        Image(
-            painter = painterResource(id = expenseIcon.icon),
-            contentDescription = null,
+        Column(
             modifier = Modifier
-                .padding(16.dp)
-                .size(30.dp),
-            colorFilter = if (isSelected) ColorFilter.tint(Color.White) else ColorFilter.tint(Color.Black)
-        )
+                .padding(horizontal = 16.dp, vertical = 8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Image(
+                painter = painterResource(id = expenseIcon.icon),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(30.dp),
+                colorFilter = if (isSelected) ColorFilter.tint(Color.White) else ColorFilter.tint(
+                    Color.Black
+                )
+            )
+            Text(
+                text = expenseIcon.title,
+                color = if (isSelected) Color.White else Color.Black,
+                style = MaterialTheme.typography.caption,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(top = 4.dp)
+            )
+        }
     }
 }
 

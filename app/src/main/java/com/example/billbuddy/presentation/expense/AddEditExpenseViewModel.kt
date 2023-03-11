@@ -3,10 +3,8 @@ package com.example.billbuddy.presentation.expense
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.billbuddy.R
 import com.example.billbuddy.data.local.model.Expense
 import com.example.billbuddy.data.local.model.InvalidExpenseException
-import com.example.billbuddy.data.local.model.InvalidPaymentException
 import com.example.billbuddy.domain.repository.DataStoreOperation
 import com.example.billbuddy.domain.repository.ExpenseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -47,9 +45,25 @@ class AddEditExpenseViewModel @Inject constructor(
 
     val expenseDate = _expenseDate.asStateFlow()
 
+
+    private val _expenseCategoryTitle = MutableStateFlow(
+        ExpenseScreenState()
+    )
+
+    val expenseCategoryTitle = _expenseCategoryTitle.asStateFlow()
+
+
+    private val _expenseCategoryColor = MutableStateFlow(
+        ExpenseScreenState(
+        )
+    )
+
+    val expenseCategoryColor = _expenseCategoryColor.asStateFlow()
+
+
     private val _expenseCategory = MutableStateFlow(
         ExpenseScreenState(
-            expenseCategory = R.drawable.mobile
+            expenseCategory = ""
         )
     )
 
@@ -100,13 +114,23 @@ class AddEditExpenseViewModel @Inject constructor(
             }
             is AddEditExpenseEvent.ChangeAmountFocus -> {
                 _expenseAmount.value = expenseAmount.value.copy(
-                    isHintVisible = !event.focusState.isFocused && expenseAmount.value.expenseAmount.isBlank()
+                    isHintVisible = !event.focusState.isFocused && expenseAmount.value.expenseAmount == 0.0
                 )
             }
 
             is AddEditExpenseEvent.ChooseExpenseCategory -> {
                 _expenseCategory.value = expenseCategory.value.copy(
                     expenseCategory = event.value
+                )
+            }
+            is AddEditExpenseEvent.ExpenseCategoryTitle -> {
+                _expenseCategoryTitle.value = expenseCategoryTitle.value.copy(
+                    expenseCategoryTitle = event.value
+                )
+            }
+            is AddEditExpenseEvent.ExpenseCategoryColor -> {
+                _expenseCategoryColor.value = expenseCategoryColor.value.copy(
+                    expenseCategoryColor = event.value
                 )
             }
             is AddEditExpenseEvent.SaveExpense -> {
@@ -116,7 +140,9 @@ class AddEditExpenseViewModel @Inject constructor(
                             Expense(
                                 expenseAmount = expenseAmount.value.expenseAmount,
                                 expenseCategory = expenseCategory.value.expenseCategory,
-                                expenseDate = expenseDate.value.expenseDate
+                                expenseDate = expenseDate.value.expenseDate,
+                                expenseTitle = expenseCategoryTitle.value.expenseCategoryTitle,
+                                expenseCategoryColor = expenseCategoryColor.value.expenseCategoryColor
                             )
                         )
                         _eventFlow.emit(ExpenseUiEvent.SaveExpense)

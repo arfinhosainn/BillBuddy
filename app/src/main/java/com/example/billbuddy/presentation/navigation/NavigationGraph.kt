@@ -11,6 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.billbuddy.notification_screen.NotificationsScreen
 import com.example.billbuddy.presentation.expense.AddEditExpenseScreen
+import com.example.billbuddy.presentation.expense.ExpenseInsightScreen
 import com.example.billbuddy.presentation.your_payments.add_edit_payment.AddEditPaymentScreen
 import com.example.billbuddy.presentation.home.HomeScreen
 import com.example.billbuddy.presentation.splash.SplashScreen
@@ -62,9 +63,11 @@ fun NavigationGraph(
         composable(route = Screens.Splash.route) {
             SplashScreen(navController = navHostController)
         }
-
-        composable(route = Screens.Expense.route){
+        composable(route = Screens.Expense.route) {
             AddEditExpenseScreen(navController = navHostController)
+        }
+        composable(route = Screens.ExpenseInsight.route) {
+            ExpenseInsightScreen(navController = navHostController)
         }
     }
 

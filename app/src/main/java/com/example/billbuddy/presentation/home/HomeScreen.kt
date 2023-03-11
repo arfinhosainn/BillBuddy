@@ -89,7 +89,6 @@ fun HomeScreen(
             )
         },
         floatingActionButton = {
-
             FloatingActionButton(
                 onClick = { navController.navigate(Screens.AddEditPayment.route) },
                 backgroundColor = DarkGreen,
@@ -101,6 +100,8 @@ fun HomeScreen(
                 )
 
             }
+
+
         }, bottomBar = {
             BottomNavBar(
                 items = listOf(
@@ -111,7 +112,7 @@ fun HomeScreen(
                     ),
                     BottomNavItem(
                         title = "Expenses",
-                        route = "expenses",
+                        route = Screens.ExpenseInsight.route,
                         icon = ImageVector.vectorResource(id = R.drawable.coins)
                     ),
                     BottomNavItem(
@@ -124,7 +125,9 @@ fun HomeScreen(
                         route = "settings",
                         icon = ImageVector.vectorResource(id = R.drawable.setting)
                     ),
-                ), navController = navController, onItemClick = {}
+                ), navController = navController, onItemClick = {
+                    navController.navigate(it.route)
+                }
             )
         }
     ) { paddingValues ->
