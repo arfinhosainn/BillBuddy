@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.billbuddy.R
 import com.example.billbuddy.data.local.model.Expense
+import com.example.billbuddy.data.local.model.InvalidExpenseException
 import com.example.billbuddy.data.local.model.InvalidPaymentException
 import com.example.billbuddy.domain.repository.DataStoreOperation
 import com.example.billbuddy.domain.repository.ExpenseRepository
@@ -119,7 +120,7 @@ class AddEditExpenseViewModel @Inject constructor(
                             )
                         )
                         _eventFlow.emit(ExpenseUiEvent.SaveExpense)
-                    } catch (e: InvalidPaymentException) {
+                    } catch (e: InvalidExpenseException) {
                         _eventFlow.emit(
                             ExpenseUiEvent.ShowSnackbar(
                                 message = e.message ?: "Couldn't save payment"

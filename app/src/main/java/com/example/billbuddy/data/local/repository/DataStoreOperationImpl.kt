@@ -30,7 +30,6 @@ class DataStoreOperationImpl @Inject constructor(
         datastore.edit { store ->
             store[onBoardingKey] = completed
         }
-
     }
 
     override suspend fun readOnBoardingKeyFormDataStore(): Flow<Boolean> {
@@ -40,15 +39,12 @@ class DataStoreOperationImpl @Inject constructor(
                 emit(pref[onBoardingKey] ?: false)
             }
         }
-
     }
 
     override suspend fun writeCurrencyToDataStore(currency: String) {
         datastore.edit { store ->
             store[selectedCurrency] = currency
-
         }
-
     }
 
     override suspend fun readCurrencyFromDataStore(): Flow<String> {

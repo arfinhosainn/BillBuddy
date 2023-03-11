@@ -183,7 +183,9 @@ fun HomeScreen(
                                 fontFamily = FontAverta,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = Heading
-                            )
+                            ), modifier = Modifier.clickable {
+                                navController.navigate(Screens.Expense.route)
+                            }
                         )
                         Text(
                             text = "See all", style =

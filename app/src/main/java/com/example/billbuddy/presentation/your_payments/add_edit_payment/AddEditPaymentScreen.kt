@@ -132,7 +132,7 @@ fun AddEditPaymentScreen(
                 }
             )
         }, sheetContent = {
-            ExpenseIconGrid(
+            PaymentIconBottomSheetContent(
                 onIconSelected = {
                     paymentViewModel.onEvent(AddEditPaymentEvent.ChoosePaymentIcon(it.icon))
                     scope.launch {

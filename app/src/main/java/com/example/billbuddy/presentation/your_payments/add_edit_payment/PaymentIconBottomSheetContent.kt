@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.example.billbuddy.util.ExpenseIcon
 
 @Composable
-fun ExpenseIconGrid(onIconSelected: (ExpenseIcon) -> Unit) {
+fun PaymentIconBottomSheetContent(onIconSelected: (ExpenseIcon) -> Unit) {
     val expenseIcons = listOf(
         ExpenseIcon.MOBILE,
         ExpenseIcon.WATER,
@@ -31,13 +31,13 @@ fun ExpenseIconGrid(onIconSelected: (ExpenseIcon) -> Unit) {
 
     LazyVerticalGrid(GridCells.Fixed(3)) {
         items(expenseIcons.size) { index ->
-            ExpenseIconItem(expenseIcon = expenseIcons[index], onIconSelected = onIconSelected)
+            PaymentIconItem(expenseIcon = expenseIcons[index], onIconSelected = onIconSelected)
         }
     }
 }
 
 @Composable
-fun ExpenseIconItem(expenseIcon: ExpenseIcon, onIconSelected: (ExpenseIcon) -> Unit) {
+fun PaymentIconItem(expenseIcon: ExpenseIcon, onIconSelected: (ExpenseIcon) -> Unit) {
     Box(
         modifier = Modifier
             .padding(8.dp)
@@ -57,6 +57,6 @@ fun ExpenseIconItem(expenseIcon: ExpenseIcon, onIconSelected: (ExpenseIcon) -> U
 
 @Preview(showBackground = true)
 @Composable
-fun ExpenseIconGrid() {
-    ExpenseIconGrid(onIconSelected = {})
+fun PaymentIconBottomSheetContent() {
+    PaymentIconBottomSheetContent(onIconSelected = {})
 }

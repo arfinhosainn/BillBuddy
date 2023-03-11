@@ -44,10 +44,6 @@ class WelcomeViewModel @Inject constructor(
         }
     }
 
-    fun createAccounts() {
-
-    }
-
 
     private fun getCurrency(): List<CurrencyModel> {
         val currencies = mutableListOf<CurrencyModel>()
@@ -71,6 +67,7 @@ class WelcomeViewModel @Inject constructor(
                     currencies.add(currencyModel)
                 }
             } catch (e: Exception) {
+
             }
         }
         return currencies.sortedBy { it.country }

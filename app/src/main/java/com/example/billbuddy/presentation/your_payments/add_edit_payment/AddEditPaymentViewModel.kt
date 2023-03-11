@@ -98,7 +98,6 @@ class AddEditPaymentViewModel @Inject constructor(
                     }
                 }
             }
-
         }
 
         viewModelScope.launch(Dispatchers.IO) {
