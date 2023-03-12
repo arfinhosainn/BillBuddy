@@ -1,5 +1,6 @@
 package com.example.billbuddy.presentation.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -23,7 +24,8 @@ fun CardView(
     billPay: String,
     billPaid: String,
     billIcon: Int,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
 
 ) {
 
@@ -91,7 +93,9 @@ fun CardView(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Button(
-                    onClick = { /*TODO*/ }, modifier = modifier
+                    onClick = {
+                        // TODO:
+                    }, modifier = modifier
                         .weight(4f)
                         .height(45.dp), colors = ButtonDefaults.buttonColors(
                         backgroundColor = LightGreen100
@@ -108,7 +112,9 @@ fun CardView(
                 Spacer(modifier = Modifier.width(15.dp))
 
                 Button(
-                    onClick = { /*TODO*/ }, modifier = modifier
+                    onClick = {
+                        onClick()
+                    }, modifier = modifier
                         .weight(4f)
                         .height(45.dp), colors = ButtonDefaults.buttonColors(
                         backgroundColor = DarkGreen

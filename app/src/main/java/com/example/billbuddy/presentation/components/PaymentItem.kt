@@ -87,16 +87,3 @@ fun PaymentCardView(
         }
     }
 }
-
-
-//@Preview(showBackground = true)
-//@Composable
-//fun PreviewCard() {
-//    PaymentCardView(
-//        paymentIcon = painterResource(id = R.drawable.water),
-//        paymentTitle = "House Rent",
-//        paymentDate = LocalDate.now().toString(),
-//        paymentAmount = 10.33
-//    )
-//
-//}

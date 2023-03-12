@@ -3,14 +3,16 @@ package com.example.billbuddy.data.local
 import androidx.room.*
 import androidx.room.migration.AutoMigrationSpec
 import com.example.billbuddy.data.local.converter.DateConverter
-import com.example.billbuddy.data.local.model.Expense
-import com.example.billbuddy.data.local.model.Notification
-import com.example.billbuddy.data.local.model.Payment
-import com.example.billbuddy.data.local.model.TransactionDto
+import com.example.billbuddy.data.local.model.*
 
 
 @Database(
-    entities = [TransactionDto::class, Payment::class, Notification::class, Expense::class],
+    entities =
+    [TransactionDto::class,
+        Payment::class,
+        Notification::class,
+        Expense::class,
+        PaymentHistory::class],
     version = 4,
     autoMigrations = [AutoMigration(
         from = 3,
@@ -24,6 +26,7 @@ abstract class BillBuddyDatabase : RoomDatabase() {
     abstract val paymentDao: PaymentDao
     abstract val notificationDao: NotificationDao
     abstract val expenseDao: ExpenseDao
+    abstract val paymentHistoryDao: PaymentHistoryDao
 
     @DeleteColumn.Entries(
         DeleteColumn(

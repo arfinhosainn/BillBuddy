@@ -1,6 +1,5 @@
 package com.example.billbuddy.presentation.home
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -12,31 +11,34 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.billbuddy.R
 import com.example.billbuddy.data.local.model.Payment
-import com.example.billbuddy.presentation.your_payments.add_edit_payment.AddEditPaymentViewModel
+import com.example.billbuddy.data.local.model.PaymentHistory
 import com.example.billbuddy.presentation.components.BriefPaymentItem
 import com.example.billbuddy.presentation.components.CardView
+import com.example.billbuddy.presentation.components.PaymentCardView
+import com.example.billbuddy.presentation.expense.ListPlaceholder
 import com.example.billbuddy.presentation.navigation.BottomNavBar
 import com.example.billbuddy.presentation.navigation.BottomNavItem
 import com.example.billbuddy.presentation.navigation.Screens
-import com.example.billbuddy.presentation.your_payments.PaymentList
-import com.example.billbuddy.ui.theme.DarkGreen
-import com.example.billbuddy.ui.theme.Heading
-import com.example.billbuddy.ui.theme.LightBlack200
-import com.example.billbuddy.ui.theme.LightGreen
+import com.example.billbuddy.presentation.your_payments.add_edit_payment.AddEditPaymentEvent
+import com.example.billbuddy.presentation.your_payments.add_edit_payment.AddEditPaymentViewModel
+import com.example.billbuddy.ui.theme.*
 import com.example.billbuddy.util.FontAverta
 import com.google.accompanist.pager.*
+import java.time.LocalDate
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
@@ -48,24 +50,34 @@ fun HomeScreen(
 
     val scaffoldState = rememberScaffoldState()
     val cardItem by homeViewModel.paymentList.collectAsState()
-    val paymentDate by addEditPaymentViewModel.paymentDate.collectAsState()
     val pagerState = rememberPagerState()
     val paymentListState by homeViewModel.paymentList.collectAsState()
-    val paymentList = paymentListState.payments
-    val listSize = cardItem.payments.size
+    val paymentHistoryList by homeViewModel.paymentHistory.collectAsState()
+
 
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
             TopAppBar(title = {
-                Text(
-                    text = "Welcome Edla!", style =
-                    TextStyle(
-                        fontFamily = FontAverta,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = Heading
+
+                Column(modifier = Modifier.fillMaxWidth()) {
+                    Text(
+                        text = LocalDate.now().toString(), style =
+                        TextStyle(
+                            fontFamily = FontAverta,
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 14.sp
+                        )
                     )
-                )
+                    Text(
+                        text = "Welcome Edla!", style =
+                        TextStyle(
+                            fontFamily = FontAverta,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = Heading
+                        )
+                    )
+                }
             }, actions = {
                 IconButton(
                     onClick = { navController.navigate(Screens.Notifications.route) },
@@ -98,9 +110,7 @@ fun HomeScreen(
                     imageVector = Icons.Default.Add,
                     contentDescription = "Add Icon"
                 )
-
             }
-
 
         }, bottomBar = {
             BottomNavBar(
@@ -134,150 +144,316 @@ fun HomeScreen(
         Box(modifier = Modifier.padding(paddingValues)) {
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(15.dp),
             ) {
                 item {
+                    Spacer(modifier = Modifier.height(15.dp))
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp)
                     ) {
-                        Text(
-                            text = "Welcome Edla!", style =
-                            TextStyle(
-                                fontFamily = FontAverta,
-                                fontWeight = FontWeight.Bold,
-                                fontSize = Heading
-                            )
-                        )
-                    }
-                    HorizontalPager(
-                        count = listSize,
-                        state = pagerState,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(200.dp)
-                    ) { page ->
-                        val payment = cardItem.payments[page]
-                        Column(modifier = Modifier.padding(horizontal = 16.dp)) {
-                            CardView(
-                                billTitle = payment.paymentTitle,
-                                billAmount = payment.paymentAmount,
-                                billDate = payment.paymentDate.toString(),
-                                remainingBudget = "$59",
-                                billPay = "Mark Paid",
-                                billPaid = "Pay Now",
-                                billIcon = payment.paymentIcon
-                            )
-                        }
-                    }
-                }
-
-                item {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Text(
-                            text = "Your Payments", style =
-                            TextStyle(
-                                fontFamily = FontAverta,
-                                fontWeight = FontWeight.Bold,
-                                fontSize = Heading
-                            ), modifier = Modifier.clickable {
-                                navController.navigate(Screens.Expense.route)
-                            }
-                        )
-                        Text(
-                            text = "See all", style =
-                            TextStyle(
-                                fontFamily = FontAverta,
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 15.sp
-                            ), color = DarkGreen, modifier = Modifier.clickable {
-                                navController.navigate(Screens.YourPayments.route)
-                            }
-                        )
-                    }
-                    LazyRow(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(start = 16.dp)
-                    ) {
-                        items(paymentList) {
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 8.dp)
-                            ) {
-                                BriefPaymentList(payment = it,
-                                    onClick = {
-                                        navController.navigate(Screens.AddEditPayment.route + "?paymentId=${it.id}")
-                                    }
+                        if (cardItem.payments.isNotEmpty()) {
+                            Text(
+                                text = "Household", style =
+                                TextStyle(
+                                    fontFamily = FontAverta,
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = Heading,
+                                    color = DarkGreen
                                 )
+                            )
+                        } else {
+                            Text(
+                                text = "Household", style =
+                                TextStyle(
+                                    fontFamily = FontAverta,
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = Heading,
+                                    color = DarkGreen
+                                )
+                            )
+                        }
+                    }
+                }
+                item {
+                    Divider(color = LightGreen100)
+                }
+                item {
+                    if (cardItem.payments.isEmpty()) {
+
+                        Text(
+                            text = "There is no payments to show", style =
+                            TextStyle(
+                                fontFamily = FontAverta,
+                                fontWeight = FontWeight.Normal,
+                                fontSize = 15.sp,
+                                textAlign = TextAlign.Center
+                            ), color = Color.Black, modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
+                            textAlign = TextAlign.Center
+                        )
+                    } else {
+                        // Display HorizontalPager with payments
+                        HorizontalPager(
+                            count = cardItem.payments.size,
+                            state = pagerState,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(200.dp)
+                        ) { page ->
+                            val payment = cardItem.payments.getOrNull(page)
+                            if (payment != null) {
+                                Column(modifier = Modifier.padding(horizontal = 16.dp)) {
+
+                                    CardView(
+                                        billTitle = payment.paymentTitle,
+                                        billAmount = payment.paymentAmount,
+                                        billDate = payment.paymentDate.toString(),
+                                        remainingBudget = "$59",
+                                        billPay = "Mark Paid",
+                                        billPaid = "Pay Now",
+                                        billIcon = payment.paymentIcon,
+                                        onClick = {
+                                            homeViewModel.insertPaymentHistory(
+                                                PaymentHistory(
+                                                    paymentTitle = payment.paymentTitle,
+                                                    paymentAmount = payment.paymentAmount,
+                                                    paymentDate = payment.paymentDate,
+                                                    payeeName = payment.payeeName,
+                                                    paymentIcon = payment.paymentIcon
+                                                )
+                                            )
+                                            addEditPaymentViewModel.onEvent(
+                                                AddEditPaymentEvent.DeletePayment(
+                                                    payment
+                                                )
+                                            )
+                                        }
+                                    )
+                                }
                             }
                         }
                     }
                 }
 
-                item {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Text(
-                            text = "Payments History", style =
-                            TextStyle(
-                                fontFamily = FontAverta,
-                                fontWeight = FontWeight.Bold,
-                                fontSize = Heading
+
+                if (paymentListState.payments.isNotEmpty()) {
+                    item {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(
+                                text = "Your Payments", style =
+                                TextStyle(
+                                    fontFamily = FontAverta,
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = Heading
+                                ), modifier = Modifier.clickable {
+                                    navController.navigate(Screens.Expense.route)
+                                }
                             )
-                        )
-
-                        Text(
-                            text = "See all", style =
-                            TextStyle(
-                                fontFamily = FontAverta,
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 15.sp
-                            ), color = DarkGreen
-                        )
+                            Text(
+                                text = "See all", style =
+                                TextStyle(
+                                    fontFamily = FontAverta,
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 15.sp
+                                ), color = DarkGreen, modifier = Modifier.clickable {
+                                    navController.navigate(Screens.YourPayments.route)
+                                }
+                            )
+                        }
                     }
-                }
-
-                items(paymentList) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp)
-                    ) {
-                        PaymentList(payment = it,
-                            onClick = {
-                                navController.navigate(Screens.AddEditPayment.route + "?paymentId=${it.id}")
-                                Log.d("paymentId", "PaymentLazyList: ${it.id}")
+                    item {
+                        LazyRow(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(start = 16.dp)
+                        ) {
+                            items(paymentListState.payments) {
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(horizontal = 8.dp)
+                                ) {
+                                    YourPaymentsCard(modifier = Modifier
+                                        .height(70.dp)
+                                        .width(180.dp), payment = it,
+                                        onClick = {
+                                            navController.navigate(Screens.AddEditPayment.route + "?paymentId=${it.id}")
+                                        }
+                                    )
+                                }
                             }
-                        )
+                        }
+                    }
+                } else {
+                    item {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(
+                                text = "Your Payments", style =
+                                TextStyle(
+                                    fontFamily = FontAverta,
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = Heading
+                                ), modifier = Modifier.clickable {
+                                    navController.navigate(Screens.Expense.route)
+                                }
+                            )
+                            Text(
+                                text = "See all", style =
+                                TextStyle(
+                                    fontFamily = FontAverta,
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 15.sp
+                                ), color = DarkGreen, modifier = Modifier.clickable {
+                                    navController.navigate(Screens.YourPayments.route)
+                                }
+                            )
+                        }
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 8.dp, vertical = 15.dp),
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            Text(
+                                text = "Click on + button to add new payment", style =
+                                TextStyle(
+                                    fontFamily = FontAverta,
+                                    fontWeight = FontWeight.Normal,
+                                    fontSize = 15.sp
+                                ), color = Color.Black, modifier = Modifier.clickable {
+                                    navController.navigate(Screens.YourPayments.route)
+                                }
+                            )
+                        }
                     }
                 }
+
+                if (paymentHistoryList.isNotEmpty()) {
+                    item {
+
+                        Spacer(modifier = Modifier.height(20.dp))
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(
+                                text = "Payments History", style =
+                                TextStyle(
+                                    fontFamily = FontAverta,
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = Heading
+                                )
+                            )
+
+                            Text(
+                                text = "See all", style =
+                                TextStyle(
+                                    fontFamily = FontAverta,
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 15.sp
+                                ), color = DarkGreen
+                            )
+                        }
+                    }
+                    items(paymentHistoryList) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp)
+                        ) {
+                            PaymentHistoryList(
+                                paymentHistory = it,
+                            )
+                        }
+                    }
+
+                } else {
+                    item {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(
+                                text = "Payments History", style =
+                                TextStyle(
+                                    fontFamily = FontAverta,
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = Heading
+                                )
+                            )
+
+                            Text(
+                                text = "See all", style =
+                                TextStyle(
+                                    fontFamily = FontAverta,
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 15.sp
+                                ), color = DarkGreen
+                            )
+                        }
+                    }
+                    item {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(horizontal = 8.dp),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            ListPlaceholder(label = "There is no payment history")
+                        }
+                    }
+                }
+
             }
         }
     }
 }
 
+
 @Composable
-fun BriefPaymentList(
+fun PaymentHistoryList(
+    paymentHistory: PaymentHistory
+) {
+    PaymentCardView(
+        paymentIcon = paymentHistory.paymentIcon,
+        paymentTitle = paymentHistory.paymentTitle,
+        paymentDate = paymentHistory.paymentDate.toString(),
+        paymentAmount = paymentHistory.paymentAmount
+    ) {
+
+    }
+}
+
+@Composable
+fun YourPaymentsCard(
     payment: Payment,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     BriefPaymentItem(
         paymentIcon = payment.paymentIcon,
         paymentTitle = payment.paymentTitle,
         paymentDate = payment.paymentDate.toString(),
-        onClick = onClick
+        onClick = onClick, modifier = modifier
+
     )
 
 }

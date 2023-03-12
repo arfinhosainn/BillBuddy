@@ -258,8 +258,7 @@ fun ExpenseInsightScreen(
 
 @Composable
 fun ListPlaceholder(
-    label: String =
-        "No transaction has been made so far. Tap the '+' button to  get started"
+    label: String
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,

@@ -30,6 +30,19 @@ object LocalModule {
         return PaymentRepositoryImpl(paymentDao = paymentDao)
     }
 
+
+    @Provides
+    @Singleton
+    fun providesPaymentHistoryRepository(paymentHistoryDao: PaymentHistoryDao): PaymentHistoryRepository {
+        return PaymentHistoryRepositoryImpl(paymentHistoryDao)
+    }
+
+    @Provides
+    @Singleton
+    fun providesPaymentHistoryDao(billBuddyDatabase: BillBuddyDatabase): PaymentHistoryDao{
+        return billBuddyDatabase.paymentHistoryDao
+    }
+
     @Provides
     @Singleton
     fun provideExpenseRepository(expenseDao: ExpenseDao): ExpenseRepository {

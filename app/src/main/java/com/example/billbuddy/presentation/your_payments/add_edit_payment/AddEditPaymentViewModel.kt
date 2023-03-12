@@ -136,6 +136,11 @@ class AddEditPaymentViewModel @Inject constructor(
                     isHintVisible = !event.focusState.isFocused && paymentAmount.value.text.isBlank()
                 )
             }
+            is AddEditPaymentEvent.DeletePayment -> {
+                viewModelScope.launch {
+                    paymentRepository.deletePayment(event.payment)
+                }
+            }
             is AddEditPaymentEvent.EnteredPayerName -> {
                 _payerName.value = payerName.value.copy(
                     text = event.value
