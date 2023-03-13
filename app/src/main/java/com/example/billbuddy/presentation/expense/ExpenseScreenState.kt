@@ -4,7 +4,7 @@ import com.example.billbuddy.R
 import java.time.LocalDateTime
 
 data class ExpenseScreenState(
-    val expenseAmount: Double = 0.0,
+    val expenseAmount: String = "",
     val hint: String = "",
     val isHintVisible: Boolean = true,
     val expenseCategory: String = "",

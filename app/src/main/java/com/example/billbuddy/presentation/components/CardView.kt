@@ -18,7 +18,7 @@ import com.example.billbuddy.util.FontAverta
 @Composable
 fun CardView(
     billTitle: String,
-    billAmount: Double,
+    billAmount: String,
     billDate: String,
     remainingBudget: String,
     billPay: String,

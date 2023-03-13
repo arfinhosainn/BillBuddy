@@ -12,7 +12,7 @@ data class Expense(
     @ColumnInfo(defaultValue = "")
     val expenseCategoryColor: String,
     @ColumnInfo("expenseAmount", defaultValue = "0")
-    val expenseAmount: Double,
+    val expenseAmount: String,
     val expenseCategory: String,
     @ColumnInfo("expenseDate", defaultValue = "0")
     val expenseDate: LocalDateTime = LocalDateTime.now(),

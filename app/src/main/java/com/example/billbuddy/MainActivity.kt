@@ -3,7 +3,6 @@ package com.example.billbuddy
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.navigation.compose.rememberNavController
 import com.example.billbuddy.presentation.navigation.NavigationGraph
 import com.example.billbuddy.ui.theme.BillBuddyTheme
@@ -17,6 +16,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             BillBuddyTheme {
+//             PlayerAmountBox( )
+
                 val remNavController = rememberNavController()
                 NavigationGraph(navHostController = remNavController)
 

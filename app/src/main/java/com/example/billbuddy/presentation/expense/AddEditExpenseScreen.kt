@@ -1,6 +1,5 @@
 package com.example.billbuddy.presentation.expense
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -16,6 +15,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
@@ -45,6 +47,8 @@ fun AddEditExpenseScreen(
     val expenseAmount by addEditExpenseViewModel.expenseAmount.collectAsState()
     val context = LocalContext.current
     val currencyCode by addEditExpenseViewModel.paymentCurrency.collectAsState()
+    var isFieldFocused by remember { mutableStateOf(false) }
+
 
 
     LaunchedEffect(key1 = true) {
@@ -123,14 +127,13 @@ fun AddEditExpenseScreen(
                 item {
                     Spacer(modifier = Modifier.height(10.dp))
                     TextField(
-                        value = expenseAmount.expenseAmount.toString(),
-                        onValueChange = { newValue ->
-                            val amount = newValue.toDoubleOrNull() ?: 0.0
-                            addEditExpenseViewModel.onEvent(
-                                AddEditExpenseEvent.EnteredAmount(
-                                    amount
+                        value = expenseAmount.expenseAmount,
+                        onValueChange = { amount ->
+                            if (amount.isNotEmpty()) {
+                                addEditExpenseViewModel.onEvent(
+                                    AddEditExpenseEvent.EnteredAmount(amount)
                                 )
-                            )
+                            }
                         },
                         textStyle = TextStyle(
                             fontFamily = FontAverta,
@@ -143,16 +146,21 @@ fun AddEditExpenseScreen(
                         singleLine = true,
                         modifier = Modifier
                             .width(160.dp)
-                            .padding(vertical = 4.dp),
+                            .padding(vertical = 4.dp).focusRequester(FocusRequester()).onFocusChanged { focusState ->
+                                isFieldFocused = focusState.isFocused
+                            },
                         shape = RoundedCornerShape(15.dp),
                         colors = TextFieldDefaults.textFieldColors(
                             backgroundColor = LightGreen,
                             focusedIndicatorColor = Color.Transparent,
                             unfocusedIndicatorColor = Color.Transparent
                         ),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+
                     )
+
                 }
+
                 item {
                     Spacer(modifier = Modifier.height(50.dp))
                     Text(
@@ -182,7 +190,6 @@ fun AddEditExpenseScreen(
                                 addEditExpenseViewModel.onEvent(
                                     AddEditExpenseEvent.ExpenseCategoryTitle(it.title)
                                 )
-                                Log.d("titlecategory", "AddEditExpenseScreen: ${it.title}")
                                 addEditExpenseViewModel.onEvent(
                                     AddEditExpenseEvent.ExpenseCategoryColor(it.bgRes.toString())
                                 )
@@ -220,39 +227,43 @@ fun ExpenseCategoryIconItem(
 ) {
     var isSelected by remember { mutableStateOf(false) }
 
-    Box(
-        modifier = Modifier
-            .padding(8.dp)
-            .clip(RoundedCornerShape(12.dp))
-            .clickable {
-                isSelected = !isSelected
-                onIconSelected(expenseIcon)
-            }
-            .background(if (isSelected) DarkGreen else LightBlackUltra)
-    ) {
-        Column(
+    Column (horizontalAlignment = Alignment.CenterHorizontally){
+        Box(
             modifier = Modifier
-                .padding(horizontal = 16.dp, vertical = 8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .padding(8.dp)
+                .clip(RoundedCornerShape(12.dp))
+                .clickable {
+                    isSelected = !isSelected
+                    onIconSelected(expenseIcon)
+                }
+                .background(if (isSelected) DarkGreen else LightBlackUltra)
         ) {
-            Image(
-                painter = painterResource(id = expenseIcon.icon),
-                contentDescription = null,
+            Column(
                 modifier = Modifier
-                    .size(30.dp),
-                colorFilter = if (isSelected) ColorFilter.tint(Color.White) else ColorFilter.tint(
-                    Color.Black
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Image(
+                    painter = painterResource(id = expenseIcon.icon),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(30.dp),
+                    colorFilter = if (isSelected) ColorFilter.tint(Color.White) else ColorFilter.tint(
+                        Color.Black
+                    )
                 )
-            )
-            Text(
-                text = expenseIcon.title,
-                color = if (isSelected) Color.White else Color.Black,
-                style = MaterialTheme.typography.caption,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.padding(top = 4.dp)
-            )
+
+            }
         }
+        Text(
+            text = expenseIcon.title,
+            color = if (isSelected) Color.White else Color.Black,
+            style = MaterialTheme.typography.caption,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(top = 4.dp)
+        )
     }
+
 }
 
 

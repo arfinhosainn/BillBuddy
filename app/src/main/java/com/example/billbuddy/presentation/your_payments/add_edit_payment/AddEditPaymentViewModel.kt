@@ -11,10 +11,7 @@ import com.example.billbuddy.domain.repository.PaymentRepository
 import com.example.billbuddy.services.AndroidAlarmScheduler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import javax.inject.Inject
@@ -28,6 +25,8 @@ class AddEditPaymentViewModel @Inject constructor(
 ) : ViewModel() {
 
     var paymentCurrency = MutableStateFlow("")
+        private set
+    var setBudgetAmount = MutableStateFlow(0.0)
         private set
 
 
@@ -103,6 +102,12 @@ class AddEditPaymentViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             dataStoreOperation.readCurrencyFromDataStore().collect { currency ->
                 paymentCurrency.value = currency
+            }
+        }
+
+        viewModelScope.launch(Dispatchers.IO) {
+            dataStoreOperation.readExpenseLimitFromDataStore().collect { budget ->
+                setBudgetAmount.value = budget
             }
         }
 
@@ -198,7 +203,6 @@ class AddEditPaymentViewModel @Inject constructor(
                 }
             }
         }
-
     }
 }
 

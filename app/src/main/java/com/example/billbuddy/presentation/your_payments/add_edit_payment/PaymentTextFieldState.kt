@@ -5,7 +5,7 @@ import java.time.LocalDate
 
 data class PaymentTextFieldState(
     val text: String = "",
-    val amount: Double = 0.00,
+    val amount: String = "",
     val hint: String = "",
     val isHintVisible: Boolean = true,
     val paymentIcon: Int = R.drawable.mobile,

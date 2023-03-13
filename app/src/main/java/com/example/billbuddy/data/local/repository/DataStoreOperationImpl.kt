@@ -64,7 +64,7 @@ class DataStoreOperationImpl @Inject constructor(
 
     }
 
-    override suspend fun readBudgetLimitFromDataStore(): Flow<Double> {
+    override suspend fun readExpenseLimitFromDataStore(): Flow<Double> {
         val preferences = datastore.data
         return flow {
             preferences.collect { pref ->
@@ -84,7 +84,7 @@ class DataStoreOperationImpl @Inject constructor(
         }
     }
 
-    override suspend fun writeLimitKeyFromDataStore(enables: Boolean) {
+    override suspend fun writeLimitKeyToDataStore(enables: Boolean) {
         datastore.edit { store ->
             store[limitKey] = enables
         }

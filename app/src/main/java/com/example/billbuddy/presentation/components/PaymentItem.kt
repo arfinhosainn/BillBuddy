@@ -28,7 +28,7 @@ fun PaymentCardView(
     paymentIcon: Int,
     paymentTitle: String,
     paymentDate: String,
-    paymentAmount: Double,
+    paymentAmount: String,
     onClick: () -> Unit
 
 ) {

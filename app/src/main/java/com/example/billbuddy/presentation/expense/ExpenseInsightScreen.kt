@@ -24,29 +24,35 @@ import com.example.billbuddy.R
 import com.example.billbuddy.presentation.expense.components.ExpenseItem
 import com.example.billbuddy.presentation.expense.components.PieChart
 import com.example.billbuddy.presentation.navigation.Screens
+import com.example.billbuddy.presentation.settings.components.SetBudgetContent
 import com.example.billbuddy.ui.theme.DarkGreen
 import com.example.billbuddy.ui.theme.Heading
 import com.example.billbuddy.ui.theme.LightBlack
 import com.example.billbuddy.ui.theme.spacing
 import com.example.billbuddy.util.ExpenseCategoryIcon
 import com.example.billbuddy.util.FontAverta
+import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalUnitApi::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalUnitApi::class, ExperimentalFoundationApi::class, ExperimentalMaterialApi::class)
 @Composable
 fun ExpenseInsightScreen(
     expenseInsightViewModel: ExpenseInsightViewModel = hiltViewModel(),
     navController: NavController
 ) {
 
-    val scaffoldState = rememberScaffoldState()
+    val scaffoldState = rememberBottomSheetScaffoldState()
 
+    val bottomSheetState = rememberBottomSheetScaffoldState(
+        bottomSheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed)
+    )
+    val scope = rememberCoroutineScope()
     val expenseList by expenseInsightViewModel.fakeList.collectAsState()
     val expenseListByDate = expenseList.payments.groupBy { it.expenseDate.toLocalDate() }
 
 
     val filteredExpenses by expenseInsightViewModel.filteredExpense.collectAsState()
 
-    val total = filteredExpenses.sumOf { it.expenseAmount }
+    val total = filteredExpenses.sumOf { it.expenseAmount.toDouble() }
 
     val groupData = filteredExpenses.groupBy { it.expenseCategory }
 
@@ -60,7 +66,7 @@ fun ExpenseInsightScreen(
 
     val amountList = groupData.map {
         it.value.sumOf { exp ->
-            exp.expenseAmount
+            exp.expenseAmount.toDouble()
         }
     }
 
@@ -83,7 +89,7 @@ fun ExpenseInsightScreen(
     var selectedDuration by remember {
         mutableStateOf(limitDuration.last())
     }
-    Scaffold(
+    BottomSheetScaffold(
         scaffoldState = scaffoldState,
         topBar = {
             Row(
@@ -113,7 +119,11 @@ fun ExpenseInsightScreen(
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 16.sp,
                                 color = DarkGreen
-                            )
+                            ), modifier = Modifier.clickable {
+                                scope.launch {
+                                    bottomSheetState.bottomSheetState.expand()
+                                }
+                            }
                         )
 
                     }
@@ -132,6 +142,8 @@ fun ExpenseInsightScreen(
                 )
 
             }
+        }, sheetContent = {
+            SetBudgetContent(bottomSheetState = bottomSheetState, scope = scope)
         }
     ) { paddingValues ->
 
@@ -224,7 +236,7 @@ fun ExpenseInsightScreen(
                         }
                     }
 
-                    if (filteredExpenses.isNotEmpty()){
+                    if (filteredExpenses.isNotEmpty()) {
                         expenseListByDate.forEach { (date, expenses) ->
                             stickyHeader {
                                 Spacer(modifier = Modifier.height(15.dp))

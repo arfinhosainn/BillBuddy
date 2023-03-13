@@ -14,7 +14,7 @@ class ExpenseRepositoryImpl @Inject constructor(
     private val expenseDao: ExpenseDao
 ) : ExpenseRepository {
     override suspend fun insertExpense(expense: Expense) {
-        if (expense.expenseAmount == 0.0) {
+        if (expense.expenseAmount.isBlank()) {
             throw InvalidExpenseException(message = "Expense amount can't be empty")
         }
         expenseDao.insertExpense(expense)

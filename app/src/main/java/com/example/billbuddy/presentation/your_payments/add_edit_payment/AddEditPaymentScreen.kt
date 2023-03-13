@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -21,6 +22,7 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -272,11 +274,11 @@ fun AddEditPaymentScreen(
             ) {
 
                 OutlinedTextField(
-                    value = "$currencyState ${amountState.amount}",
-                    onValueChange = {
+                    value = amountState.amount,
+                    onValueChange = {amount ->
                         paymentViewModel.onEvent(
                             AddEditPaymentEvent.EnteredAmount(
-                                it.toDoubleOrNull() ?: 0.0
+                                amount.addCommas()
                             )
                         )
                     },
@@ -288,7 +290,11 @@ fun AddEditPaymentScreen(
                         backgroundColor = Color.White,
                         unfocusedIndicatorColor = LightBlack100,
                         focusedIndicatorColor = LightGreen100
-                    )
+                    ),
+                    label = {
+                        Text(text = currencyState)
+                    },
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 )
 
                 Spacer(modifier = Modifier.width(15.dp))
@@ -432,10 +438,7 @@ fun AddEditPaymentScreen(
                         }
                     }
                 }
-
-
             }
-
 
             var switchState = remember {
                 mutableStateOf(false)
@@ -553,6 +556,16 @@ fun PaymentIconText(
         content = {}
     )
 }
+
+
+
+fun String.addCommas(): String {
+    val regex = "(\\d)(?=(\\d{3})+\$)".toRegex()
+    return this.replace(regex, "\$1,")
+}
+
+
+
 
 
 @Preview(showBackground = true)

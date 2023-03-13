@@ -114,7 +114,7 @@ class AddEditExpenseViewModel @Inject constructor(
             }
             is AddEditExpenseEvent.ChangeAmountFocus -> {
                 _expenseAmount.value = expenseAmount.value.copy(
-                    isHintVisible = !event.focusState.isFocused && expenseAmount.value.expenseAmount == 0.0
+                    isHintVisible = !event.focusState.isFocused && expenseAmount.value.expenseAmount.isBlank()
                 )
             }
 
@@ -138,7 +138,7 @@ class AddEditExpenseViewModel @Inject constructor(
                     try {
                         expenseRepository.insertExpense(
                             Expense(
-                                expenseAmount = expenseAmount.value.expenseAmount,
+                                expenseAmount = expenseAmount.value.expenseAmount!!,
                                 expenseCategory = expenseCategory.value.expenseCategory,
                                 expenseDate = expenseDate.value.expenseDate,
                                 expenseTitle = expenseCategoryTitle.value.expenseCategoryTitle,

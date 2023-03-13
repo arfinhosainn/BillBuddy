@@ -33,6 +33,7 @@ import com.example.billbuddy.data.local.model.PaymentHistory
 import com.example.billbuddy.presentation.components.PaymentCardView
 import com.example.billbuddy.presentation.home.HomeViewModel
 import com.example.billbuddy.presentation.navigation.Screens
+import com.example.billbuddy.presentation.your_payments.components.YourPaymentAndBudgetBox
 import com.example.billbuddy.ui.theme.DarkGreen
 import com.example.billbuddy.ui.theme.Heading
 import com.example.billbuddy.ui.theme.LightBlack200
@@ -118,6 +119,7 @@ fun YourPaymentScreen(navController: NavController) {
                     }
                 }
             }
+            YourPaymentAndBudgetBox()
             TabView(pagerState = pagerState)
             TabPager(pagerState = pagerState, navController)
         }
@@ -263,7 +265,7 @@ fun PaymentList(
         paymentIcon = payment.paymentIcon,
         paymentTitle = payment.paymentTitle,
         paymentDate = payment.paymentDate.toString(),
-        paymentAmount = payment.paymentAmount,
+        paymentAmount = payment.paymentAmount.toString(),
         onClick = onClick
     )
 

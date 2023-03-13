@@ -209,7 +209,7 @@ fun HomeScreen(
 
                                     CardView(
                                         billTitle = payment.paymentTitle,
-                                        billAmount = payment.paymentAmount,
+                                        billAmount = payment.paymentAmount.toString(),
                                         billDate = payment.paymentDate.toString(),
                                         remainingBudget = "$59",
                                         billPay = "Mark Paid",
@@ -219,7 +219,7 @@ fun HomeScreen(
                                             homeViewModel.insertPaymentHistory(
                                                 PaymentHistory(
                                                     paymentTitle = payment.paymentTitle,
-                                                    paymentAmount = payment.paymentAmount,
+                                                    paymentAmount = payment.paymentAmount.toDouble(),
                                                     paymentDate = payment.paymentDate,
                                                     payeeName = payment.payeeName,
                                                     paymentIcon = payment.paymentIcon
@@ -436,7 +436,7 @@ fun PaymentHistoryList(
         paymentIcon = paymentHistory.paymentIcon,
         paymentTitle = paymentHistory.paymentTitle,
         paymentDate = paymentHistory.paymentDate.toString(),
-        paymentAmount = paymentHistory.paymentAmount
+        paymentAmount = paymentHistory.paymentAmount.toString()
     ) {
 
     }

@@ -39,8 +39,6 @@ class ExpenseInsightViewModel @Inject constructor(
     }
 
 
-
-
     fun getAllExpenses() {
         viewModelScope.launch {
             expenseRepository.getAllExpenses().collect {

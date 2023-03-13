@@ -14,11 +14,11 @@ interface DataStoreOperation {
 
     suspend fun writeBudgetLimitToDataStore(amount: Double)
 
-    suspend fun readBudgetLimitFromDataStore(): Flow<Double>
+    suspend fun readExpenseLimitFromDataStore(): Flow<Double>
 
     suspend fun readLimitKeyFromDataStore(): Flow<Boolean>
 
-    suspend fun writeLimitKeyFromDataStore(enables: Boolean)
+    suspend fun writeLimitKeyToDataStore(enables: Boolean)
 
     suspend fun writeLimitDurationToDataStore(duration: Int)
 
