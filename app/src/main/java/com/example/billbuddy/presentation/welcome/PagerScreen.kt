@@ -3,15 +3,23 @@ package com.example.billbuddy.presentation.welcome
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.billbuddy.ui.theme.DarkGreen
+import com.example.billbuddy.util.FontAverta
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.PagerState
 
@@ -65,18 +73,35 @@ fun GetStartedButton(modifier: Modifier, pagerState: PagerState, onClick: () -> 
             visible = pagerState.currentPage == 2
         ) {
             Button(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp), shape = RoundedCornerShape(10.dp),
                 onClick = { onClick() },
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = MaterialTheme.colors.primary,
-                    contentColor = contentColorFor(backgroundColor = MaterialTheme.colors.primary)
-                ),
-                contentPadding = PaddingValues(vertical = 12.dp)
+                    backgroundColor = DarkGreen, contentColor = Color.White
+                ),  contentPadding = PaddingValues(vertical = 12.dp)
             ) {
                 Text(
-                    text = "Get started",
-                    style = MaterialTheme.typography.button
+                    text = "Get Started",
+                    style = TextStyle(
+                        fontFamily = FontAverta,
+                        fontWeight = FontWeight.Medium
+                    )
                 )
             }
+//            Button(
+//                onClick = { onClick() },
+//                colors = ButtonDefaults.buttonColors(
+//                    backgroundColor = MaterialTheme.colors.primary,
+//                    contentColor = contentColorFor(backgroundColor = MaterialTheme.colors.primary)
+//                ),
+//                contentPadding = PaddingValues(vertical = 12.dp)
+//            ) {
+//                Text(
+//                    text = "Get started",
+//                    style = MaterialTheme.typography.button
+//                )
+//            }
         }
     }
 }

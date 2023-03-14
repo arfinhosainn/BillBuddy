@@ -10,7 +10,7 @@ data class PaymentHistory(
     val id: Int? = null,
     val paymentTitle: String,
     val payeeName: String,
-    val paymentAmount: Double,
+    val paymentAmount: String,
     val paymentIcon: Int,
     val paymentDate: LocalDate,
     val paymentHistoryDate: LocalDate = LocalDate.now(),

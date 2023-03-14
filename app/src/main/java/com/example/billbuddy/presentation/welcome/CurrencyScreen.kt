@@ -1,6 +1,5 @@
 package com.example.billbuddy.presentation.welcome
 
-import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -23,6 +22,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.billbuddy.presentation.navigation.Screens
+import com.example.billbuddy.ui.theme.DarkGreen
 import com.example.billbuddy.ui.theme.spacing
 import com.example.billbuddy.util.FontAverta
 import kotlinx.coroutines.launch
@@ -139,12 +139,12 @@ fun CurrencyScreen(
                                     modifier = Modifier.fillMaxWidth(),
                                     colors = ButtonDefaults.buttonColors(
                                         backgroundColor = if (selectedCountry == currency)
-                                            MaterialTheme.colors.primary
+                                            DarkGreen
                                         else Color.DarkGray.copy(alpha = 0.1f),
                                         contentColor = if (selectedCountry == currency)
                                             contentColorFor(backgroundColor = MaterialTheme.colors.primary)
                                         else MaterialTheme.colors.onSurface
-                                ),
+                                    ),
                                     shape = RoundedCornerShape(8.dp),
                                     contentPadding = PaddingValues(20.dp)
                                 ) {
@@ -197,7 +197,7 @@ fun ContinueButton(
         modifier = Modifier
             .fillMaxWidth()
             .padding(
-                horizontal = MaterialTheme.spacing.medium,
+                horizontal = 20.dp,
                 vertical = MaterialTheme.spacing.small
             )
     ) {
@@ -215,14 +215,15 @@ fun ContinueButton(
             modifier = Modifier
                 .fillMaxWidth(),
             colors = ButtonDefaults.buttonColors(
-                backgroundColor = MaterialTheme.colors.primary,
-                contentColor = contentColorFor(backgroundColor = MaterialTheme.colors.primary)
+                backgroundColor = DarkGreen,
+                contentColor = contentColorFor(backgroundColor = Color.White)
             ),
             contentPadding = PaddingValues(vertical = 12.dp)
         ) {
             Text(
                 text = "SET",
-                style = MaterialTheme.typography.button
+                style = MaterialTheme.typography.button,
+                color = Color.White
             )
         }
     }

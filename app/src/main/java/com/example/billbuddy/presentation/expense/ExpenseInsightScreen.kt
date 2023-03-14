@@ -21,10 +21,12 @@ import androidx.compose.ui.unit.*
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.billbuddy.R
+import com.example.billbuddy.presentation.components.ListPlaceholder
 import com.example.billbuddy.presentation.expense.components.ExpenseItem
 import com.example.billbuddy.presentation.expense.components.PieChart
 import com.example.billbuddy.presentation.navigation.Screens
 import com.example.billbuddy.presentation.settings.components.SetBudgetContent
+import com.example.billbuddy.presentation.your_payments.components.removeCommasAndDecimals
 import com.example.billbuddy.ui.theme.DarkGreen
 import com.example.billbuddy.ui.theme.Heading
 import com.example.billbuddy.ui.theme.LightBlack
@@ -40,10 +42,10 @@ fun ExpenseInsightScreen(
     navController: NavController
 ) {
 
-    val scaffoldState = rememberBottomSheetScaffoldState()
+    val sheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed)
 
-    val bottomSheetState = rememberBottomSheetScaffoldState(
-        bottomSheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed)
+    val scaffoldState = rememberBottomSheetScaffoldState(
+        bottomSheetState = sheetState
     )
     val scope = rememberCoroutineScope()
     val expenseList by expenseInsightViewModel.fakeList.collectAsState()
@@ -52,7 +54,7 @@ fun ExpenseInsightScreen(
 
     val filteredExpenses by expenseInsightViewModel.filteredExpense.collectAsState()
 
-    val total = filteredExpenses.sumOf { it.expenseAmount.toDouble() }
+    val total = filteredExpenses.sumOf { it.expenseAmount.removeCommasAndDecimals().toDouble() }
 
     val groupData = filteredExpenses.groupBy { it.expenseCategory }
 
@@ -62,7 +64,6 @@ fun ExpenseInsightScreen(
         val category = ExpenseCategoryIcon.values().find { it.icon.toString() == data.key }
         category?.let { filteredCategories.add(it) }
     }
-
 
     val amountList = groupData.map {
         it.value.sumOf { exp ->
@@ -90,6 +91,7 @@ fun ExpenseInsightScreen(
         mutableStateOf(limitDuration.last())
     }
     BottomSheetScaffold(
+        sheetPeekHeight = 0.dp,
         scaffoldState = scaffoldState,
         topBar = {
             Row(
@@ -121,7 +123,7 @@ fun ExpenseInsightScreen(
                                 color = DarkGreen
                             ), modifier = Modifier.clickable {
                                 scope.launch {
-                                    bottomSheetState.bottomSheetState.expand()
+                                    sheetState.expand()
                                 }
                             }
                         )
@@ -130,7 +132,8 @@ fun ExpenseInsightScreen(
                 )
 
             }
-        }, floatingActionButton = {
+        },
+        floatingActionButton = {
             FloatingActionButton(
                 onClick = { navController.navigate(Screens.Expense.route) },
                 backgroundColor = DarkGreen,
@@ -142,9 +145,10 @@ fun ExpenseInsightScreen(
                 )
 
             }
-        }, sheetContent = {
-            SetBudgetContent(bottomSheetState = bottomSheetState, scope = scope)
-        }
+        },
+        sheetContent = {
+            SetBudgetContent(bottomSheetState = sheetState, scope = scope)
+        },
     ) { paddingValues ->
 
         Surface(
@@ -264,37 +268,5 @@ fun ExpenseInsightScreen(
 
             }
         }
-    }
-}
-
-
-@Composable
-fun ListPlaceholder(
-    label: String
-) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-        modifier = Modifier
-            .padding(
-                start = MaterialTheme.spacing.medium,
-                top = MaterialTheme.spacing.medium,
-                end = MaterialTheme.spacing.medium
-            )
-            .fillMaxSize()
-    ) {
-        Icon(
-            painter = painterResource(R.drawable.home),
-            tint = MaterialTheme.colors.onBackground,
-            contentDescription = "no item added"
-        )
-
-        Text(
-            text = label,
-            style = MaterialTheme.typography.body2,
-            color = MaterialTheme.colors.onBackground,
-            modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.Center
-        )
     }
 }

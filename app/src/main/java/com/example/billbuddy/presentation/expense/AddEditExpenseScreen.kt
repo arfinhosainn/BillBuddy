@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.billbuddy.presentation.your_payments.add_edit_payment.addCommas
 import com.example.billbuddy.ui.theme.*
 import com.example.billbuddy.util.ExpenseCategoryIcon
 import com.example.billbuddy.util.FontAverta
@@ -127,7 +128,7 @@ fun AddEditExpenseScreen(
                 item {
                     Spacer(modifier = Modifier.height(10.dp))
                     TextField(
-                        value = expenseAmount.expenseAmount,
+                        value = expenseAmount.expenseAmount.addCommas(),
                         onValueChange = { amount ->
                             if (amount.isNotEmpty()) {
                                 addEditExpenseViewModel.onEvent(

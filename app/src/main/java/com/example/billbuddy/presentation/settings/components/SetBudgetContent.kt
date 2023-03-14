@@ -32,7 +32,7 @@ import java.util.concurrent.TimeUnit
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SetBudgetContent(
-    bottomSheetState: BottomSheetScaffoldState,
+    bottomSheetState: BottomSheetState,
     scope: CoroutineScope,
     settingsViewModel: SettingsViewModel = hiltViewModel()
 ) {
@@ -164,7 +164,7 @@ fun SetBudgetContent(
 
         TextButton(
             onClick = {
-                scope.launch { bottomSheetState.bottomSheetState.collapse()}
+                scope.launch { bottomSheetState.collapse()}
             },
             modifier = Modifier
                 .fillMaxWidth(),
@@ -189,7 +189,7 @@ fun SetBudgetContent(
                     else {
                         isAmountEmpty = false
                         settingsViewModel.editExpenseLimit(limitTextFieldValue.text.toDouble())
-                        bottomSheetState.bottomSheetState.collapse()
+                        bottomSheetState.collapse()
                         settingsViewModel.editLimitDuration(selectedIndex)
                         val workManager = WorkManager.getInstance(context)
                         workManager.enqueueUniquePeriodicWork(

@@ -28,8 +28,8 @@ import com.example.billbuddy.data.local.model.Payment
 import com.example.billbuddy.data.local.model.PaymentHistory
 import com.example.billbuddy.presentation.components.BriefPaymentItem
 import com.example.billbuddy.presentation.components.CardView
+import com.example.billbuddy.presentation.components.ListPlaceholder
 import com.example.billbuddy.presentation.components.PaymentCardView
-import com.example.billbuddy.presentation.expense.ListPlaceholder
 import com.example.billbuddy.presentation.navigation.BottomNavBar
 import com.example.billbuddy.presentation.navigation.BottomNavItem
 import com.example.billbuddy.presentation.navigation.Screens
@@ -117,7 +117,7 @@ fun HomeScreen(
                 items = listOf(
                     BottomNavItem(
                         title = "Home",
-                        route = "home",
+                        route = Screens.Home.route,
                         icon = ImageVector.vectorResource(id = R.drawable.home)
                     ),
                     BottomNavItem(
@@ -209,7 +209,7 @@ fun HomeScreen(
 
                                     CardView(
                                         billTitle = payment.paymentTitle,
-                                        billAmount = payment.paymentAmount.toString(),
+                                        billAmount = payment.paymentAmount,
                                         billDate = payment.paymentDate.toString(),
                                         remainingBudget = "$59",
                                         billPay = "Mark Paid",
@@ -219,7 +219,7 @@ fun HomeScreen(
                                             homeViewModel.insertPaymentHistory(
                                                 PaymentHistory(
                                                     paymentTitle = payment.paymentTitle,
-                                                    paymentAmount = payment.paymentAmount.toDouble(),
+                                                    paymentAmount = payment.paymentAmount,
                                                     paymentDate = payment.paymentDate,
                                                     payeeName = payment.payeeName,
                                                     paymentIcon = payment.paymentIcon
@@ -436,7 +436,7 @@ fun PaymentHistoryList(
         paymentIcon = paymentHistory.paymentIcon,
         paymentTitle = paymentHistory.paymentTitle,
         paymentDate = paymentHistory.paymentDate.toString(),
-        paymentAmount = paymentHistory.paymentAmount.toString()
+        paymentAmount = paymentHistory.paymentAmount
     ) {
 
     }
@@ -453,7 +453,6 @@ fun YourPaymentsCard(
         paymentTitle = payment.paymentTitle,
         paymentDate = payment.paymentDate.toString(),
         onClick = onClick, modifier = modifier
-
     )
 
 }

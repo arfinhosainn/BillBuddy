@@ -30,8 +30,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.billbuddy.ui.theme.*
-import com.example.billbuddy.util.ExpenseIcon
 import com.example.billbuddy.util.FontAverta
+import com.example.billbuddy.util.PaymentIcon
 import com.maxkeppeker.sheets.core.models.base.rememberSheetState
 import com.maxkeppeler.sheets.calendar.CalendarDialog
 import com.maxkeppeler.sheets.calendar.models.CalendarSelection
@@ -134,16 +134,12 @@ fun AddEditPaymentScreen(
                 }
             )
         }, sheetContent = {
-            PaymentIconBottomSheetContent(
-                onIconSelected = {
-                    paymentViewModel.onEvent(AddEditPaymentEvent.ChoosePaymentIcon(it.icon))
-                    scope.launch {
-                        scaffoldState.bottomSheetState.collapse()
-                    }
-                }
-            )
-
-
+           PaymentCategoryIconItem(onIconSelected = {
+               paymentViewModel.onEvent(AddEditPaymentEvent.ChoosePaymentIcon(it.icon))
+               scope.launch {
+                   scaffoldState.bottomSheetState.collapse()
+               }
+           })
         }
     ) { paddingValues ->
         Column(
@@ -501,77 +497,7 @@ fun AddEditPaymentScreen(
     }
 }
 
-
-@OptIn(ExperimentalMaterialApi::class)
-@Composable
-fun PaymentIconText(
-    icon: Int,
-    onIconSelected: (Int) -> Unit
-) {
-    val bottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
-    val scope = rememberCoroutineScope()
-
-    Text(
-        text = "Set Icon", style =
-        TextStyle(
-            fontFamily = FontAverta,
-            color = DarkGreen,
-            fontWeight = FontWeight.Bold
-        ), modifier = Modifier.clickable {
-            scope.launch {
-                bottomSheetState.show()
-            }
-        }
-    )
-
-    val expenseIcons = ExpenseIcon.values()
-    ModalBottomSheetLayout(
-        sheetContent = {
-            Column(Modifier.padding(16.dp)) {
-                Text(
-                    text = "Choose Icon",
-                    style = MaterialTheme.typography.subtitle1
-                )
-                LazyRow(Modifier.padding(top = 16.dp)) {
-                    items(expenseIcons.size) { index ->
-                        val expenseIcon = expenseIcons[index]
-                        Icon(
-                            painter = painterResource(expenseIcon.icon),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .size(40.dp)
-                                .padding(end = 16.dp)
-                                .clickable {
-                                    onIconSelected(expenseIcon.icon)
-                                    scope.launch {
-                                        bottomSheetState.hide()
-                                    }
-                                }
-                        )
-                    }
-                }
-            }
-        },
-        sheetState = bottomSheetState,
-        content = {}
-    )
-}
-
-
-
 fun String.addCommas(): String {
     val regex = "(\\d)(?=(\\d{3})+\$)".toRegex()
     return this.replace(regex, "\$1,")
-}
-
-
-
-
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewAddEditPaymentScreen() {
-    val navController = rememberNavController()
-    AddEditPaymentScreen(navController = navController)
-
 }

@@ -29,7 +29,8 @@ class PaymentAlarmReceiver : BroadcastReceiver() {
     @Inject
     lateinit var notificationDao: NotificationDao
 
-    private var notificationManager: NotificationManagerCompat? = null
+    @Inject
+    lateinit var notificationManager: NotificationManagerCompat
 
 
     override fun onReceive(context: Context?, intent: Intent?) {
@@ -51,11 +52,8 @@ class PaymentAlarmReceiver : BroadcastReceiver() {
             notificationDao.insertNotifications(notification = insertNotifications)
         }
 
-
-
-
         notificationManager = NotificationManagerCompat.from(context!!)
-        val notification = NotificationCompat.Builder(context, "alarm_id")
+        val notification = NotificationCompat.Builder(context, "bill_due")
             .setSmallIcon(R.drawable.mobile)
             .setContentTitle(notificationTitle)
             .setContentText(notificationMessage)
@@ -69,6 +67,6 @@ class PaymentAlarmReceiver : BroadcastReceiver() {
         ) {
             return
         }
-        notificationManager?.notify(0, notification)
+        notificationManager.notify(0, notification)
     }
 }
