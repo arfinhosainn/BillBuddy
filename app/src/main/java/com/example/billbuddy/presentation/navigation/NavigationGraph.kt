@@ -14,6 +14,7 @@ import com.example.billbuddy.presentation.expense.AddEditExpenseScreen
 import com.example.billbuddy.presentation.expense.ExpenseInsightScreen
 import com.example.billbuddy.presentation.your_payments.add_edit_payment.AddEditPaymentScreen
 import com.example.billbuddy.presentation.home.HomeScreen
+import com.example.billbuddy.presentation.settings.SettingsScreen
 import com.example.billbuddy.presentation.splash.SplashScreen
 import com.example.billbuddy.presentation.welcome.CurrencyScreen
 import com.example.billbuddy.presentation.welcome.WelcomeScreen
@@ -68,6 +69,10 @@ fun NavigationGraph(
         }
         composable(route = Screens.ExpenseInsight.route) {
             ExpenseInsightScreen(navController = navHostController)
+        }
+        composable(route = Screens.Settings.route) {
+            SettingsScreen(navController = navHostController)
+
         }
     }
 

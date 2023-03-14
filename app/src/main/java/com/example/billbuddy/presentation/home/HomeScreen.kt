@@ -33,6 +33,7 @@ import com.example.billbuddy.presentation.components.PaymentCardView
 import com.example.billbuddy.presentation.navigation.BottomNavBar
 import com.example.billbuddy.presentation.navigation.BottomNavItem
 import com.example.billbuddy.presentation.navigation.Screens
+import com.example.billbuddy.presentation.settings.SettingsViewModel
 import com.example.billbuddy.presentation.your_payments.add_edit_payment.AddEditPaymentEvent
 import com.example.billbuddy.presentation.your_payments.add_edit_payment.AddEditPaymentViewModel
 import com.example.billbuddy.ui.theme.*
@@ -45,7 +46,8 @@ import java.time.LocalDate
 fun HomeScreen(
     navController: NavController,
     homeViewModel: HomeViewModel = hiltViewModel(),
-    addEditPaymentViewModel: AddEditPaymentViewModel = hiltViewModel()
+    addEditPaymentViewModel: AddEditPaymentViewModel = hiltViewModel(),
+    settingsViewModel: SettingsViewModel = hiltViewModel()
 ) {
 
     val scaffoldState = rememberScaffoldState()
@@ -53,7 +55,10 @@ fun HomeScreen(
     val pagerState = rememberPagerState()
     val paymentListState by homeViewModel.paymentList.collectAsState()
     val paymentHistoryList by homeViewModel.paymentHistory.collectAsState()
-
+    val todayPayments = cardItem.payments.filter { payment ->
+        payment.paymentDate == LocalDate.now()
+    }
+    val remainingBudget by settingsViewModel.expenseLimit.collectAsState()
 
     Scaffold(
         scaffoldState = scaffoldState,
@@ -132,7 +137,7 @@ fun HomeScreen(
                     ),
                     BottomNavItem(
                         title = "Settings",
-                        route = "settings",
+                        route = Screens.Settings.route,
                         icon = ImageVector.vectorResource(id = R.drawable.setting)
                     ),
                 ), navController = navController, onItemClick = {
@@ -195,15 +200,14 @@ fun HomeScreen(
                             textAlign = TextAlign.Center
                         )
                     } else {
-                        // Display HorizontalPager with payments
                         HorizontalPager(
-                            count = cardItem.payments.size,
+                            count = todayPayments.size,
                             state = pagerState,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(200.dp)
                         ) { page ->
-                            val payment = cardItem.payments.getOrNull(page)
+                            val payment = todayPayments.getOrNull(page)
                             if (payment != null) {
                                 Column(modifier = Modifier.padding(horizontal = 16.dp)) {
 
@@ -211,7 +215,7 @@ fun HomeScreen(
                                         billTitle = payment.paymentTitle,
                                         billAmount = payment.paymentAmount,
                                         billDate = payment.paymentDate.toString(),
-                                        remainingBudget = "$59",
+                                        remainingBudget = "Remaining budget:${remainingBudget}",
                                         billPay = "Mark Paid",
                                         billPaid = "Pay Now",
                                         billIcon = payment.paymentIcon,
@@ -359,7 +363,6 @@ fun HomeScreen(
                                     fontSize = Heading
                                 )
                             )
-
                             Text(
                                 text = "See all", style =
                                 TextStyle(
@@ -381,7 +384,6 @@ fun HomeScreen(
                             )
                         }
                     }
-
                 } else {
                     item {
                         Row(
@@ -398,7 +400,6 @@ fun HomeScreen(
                                     fontSize = Heading
                                 )
                             )
-
                             Text(
                                 text = "See all", style =
                                 TextStyle(
@@ -421,7 +422,6 @@ fun HomeScreen(
                         }
                     }
                 }
-
             }
         }
     }

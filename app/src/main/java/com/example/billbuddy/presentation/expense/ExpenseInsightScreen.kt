@@ -127,10 +127,8 @@ fun ExpenseInsightScreen(
                                 }
                             }
                         )
-
                     }
                 )
-
             }
         },
         floatingActionButton = {
@@ -143,7 +141,6 @@ fun ExpenseInsightScreen(
                     imageVector = Icons.Default.Add,
                     contentDescription = "Add Icon"
                 )
-
             }
         },
         sheetContent = {

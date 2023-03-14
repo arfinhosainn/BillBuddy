@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -38,23 +37,19 @@ class PaymentAlarmReceiver : BroadcastReceiver() {
         val notificationTitle = intent.getStringExtra("NOTIFICATION_TITLE")
         val notificationMessage = intent.getStringExtra("NOTIFICATION_MESSAGE")
 
-
         val insertNotifications =
             Notification(
                 notificationTitle = notificationTitle!!,
                 notificationDesc = notificationMessage!!
             )
 
-        Log.d("insertNotfication", "onReceive: $insertNotifications")
-
         CoroutineScope(Dispatchers.IO).launch {
-
             notificationDao.insertNotifications(notification = insertNotifications)
         }
 
         notificationManager = NotificationManagerCompat.from(context!!)
         val notification = NotificationCompat.Builder(context, "bill_due")
-            .setSmallIcon(R.drawable.mobile)
+            .setSmallIcon(R.drawable.notification)
             .setContentTitle(notificationTitle)
             .setContentText(notificationMessage)
             .setAutoCancel(true)
