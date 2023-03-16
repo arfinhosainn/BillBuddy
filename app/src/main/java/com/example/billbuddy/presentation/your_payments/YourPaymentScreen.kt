@@ -29,7 +29,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.billbuddy.R
 import com.example.billbuddy.data.local.model.Payment
-import com.example.billbuddy.data.local.model.PaymentHistory
 import com.example.billbuddy.presentation.components.PaymentCardView
 import com.example.billbuddy.presentation.home.HomeViewModel
 import com.example.billbuddy.presentation.navigation.Screens
@@ -214,11 +213,8 @@ fun TabView(
                     )
 
                 }
-
             }
         }
-
-
     }
 
 }

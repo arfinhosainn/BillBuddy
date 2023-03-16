@@ -2,30 +2,20 @@ package com.example.billbuddy.presentation.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.billbuddy.data.local.model.PaymentHistory
-import com.example.billbuddy.domain.repository.PaymentHistoryRepository
 import com.example.billbuddy.domain.repository.PaymentRepository
 import com.example.billbuddy.presentation.home.components.PaymentListState
 import com.example.billbuddy.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val paymentRepository: PaymentRepository,
-   private val paymentHistoryRepository: PaymentHistoryRepository,
+    private val paymentRepository: PaymentRepository
 ) : ViewModel() {
-
-    private val _paymentHistory = MutableStateFlow<List<PaymentHistory>>(emptyList())
-    val paymentHistory: StateFlow<List<PaymentHistory>> = _paymentHistory
-
-
-    fun insertPaymentHistory(paymentHistory: PaymentHistory) = viewModelScope.launch {
-        paymentHistoryRepository.insertPaymentHistory(paymentHistory)
-    }
-
 
     private val _paymentList = MutableStateFlow(PaymentListState())
     val paymentList = _paymentList.asStateFlow()
@@ -33,13 +23,6 @@ class HomeViewModel @Inject constructor(
 
     init {
         getPayments()
-        viewModelScope.launch {
-            paymentHistoryRepository.getPaymentHistory().collect {
-                _paymentHistory.value = it.map { paymentAndPaymentHistory ->
-                    paymentAndPaymentHistory.paymentHistory
-                }
-            }
-        }
 
     }
 

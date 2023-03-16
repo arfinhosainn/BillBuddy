@@ -2,7 +2,6 @@ package com.example.billbuddy.presentation.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.billbuddy.data.local.model.PaymentHistory
 import com.example.billbuddy.domain.repository.PaymentHistoryRepository
 import com.example.billbuddy.presentation.home.components.PaymentHistoryEvent
 import com.example.billbuddy.presentation.home.components.PaymentHistoryState
@@ -24,7 +23,7 @@ class PaymentHistoryViewModel @Inject constructor(
         init {
             viewModelScope.launch {
                 paymentHistoryRepository.getPaymentHistory().collect {
-                    _paymentHistory.value.payments = it.map { paymentAndPaymentHistory ->
+                    _paymentHistory.value.paymentHistory = it.map { paymentAndPaymentHistory ->
                         paymentAndPaymentHistory.paymentHistory
                     }
                 }

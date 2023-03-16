@@ -347,7 +347,7 @@ fun HomeScreen(
                     }
                 }
 
-                if (paymentHistoryState.payments.isNotEmpty()) {
+                if (paymentHistoryState.paymentHistory.isNotEmpty()) {
                     item {
 
                         Spacer(modifier = Modifier.height(20.dp))
@@ -378,7 +378,7 @@ fun HomeScreen(
                             )
                         }
                     }
-                    items(paymentHistoryState.payments) { paymentHistory ->
+                    items(paymentHistoryState.paymentHistory) { paymentHistory ->
                         Column(
                             modifier = Modifier
                                 .fillMaxWidth()

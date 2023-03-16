@@ -116,6 +116,9 @@ dependencies {
     implementation "com.google.accompanist:accompanist-pager-indicators:0.28.0"
     implementation "com.google.accompanist:accompanist-pager:0.28.0"
 
+    //navigation animation accompanist
+    implementation "com.google.accompanist:accompanist-navigation-animation:0.28.0"
+
 
     //system ui controller
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.28.0"

@@ -4,7 +4,7 @@ import com.example.billbuddy.data.local.model.PaymentHistory
 
 data class PaymentHistoryState(
     val isLoading: Boolean = false,
-    var payments: List<PaymentHistory> = emptyList(),
+    var paymentHistory: List<PaymentHistory> = emptyList(),
     val error: String = ""
 
 )
