@@ -13,61 +13,61 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val dataStoreOperation: DataStoreOperation
-): ViewModel(){
+) : ViewModel() {
 
-    var expenseLimit = MutableStateFlow(0.0)
-    private set
-
-    var currency = MutableStateFlow("")
+    var expenseLimit = MutableStateFlow(SettingState())
         private set
 
-    var reminderLimit = MutableStateFlow(false)
+    var currency = MutableStateFlow(SettingState())
         private set
 
-    var expenseLimitDuration = MutableStateFlow(0)
+    var reminderLimit = MutableStateFlow(SettingState())
+        private set
+
+    var expenseLimitDuration = MutableStateFlow(SettingState())
         private set
 
     init {
-        viewModelScope.launch (Dispatchers.IO){
-            dataStoreOperation.readCurrencyFromDataStore().collect{selectedCurrency ->
-                currency.value = selectedCurrency
+        viewModelScope.launch(Dispatchers.IO) {
+            dataStoreOperation.readCurrencyFromDataStore().collect { selectedCurrency ->
+                currency.value.currency = selectedCurrency
             }
         }
 
-        viewModelScope.launch (Dispatchers.IO){
-            dataStoreOperation.readExpenseLimitFromDataStore().collect {expenseAmount ->
-                expenseLimit.value = expenseAmount
-            }
-        }
-        viewModelScope.launch (Dispatchers.IO){
-            dataStoreOperation.readLimitKeyFromDataStore().collect {limitKey ->
-                reminderLimit.value = limitKey
+        viewModelScope.launch(Dispatchers.IO) {
+            dataStoreOperation.readExpenseLimitFromDataStore().collect { expenseAmount ->
+                expenseLimit.value.expenseLimit = expenseAmount
             }
         }
         viewModelScope.launch(Dispatchers.IO) {
-            dataStoreOperation.readLimitDurationFromDataStore().collect {duration ->
-                expenseLimitDuration.value = duration
+            dataStoreOperation.readLimitKeyFromDataStore().collect { limitKey ->
+                reminderLimit.value.reminderLimit = limitKey
+            }
+        }
+        viewModelScope.launch(Dispatchers.IO) {
+            dataStoreOperation.readLimitDurationFromDataStore().collect { duration ->
+                expenseLimitDuration.value.expenseLimitDuration = duration
             }
         }
 
     }
 
 
-    fun editExpenseLimit(amount: Double ){
-        viewModelScope.launch (Dispatchers.IO){
+    fun editExpenseLimit(amount: Double) {
+        viewModelScope.launch(Dispatchers.IO) {
             dataStoreOperation.writeBudgetLimitToDataStore(amount)
             Log.d("budgetAmount", "editExpenseLimit: $amount")
         }
     }
 
-    fun editLimitKey(enabled: Boolean){
-        viewModelScope.launch (Dispatchers.IO){
+    fun editLimitKey(enabled: Boolean) {
+        viewModelScope.launch(Dispatchers.IO) {
             dataStoreOperation.writeLimitKeyToDataStore(enabled)
         }
     }
 
-    fun editLimitDuration(duration:Int){
-        viewModelScope.launch (Dispatchers.IO){
+    fun editLimitDuration(duration: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
             dataStoreOperation.writeLimitDurationToDataStore(duration)
         }
     }

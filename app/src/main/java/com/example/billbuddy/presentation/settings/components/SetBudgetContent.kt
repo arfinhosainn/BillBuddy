@@ -47,7 +47,7 @@ fun SetBudgetContent(
     var selectedIndex by remember { mutableStateOf(0) }
     val expenseLimitAmount by settingsViewModel.expenseLimit.collectAsState()
     val expenseLimitDuration by settingsViewModel.expenseLimitDuration.collectAsState()
-    var selectedLimit by remember { mutableStateOf(limitDurationText[expenseLimitDuration]) }
+    var selectedLimit by remember { mutableStateOf(limitDurationText[expenseLimitDuration.expenseLimitDuration]) }
     var isAmountEmpty by remember { mutableStateOf(false) }
     var limitTextFieldValue by remember { mutableStateOf(TextFieldValue(String())) }
     var expandedState by remember { mutableStateOf(false) }
@@ -89,7 +89,7 @@ fun SetBudgetContent(
             singleLine = true,
             placeholder = {
                 Text(
-                    text = if (expenseLimitAmount == 0.0) "Amount" else expenseLimitAmount.toString(),
+                    text = if (expenseLimitAmount.expenseLimit == 0.0) "Amount" else expenseLimitAmount.toString(),
                     style = MaterialTheme.typography.subtitle2
                 )
             },

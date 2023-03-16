@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.billbuddy.data.local.model.PaymentHistory
 import com.example.billbuddy.domain.repository.PaymentHistoryRepository
 import com.example.billbuddy.domain.repository.PaymentRepository
+import com.example.billbuddy.presentation.home.components.PaymentListState
 import com.example.billbuddy.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -17,9 +18,9 @@ class HomeViewModel @Inject constructor(
    private val paymentHistoryRepository: PaymentHistoryRepository,
 ) : ViewModel() {
 
-
     private val _paymentHistory = MutableStateFlow<List<PaymentHistory>>(emptyList())
     val paymentHistory: StateFlow<List<PaymentHistory>> = _paymentHistory
+
 
     fun insertPaymentHistory(paymentHistory: PaymentHistory) = viewModelScope.launch {
         paymentHistoryRepository.insertPaymentHistory(paymentHistory)
@@ -39,6 +40,7 @@ class HomeViewModel @Inject constructor(
                 }
             }
         }
+
     }
 
     private fun getPayments() {

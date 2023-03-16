@@ -19,23 +19,25 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.billbuddy.R
-import com.example.billbuddy.data.local.model.Payment
 import com.example.billbuddy.data.local.model.PaymentHistory
 import com.example.billbuddy.presentation.components.BriefPaymentItem
 import com.example.billbuddy.presentation.components.CardView
 import com.example.billbuddy.presentation.components.ListPlaceholder
 import com.example.billbuddy.presentation.components.PaymentCardView
+import com.example.billbuddy.presentation.home.components.PaymentHistoryEvent
+import com.example.billbuddy.presentation.home.components.PaymentHistoryState
+import com.example.billbuddy.presentation.home.components.PaymentListState
 import com.example.billbuddy.presentation.navigation.BottomNavBar
 import com.example.billbuddy.presentation.navigation.BottomNavItem
 import com.example.billbuddy.presentation.navigation.Screens
-import com.example.billbuddy.presentation.settings.SettingsViewModel
+import com.example.billbuddy.presentation.settings.SettingState
 import com.example.billbuddy.presentation.your_payments.add_edit_payment.AddEditPaymentEvent
-import com.example.billbuddy.presentation.your_payments.add_edit_payment.AddEditPaymentViewModel
 import com.example.billbuddy.ui.theme.*
 import com.example.billbuddy.util.FontAverta
 import com.google.accompanist.pager.*
@@ -45,20 +47,15 @@ import java.time.LocalDate
 @Composable
 fun HomeScreen(
     navController: NavController,
-    homeViewModel: HomeViewModel = hiltViewModel(),
-    addEditPaymentViewModel: AddEditPaymentViewModel = hiltViewModel(),
-    settingsViewModel: SettingsViewModel = hiltViewModel()
+    paymentHistoryState: PaymentHistoryState,
+    paymentList: PaymentListState,
+    settingState: SettingState,
+    insertPaymentHistory: (PaymentHistoryEvent) -> Unit,
+    markPaidPaymentEvent: (AddEditPaymentEvent) -> Unit
 ) {
 
-    val scaffoldState = rememberScaffoldState()
-    val cardItem by homeViewModel.paymentList.collectAsState()
     val pagerState = rememberPagerState()
-    val paymentListState by homeViewModel.paymentList.collectAsState()
-    val paymentHistoryList by homeViewModel.paymentHistory.collectAsState()
-    val todayPayments = cardItem.payments.filter { payment ->
-        payment.paymentDate == LocalDate.now()
-    }
-    val remainingBudget by settingsViewModel.expenseLimit.collectAsState()
+    val scaffoldState = rememberScaffoldState()
 
     Scaffold(
         scaffoldState = scaffoldState,
@@ -158,7 +155,7 @@ fun HomeScreen(
                             .fillMaxWidth()
                             .padding(horizontal = 16.dp)
                     ) {
-                        if (cardItem.payments.isNotEmpty()) {
+                        if (paymentList.payments.isNotEmpty()) {
                             Text(
                                 text = "Household", style =
                                 TextStyle(
@@ -185,7 +182,7 @@ fun HomeScreen(
                     Divider(color = LightGreen100)
                 }
                 item {
-                    if (cardItem.payments.isEmpty()) {
+                    if (paymentList.payments.isEmpty()) {
 
                         Text(
                             text = "There is no payments to show", style =
@@ -200,38 +197,40 @@ fun HomeScreen(
                             textAlign = TextAlign.Center
                         )
                     } else {
+
                         HorizontalPager(
-                            count = todayPayments.size,
+                            count = paymentList.payments.size,
                             state = pagerState,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(200.dp)
                         ) { page ->
-                            val payment = todayPayments.getOrNull(page)
-                            if (payment != null) {
+                            val payments = paymentList.payments.getOrNull(page)
+                            if (payments != null) {
                                 Column(modifier = Modifier.padding(horizontal = 16.dp)) {
-
                                     CardView(
-                                        billTitle = payment.paymentTitle,
-                                        billAmount = payment.paymentAmount,
-                                        billDate = payment.paymentDate.toString(),
-                                        remainingBudget = "Remaining budget:${remainingBudget}",
+                                        billTitle = payments.paymentTitle,
+                                        billAmount = payments.paymentAmount,
+                                        billDate = payments.paymentDate.toString(),
+                                        remainingBudget = "Remaining budget:${settingState.expenseLimit}",
                                         billPay = "Mark Paid",
                                         billPaid = "Pay Now",
-                                        billIcon = payment.paymentIcon,
+                                        billIcon = payments.paymentIcon,
                                         onClick = {
-                                            homeViewModel.insertPaymentHistory(
-                                                PaymentHistory(
-                                                    paymentTitle = payment.paymentTitle,
-                                                    paymentAmount = payment.paymentAmount,
-                                                    paymentDate = payment.paymentDate,
-                                                    payeeName = payment.payeeName,
-                                                    paymentIcon = payment.paymentIcon
+                                            insertPaymentHistory(
+                                                PaymentHistoryEvent.InsertPaymentHistory(
+                                                    PaymentHistory(
+                                                        paymentTitle = payments.paymentTitle,
+                                                        paymentDate = payments.paymentDate,
+                                                        paymentAmount = payments.paymentAmount,
+                                                        paymentIcon = payments.paymentIcon,
+                                                        payeeName = payments.payeeName
+                                                    )
                                                 )
                                             )
-                                            addEditPaymentViewModel.onEvent(
+                                            markPaidPaymentEvent(
                                                 AddEditPaymentEvent.DeletePayment(
-                                                    payment
+                                                    payments
                                                 )
                                             )
                                         }
@@ -241,9 +240,7 @@ fun HomeScreen(
                         }
                     }
                 }
-
-
-                if (paymentListState.payments.isNotEmpty()) {
+                if (paymentList.payments.isNotEmpty()) {
                     item {
                         Row(
                             modifier = Modifier
@@ -274,27 +271,32 @@ fun HomeScreen(
                         }
                     }
                     item {
+
+
                         LazyRow(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(start = 16.dp)
                         ) {
-                            items(paymentListState.payments) {
+                            items(paymentList.payments) { yourPayment ->
                                 Row(
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .padding(horizontal = 8.dp)
                                 ) {
-                                    YourPaymentsCard(modifier = Modifier
-                                        .height(70.dp)
-                                        .width(180.dp), payment = it,
-                                        onClick = {
-                                            navController.navigate(Screens.AddEditPayment.route + "?paymentId=${it.id}")
-                                        }
+                                    BriefPaymentItem(
+                                        paymentIcon = yourPayment.paymentIcon,
+                                        paymentTitle = yourPayment.paymentTitle,
+                                        paymentDate = yourPayment.paymentDate.toString(),
+                                        onClick = { navController.navigate(Screens.AddEditPayment.route + "?paymentId=${yourPayment.id}") },
+                                        modifier = Modifier
+                                            .height(70.dp)
+                                            .width(180.dp)
                                     )
                                 }
                             }
                         }
+
                     }
                 } else {
                     item {
@@ -345,7 +347,7 @@ fun HomeScreen(
                     }
                 }
 
-                if (paymentHistoryList.isNotEmpty()) {
+                if (paymentHistoryState.payments.isNotEmpty()) {
                     item {
 
                         Spacer(modifier = Modifier.height(20.dp))
@@ -364,6 +366,9 @@ fun HomeScreen(
                                 )
                             )
                             Text(
+                                modifier = Modifier.clickable {
+                                    navController.navigate(Screens.History.route)
+                                },
                                 text = "See all", style =
                                 TextStyle(
                                     fontFamily = FontAverta,
@@ -373,15 +378,23 @@ fun HomeScreen(
                             )
                         }
                     }
-                    items(paymentHistoryList) {
+                    items(paymentHistoryState.payments) { paymentHistory ->
                         Column(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(horizontal = 16.dp)
                         ) {
-                            PaymentHistoryList(
-                                paymentHistory = it,
+                            PaymentCardView(
+                                paymentIcon = paymentHistory.paymentIcon,
+                                paymentTitle = paymentHistory.paymentTitle,
+                                paymentDate = paymentHistory.paymentDate.toString(),
+                                paymentAmount = paymentHistory.paymentAmount,
+                                onClick = {
+
+                                }
                             )
+
+
                         }
                     }
                 } else {
@@ -428,33 +441,21 @@ fun HomeScreen(
 }
 
 
+@Preview(showBackground = true)
 @Composable
-fun PaymentHistoryList(
-    paymentHistory: PaymentHistory
-) {
-    PaymentCardView(
-        paymentIcon = paymentHistory.paymentIcon,
-        paymentTitle = paymentHistory.paymentTitle,
-        paymentDate = paymentHistory.paymentDate.toString(),
-        paymentAmount = paymentHistory.paymentAmount
-    ) {
+fun PreviewHomeScreen() {
+    val navController = rememberNavController()
+    val paymentHistoryState = PaymentHistoryState()
+    val paymentList = PaymentListState()
+    val settingState = SettingState()
 
-    }
-}
-
-@Composable
-fun YourPaymentsCard(
-    payment: Payment,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    BriefPaymentItem(
-        paymentIcon = payment.paymentIcon,
-        paymentTitle = payment.paymentTitle,
-        paymentDate = payment.paymentDate.toString(),
-        onClick = onClick, modifier = modifier
+    HomeScreen(
+        navController = navController,
+        paymentHistoryState = paymentHistoryState,
+        paymentList = paymentList,
+        settingState = settingState,
+        insertPaymentHistory = { /*TODO*/ },
+        markPaidPaymentEvent = {}
     )
 
 }
-
-

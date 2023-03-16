@@ -72,7 +72,7 @@ fun SettingsScreen(
                         .fillMaxSize()
                         .padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    CurrencySetting(currency = currency, navController = navController)
+                    CurrencySetting(currency = currency.currency, navController = navController)
                     PersonalInfo(navController = navController)
                     PaymentHistory(navController = navController)
                     NotificationsAndEmail(navController = navController)
