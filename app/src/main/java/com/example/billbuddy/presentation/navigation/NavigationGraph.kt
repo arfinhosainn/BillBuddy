@@ -20,6 +20,7 @@ import com.example.billbuddy.presentation.home.HomeScreen
 import com.example.billbuddy.presentation.home.HomeViewModel
 import com.example.billbuddy.presentation.home.PaymentHistoryScreen
 import com.example.billbuddy.presentation.home.PaymentHistoryViewModel
+import com.example.billbuddy.presentation.reports.ReportScreen
 import com.example.billbuddy.presentation.settings.SettingsScreen
 import com.example.billbuddy.presentation.settings.SettingsViewModel
 import com.example.billbuddy.presentation.splash.SplashScreen
@@ -144,6 +145,9 @@ fun NavigationGraph(
                 navController = navHostController,
                 paymentHistoryListState = paymentHistoryListState,
             )
+        }
+        composable(route = Screens.Reports.route) {
+            ReportScreen(navController = navHostController)
         }
     }
 }

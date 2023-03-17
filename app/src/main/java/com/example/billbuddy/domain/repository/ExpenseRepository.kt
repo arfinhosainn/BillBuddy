@@ -3,6 +3,7 @@ package com.example.billbuddy.domain.repository
 import com.example.billbuddy.data.local.model.Expense
 import com.example.billbuddy.util.Resource
 import kotlinx.coroutines.flow.Flow
+import java.time.LocalDateTime
 
 interface ExpenseRepository {
 
@@ -21,5 +22,9 @@ interface ExpenseRepository {
     suspend fun deleteExpense(expense: Expense)
 
     suspend fun getExpenseById(id: Int): Expense?
+
+   suspend fun getExpensesForMonthRange(startMonth: LocalDateTime, endMonth: LocalDateTime): List<Expense>
+
+
 
 }

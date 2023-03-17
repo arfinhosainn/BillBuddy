@@ -33,6 +33,7 @@ import com.example.billbuddy.presentation.components.PaymentCardView
 import com.example.billbuddy.presentation.home.components.PaymentHistoryEvent
 import com.example.billbuddy.presentation.home.components.PaymentHistoryState
 import com.example.billbuddy.presentation.home.components.PaymentListState
+import com.example.billbuddy.presentation.home.components.YourPaymentItem
 import com.example.billbuddy.presentation.navigation.BottomNavBar
 import com.example.billbuddy.presentation.navigation.BottomNavItem
 import com.example.billbuddy.presentation.navigation.Screens
@@ -129,7 +130,7 @@ fun HomeScreen(
                     ),
                     BottomNavItem(
                         title = "Reports",
-                        route = "reports",
+                        route = Screens.Reports.route,
                         icon = ImageVector.vectorResource(id = R.drawable.finance)
                     ),
                     BottomNavItem(
@@ -271,31 +272,10 @@ fun HomeScreen(
                         }
                     }
                     item {
-
-
-                        LazyRow(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(start = 16.dp)
-                        ) {
-                            items(paymentList.payments) { yourPayment ->
-                                Row(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(horizontal = 8.dp)
-                                ) {
-                                    BriefPaymentItem(
-                                        paymentIcon = yourPayment.paymentIcon,
-                                        paymentTitle = yourPayment.paymentTitle,
-                                        paymentDate = yourPayment.paymentDate.toString(),
-                                        onClick = { navController.navigate(Screens.AddEditPayment.route + "?paymentId=${yourPayment.id}") },
-                                        modifier = Modifier
-                                            .height(70.dp)
-                                            .width(180.dp)
-                                    )
-                                }
-                            }
-                        }
+                        YourPaymentItem(
+                            paymentListState = paymentList,
+                            navController = navController
+                        )
 
                     }
                 } else {

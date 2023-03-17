@@ -8,6 +8,7 @@ import com.example.billbuddy.util.Resource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.io.IOException
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 class ExpenseRepositoryImpl @Inject constructor(
@@ -91,5 +92,13 @@ class ExpenseRepositoryImpl @Inject constructor(
 
     override suspend fun getExpenseById(id: Int): Expense? {
         return expenseDao.getExpenseById(id)
+    }
+
+
+    override suspend fun getExpensesForMonthRange(
+        startMonth: LocalDateTime,
+        endMonth: LocalDateTime
+    ): List<Expense> {
+        return expenseDao.getExpensesForMonthRange(startMonth, endMonth)
     }
 }

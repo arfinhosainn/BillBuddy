@@ -1,9 +1,8 @@
 package com.example.billbuddy.presentation.your_payments.add_edit_payment
 
 import android.widget.Toast
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -23,15 +22,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.billbuddy.ui.theme.*
 import com.example.billbuddy.util.FontAverta
-import com.example.billbuddy.util.PaymentIcon
 import com.maxkeppeker.sheets.core.models.base.rememberSheetState
 import com.maxkeppeler.sheets.calendar.CalendarDialog
 import com.maxkeppeler.sheets.calendar.models.CalendarSelection
@@ -45,8 +41,8 @@ import java.time.format.DateTimeFormatter
 fun AddEditPaymentScreen(
     navController: NavController,
     paymentViewModel: AddEditPaymentViewModel = hiltViewModel()
-) {
 
+) {
 
     val options = listOf("Option 1", "Option 2", "Option 3", "Option 4", "Option 5")
     var expanded by remember { mutableStateOf(false) }
@@ -134,12 +130,12 @@ fun AddEditPaymentScreen(
                 }
             )
         }, sheetContent = {
-           PaymentCategoryIconItem(onIconSelected = {
-               paymentViewModel.onEvent(AddEditPaymentEvent.ChoosePaymentIcon(it.icon))
-               scope.launch {
-                   scaffoldState.bottomSheetState.collapse()
-               }
-           })
+            PaymentCategoryIconItem(onIconSelected = {
+                paymentViewModel.onEvent(AddEditPaymentEvent.ChoosePaymentIcon(it.icon))
+                scope.launch {
+                    scaffoldState.bottomSheetState.collapse()
+                }
+            })
         }
     ) { paddingValues ->
         Column(
@@ -161,9 +157,11 @@ fun AddEditPaymentScreen(
                         fontSize = Heading
                     )
                 )
-                IconButton(onClick = { scope.launch {
-                    scaffoldState.bottomSheetState.expand()
-                } }) {
+                IconButton(onClick = {
+                    scope.launch {
+                        scaffoldState.bottomSheetState.expand()
+                    }
+                }) {
                     Icon(
                         painter = painterResource(id = iconState.paymentIcon),
                         contentDescription = "paymentIcon", modifier = Modifier.size(20.dp)
@@ -233,19 +231,18 @@ fun AddEditPaymentScreen(
             Row(modifier = Modifier.fillMaxWidth()) {
                 Column(
                     modifier = Modifier
-                        .weight(4f)
+                        .weight(3.5f)
                 ) {
 
                     Text(
-                        modifier = Modifier.padding(bottom = 10.dp),
-                        text = if (amountState.text.isBlank()) "Enter Amount*" else "Enter Amount",
+                        modifier = Modifier.padding(bottom = 6.dp),
+                        text = if (amountState.amount.isBlank()) "Enter Amount*" else "Enter Amount",
                         style = TextStyle(
                             color = LightBlack200,
                             fontFamily = FontAverta,
                             fontWeight = FontWeight.Medium
                         )
                     )
-
                 }
 
                 Column(
@@ -254,7 +251,9 @@ fun AddEditPaymentScreen(
                 ) {
                     Text(
                         modifier = Modifier.padding(bottom = 10.dp),
-                        text = if (titleState.text.isBlank()) "Select Date*" else "Select Date",
+                        text = if (pickedDateState.paymentDate.toString()
+                                .isBlank()
+                        ) "Select Date*" else "Select Date",
                         style = TextStyle(
                             color = LightBlack200,
                             fontFamily = FontAverta,
@@ -266,12 +265,13 @@ fun AddEditPaymentScreen(
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
 
                 OutlinedTextField(
                     value = amountState.amount,
-                    onValueChange = {amount ->
+                    onValueChange = { amount ->
                         paymentViewModel.onEvent(
                             AddEditPaymentEvent.EnteredAmount(
                                 amount.addCommas()
@@ -290,7 +290,7 @@ fun AddEditPaymentScreen(
                     label = {
                         Text(text = currencyState)
                     },
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 )
 
                 Spacer(modifier = Modifier.width(15.dp))
@@ -316,11 +316,8 @@ fun AddEditPaymentScreen(
                                 imageVector = Icons.Default.DateRange,
                                 contentDescription = "back", tint = LightBlack200
                             )
-
                         }
-
                     }
-
                 )
             }
 

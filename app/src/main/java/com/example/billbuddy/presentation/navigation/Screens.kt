@@ -3,6 +3,7 @@ package com.example.billbuddy.presentation.navigation
 sealed class Screens(val route: String) {
     object AddEditPayment : Screens("add_edit_payment_screen")
     object ExpenseInsight : Screens("expense_insight_screen")
+    object Reports : Screens("reports_screen")
     object Home : Screens("home_screen")
     object Currency : Screens("currency_screen")
     object Settings : Screens("settings_screen")

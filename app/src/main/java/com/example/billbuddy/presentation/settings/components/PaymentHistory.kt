@@ -26,7 +26,7 @@ fun PaymentHistory(navController: NavController) {
         modifier = Modifier
             .fillMaxWidth()
             .clickable {
-                navController.navigate("${Screens.Currency.route}/${true}")
+                navController.navigate(Screens.History.route)
             }
             .height(60.dp), shape = RoundedCornerShape(0.dp),
         backgroundColor = LightGreen

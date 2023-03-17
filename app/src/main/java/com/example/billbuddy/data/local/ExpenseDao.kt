@@ -4,6 +4,7 @@ import androidx.room.*
 import com.example.billbuddy.data.local.model.Expense
 import com.example.billbuddy.data.local.model.Payment
 import kotlinx.coroutines.flow.Flow
+import java.time.LocalDateTime
 
 @Dao
 interface ExpenseDao {
@@ -32,4 +33,9 @@ interface ExpenseDao {
 
     @Delete
     suspend fun deleteExpense(expense: Expense)
+
+    @Query("SELECT * FROM expense_table WHERE expenseDate BETWEEN :startDate AND :endDate")
+   suspend fun getExpensesForMonthRange(startDate: LocalDateTime, endDate: LocalDateTime): List<Expense>
+
+
 }
