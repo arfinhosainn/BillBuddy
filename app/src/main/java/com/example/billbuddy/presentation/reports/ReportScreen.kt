@@ -1,5 +1,6 @@
 package com.example.billbuddy.presentation.reports
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -15,27 +16,25 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.billbuddy.ui.theme.DarkGreen
 import com.example.billbuddy.ui.theme.Heading
+import com.example.billbuddy.ui.theme.LightBlack
 import com.example.billbuddy.util.FontAverta
 import com.himanshoe.charty.bar.BarChart
 import com.himanshoe.charty.bar.model.BarData
-import java.time.LocalDateTime
+import com.example.billbuddy.presentation.components.ListPlaceholder as ListPlaceholder1
 
 @Composable
 fun ReportScreen(
     reportsViewModel: ReportsViewModel = hiltViewModel(),
     navController: NavController
 ) {
-
     val scaffoldState = rememberScaffoldState()
 
-    val expenseAmount by reportsViewModel.expenseAmount.collectAsState()
-
-    val startDate = LocalDateTime.of(2023, 1, 1, 0, 0)
-    val endDate = LocalDateTime.of(2023, 9, 30, 23, 59, 59)
+    val expenseAmount by reportsViewModel.startAndEndMonthYearState.collectAsState()
 
     val selectedMonthExpense = remember { mutableStateOf(0f) }
-
+    val selectedBarXValue = remember { mutableStateOf("") }
 
     Scaffold(
         scaffoldState = scaffoldState,
@@ -64,41 +63,199 @@ fun ReportScreen(
     ) { paddingValues ->
 
         Column(
-            modifier = Modifier.fillMaxSize().padding(50.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Top
+            modifier = Modifier
+                .fillMaxSize()
         ) {
-            if (expenseAmount.expense.isNotEmpty()) {
-                val barData = expenseAmount.expense
-                    .groupBy { it.expenseDate.month }
-                    .mapValues { it.value.sumOf { expense -> expense.expenseAmount.toInt() } }
-                    .map { BarData(it.key.toString(), it.value.toFloat()) }
-                BarChart(
-
-                    modifier = Modifier.fillMaxWidth().height(200.dp),
-                    barData = barData,
-                    color = Color(0xFF008E59),
-                    onBarClick = { barData ->
-                        selectedMonthExpense.value = expenseAmount.expense.filter {
-                            it.expenseDate.month.toString() == barData.xValue
-                        }.sumOf { it.expenseAmount.toInt() }.toFloat()
-                    }
-                )
-                if (selectedMonthExpense.value > 0f) {
-                    Text(
-                        text = "Selected Month Expenses: $${selectedMonthExpense.value}",
-                        fontSize = 20.sp,
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = "Savings", style =
+                    TextStyle(
+                        fontFamily = FontAverta,
                         fontWeight = FontWeight.Bold,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.padding(top = 16.dp)
+                        fontSize = Heading
+
                     )
+                )
+                Text(
+                    text = "Set Goal", style =
+                    TextStyle(
+                        fontFamily = FontAverta,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 16.sp,
+                        color = DarkGreen
+                    )
+                )
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+            ) {
+                MonthRangeToggle()
+            }
+
+            Spacer(modifier = Modifier.height(25.dp))
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 25.dp),
+                horizontalArrangement = Arrangement.Center
+            ) {
+
+                if (expenseAmount.expense.isNotEmpty()) {
+                    val barData = expenseAmount.expense
+                        .groupBy { it.expenseDate.month }
+                        .mapValues { it.value.sumOf { expense -> expense.expenseAmount.toInt() } }
+                        .map { BarData(it.key.toString(), it.value.toFloat()) }
+
+                    Log.d("barData", "ReportScreen: $barData")
+                    BarChart(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(200.dp),
+                        barData = barData,
+                        onBarClick = { barData ->
+                            selectedBarXValue.value = barData.xValue as String
+                            selectedMonthExpense.value = expenseAmount.expense.filter {
+                                it.expenseDate.month.toString() == barData.xValue
+                            }.sumOf { it.expenseAmount.toInt() }.toFloat()
+                        },
+                        color = if (barData.any { it.xValue == selectedBarXValue.value }) Color(
+                            0xFF008E59
+                        ) else Color(0xFFff3c3c)
+                    )
+                } else {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(200.dp)
+                            .padding(horizontal = 8.dp),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        ListPlaceholder1(label = "There is no expense reports")
+                    }
                 }
             }
-        }
-        LaunchedEffect(Unit) {
-            reportsViewModel.getSavingsByMonth(startDate, endDate)
-        }
 
+            Spacer(modifier = Modifier.height(50.dp))
+
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(), backgroundColor = LightBlack
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp)
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Text(
+                            text = "Summary",
+                            fontSize = 20.sp,
+                            fontFamily = FontAverta,
+                            fontWeight = FontWeight.Normal,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.padding(top = 16.dp)
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = "All Expenses",
+                            fontSize = 18.sp,
+                            fontFamily = FontAverta,
+                            fontWeight = FontWeight.Medium,
+                            modifier = Modifier.padding(top = 16.dp)
+                        )
+                        Text(
+                            text = "$${selectedMonthExpense.value}",
+                            fontSize = 18.sp,
+                            fontFamily = FontAverta,
+                            fontWeight = FontWeight.Medium,
+                            modifier = Modifier.padding(top = 16.dp)
+                        )
+                    }
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = "All Expenses",
+                            fontSize = 18.sp,
+                            fontFamily = FontAverta,
+                            fontWeight = FontWeight.Medium,
+                            modifier = Modifier.padding(top = 16.dp)
+                        )
+                        Text(
+                            text = "$${selectedMonthExpense.value}",
+                            fontSize = 18.sp,
+                            fontFamily = FontAverta,
+                            fontWeight = FontWeight.Medium,
+                            modifier = Modifier.padding(top = 16.dp)
+                        )
+
+                    }
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = "All Expenses",
+                            fontSize = 18.sp,
+                            fontFamily = FontAverta,
+                            fontWeight = FontWeight.Medium,
+                            modifier = Modifier.padding(top = 16.dp)
+                        )
+                        Text(
+                            text = "$${selectedMonthExpense.value}",
+                            fontSize = 18.sp,
+                            fontFamily = FontAverta,
+                            fontWeight = FontWeight.Medium,
+                            modifier = Modifier.padding(top = 16.dp)
+                        )
+
+                    }
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = "All Expenses",
+                            fontSize = 18.sp,
+                            fontFamily = FontAverta,
+                            fontWeight = FontWeight.Medium,
+                            modifier = Modifier.padding(top = 16.dp)
+                        )
+                        Text(
+                            text = "$${selectedMonthExpense.value}",
+                            fontSize = 18.sp,
+                            fontFamily = FontAverta,
+                            fontWeight = FontWeight.Medium,
+                            modifier = Modifier.padding(top = 16.dp)
+                        )
+
+                    }
+
+                }
+            }
+
+        }
     }
 }
+
 

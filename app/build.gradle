@@ -64,6 +64,7 @@ dependencies {
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_ui_version"
     implementation 'androidx.compose.material:material:1.2.0'
     implementation 'androidx.work:work-runtime-ktx:2.8.0'
+    implementation 'com.google.android.material:material:1.8.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_ui_version"
@@ -84,9 +85,7 @@ dependencies {
     testImplementation "io.mockk:mockk:1.10.5"
     debugImplementation "androidx.compose.ui:ui-test-manifest:1.1.0-alpha04"
 
-
-
-
+    
     // Room components
     implementation "androidx.room:room-runtime:2.5.0"
     kapt "androidx.room:room-compiler:2.5.0"
@@ -104,7 +103,6 @@ dependencies {
 
     implementation "com.google.accompanist:accompanist-flowlayout:0.28.0"
 
-
     // CALENDAR
     implementation "com.maxkeppeler.sheets-compose-dialogs:calendar:1.1.0"
     implementation "com.maxkeppeler.sheets-compose-dialogs:core:1.1.0"
@@ -117,7 +115,6 @@ dependencies {
     implementation("com.himanshoe:charty:1.0.1")
 
 
-
     //google accompanist pager & pager indicator
     implementation "com.google.accompanist:accompanist-pager-indicators:0.28.0"
     implementation "com.google.accompanist:accompanist-pager:0.28.0"
@@ -128,6 +125,7 @@ dependencies {
 
     //system ui controller
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.28.0"
+
 
 
 }
