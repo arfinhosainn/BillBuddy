@@ -44,6 +44,8 @@ fun AddEditPaymentScreen(
 
 ) {
 
+    val regex = "(\\d)(?=(\\d{3})+\$)".toRegex()
+
     val options = listOf("Option 1", "Option 2", "Option 3", "Option 4", "Option 5")
     var expanded by remember { mutableStateOf(false) }
     var selectedOption by remember { mutableStateOf(options[0]) }
@@ -272,6 +274,7 @@ fun AddEditPaymentScreen(
                 OutlinedTextField(
                     value = amountState.amount,
                     onValueChange = { amount ->
+
                         paymentViewModel.onEvent(
                             AddEditPaymentEvent.EnteredAmount(
                                 amount.addCommas()
@@ -498,3 +501,4 @@ fun String.addCommas(): String {
     val regex = "(\\d)(?=(\\d{3})+\$)".toRegex()
     return this.replace(regex, "\$1,")
 }
+

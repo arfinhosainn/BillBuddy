@@ -40,10 +40,8 @@ class NotificationsViewModel @Inject constructor(
                     delay(5000L)
                     _notificationsState.value =
                         NotificationListState(payments = result.data ?: emptyList())
-
                 }
             }
-
         }.launchIn(viewModelScope)
     }
 

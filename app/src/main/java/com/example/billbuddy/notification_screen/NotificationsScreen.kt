@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -14,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -52,7 +54,6 @@ fun NotificationsScreen(
                             imageVector = Icons.Default.ArrowBack,
                             contentDescription = "back", tint = Color.Black
                         )
-
                     }
                 }
             )
@@ -64,6 +65,32 @@ fun NotificationsScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+
+                Text(
+                    text = "Payments History", style =
+                    TextStyle(
+                        fontFamily = FontAverta,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = Heading
+                    )
+                )
+                IconButton(onClick = { navController.navigateUp() }) {
+                    Icon(
+                        modifier = Modifier.size(28.dp),
+                        imageVector = Icons.Default.Search,
+                        contentDescription = "back", tint = LightBlack200
+                    )
+                }
+            }
+
             Box(modifier = Modifier.fillMaxSize()) {
                 LazyColumn(modifier = Modifier.fillMaxSize()) {
                     items(notificationState.value.payments) { notification ->
@@ -95,10 +122,13 @@ fun NotificationsScreen(
 
 @Composable
 fun NotificationsCard(notification: Notification) {
+
+
+    notification.notificationDesc
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(100.dp), elevation = 10.dp
+            .height(100.dp), elevation = 0.dp
     ) {
         Column(
             modifier = Modifier
@@ -118,7 +148,7 @@ fun NotificationsCard(notification: Notification) {
                     )
                 )
                 Text(
-                    text = "13-5-23", style = TextStyle(
+                    text = notification.notificationDate.toString(), style = TextStyle(
                         color = LightBlack200,
                         fontFamily = FontAverta,
                         fontSize = 10.sp,
@@ -133,10 +163,11 @@ fun NotificationsCard(notification: Notification) {
                     fontWeight = FontWeight.Medium
                 )
             )
-
+            Divider(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 30.dp)
+            )
         }
-
     }
-
 }
-

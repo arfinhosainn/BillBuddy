@@ -16,6 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import javax.inject.Inject
 
 
@@ -36,11 +37,13 @@ class PaymentAlarmReceiver : BroadcastReceiver() {
         val paymentId = intent?.getStringExtra("PAYMENT_EXTRA") ?: return
         val notificationTitle = intent.getStringExtra("NOTIFICATION_TITLE")
         val notificationMessage = intent.getStringExtra("NOTIFICATION_MESSAGE")
+        val notificationDate = intent.getStringExtra("NOTIFICATION_DATE")
 
         val insertNotifications =
             Notification(
                 notificationTitle = notificationTitle!!,
-                notificationDesc = notificationMessage!!
+                notificationDesc = notificationMessage!!,
+                notificationDate = LocalDate.parse(notificationDate)
             )
 
         CoroutineScope(Dispatchers.IO).launch {
