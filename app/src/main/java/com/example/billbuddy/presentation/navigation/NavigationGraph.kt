@@ -1,5 +1,6 @@
 package com.example.billbuddy.presentation.navigation
 
+import android.app.Activity
 import androidx.compose.animation.*
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
@@ -8,12 +9,15 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.example.billbuddy.notification_screen.NotificationsScreen
+import com.example.billbuddy.presentation.auth.AuthScreen
+import com.example.billbuddy.presentation.auth.OtpVerificationScreen
 import com.example.billbuddy.presentation.expense.AddEditExpenseScreen
 import com.example.billbuddy.presentation.expense.ExpenseInsightScreen
 import com.example.billbuddy.presentation.home.HomeScreen
@@ -43,7 +47,7 @@ fun NavigationGraph(
 ) {
 
     AnimatedNavHost(
-        navController = navHostController, startDestination = Screens.Splash.route,
+        navController = navHostController, startDestination = Screens.Authentication.route,
         exitTransition = {
             slideOutHorizontally(
                 targetOffsetX = { -300 },
@@ -149,8 +153,20 @@ fun NavigationGraph(
         }
         composable(route = Screens.Reports.route) {
             ReportScreen(navController = navHostController)
-
-
+        }
+        composable(route = Screens.Authentication.route) {
+            val context = LocalContext.current
+            val activity = context as? Activity
+            if (activity != null) {
+                AuthScreen(activity = activity, navController = navHostController)
+            }
+        }
+        composable(route = Screens.OTPScreen.route) {
+            val context = LocalContext.current
+            val activity = context as? Activity
+            if (activity != null) {
+                OtpVerificationScreen(activity = activity, navController = navHostController)
+            }
         }
     }
 }
