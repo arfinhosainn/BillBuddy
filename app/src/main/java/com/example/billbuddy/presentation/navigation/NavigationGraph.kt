@@ -25,10 +25,8 @@ import com.example.billbuddy.presentation.home.HomeViewModel
 import com.example.billbuddy.presentation.home.PaymentHistoryScreen
 import com.example.billbuddy.presentation.home.PaymentHistoryViewModel
 import com.example.billbuddy.presentation.reports.ReportScreen
-import com.example.billbuddy.presentation.reports.ReportsViewModel
 import com.example.billbuddy.presentation.settings.SettingsScreen
 import com.example.billbuddy.presentation.settings.SettingsViewModel
-import com.example.billbuddy.presentation.splash.SplashScreen
 import com.example.billbuddy.presentation.welcome.CurrencyScreen
 import com.example.billbuddy.presentation.welcome.WelcomeScreen
 import com.example.billbuddy.presentation.your_payments.YourPaymentScreen
@@ -115,9 +113,6 @@ fun NavigationGraph(
         }
         composable(route = Screens.Welcome.route) {
             WelcomeScreen(navController = navHostController)
-        }
-        composable(route = Screens.Splash.route) {
-            SplashScreen(navController = navHostController)
         }
         composable(route = Screens.Expense.route) {
             AddEditExpenseScreen(navController = navHostController)

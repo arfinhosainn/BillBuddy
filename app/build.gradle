@@ -112,6 +112,8 @@ dependencies {
     // Compose Constraint Layout
     implementation "androidx.constraintlayout:constraintlayout-compose:1.0.0"
 
+    // Splash API
+    implementation "androidx.core:core-splashscreen:1.0.0"
 
     //chart
     implementation("com.himanshoe:charty:1.0.1")

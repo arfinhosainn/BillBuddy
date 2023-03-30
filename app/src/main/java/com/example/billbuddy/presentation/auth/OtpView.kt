@@ -28,7 +28,6 @@ import com.example.billbuddy.util.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-const val OTP_VIEW_TYPE_NONE = 0
 const val OTP_VIEW_TYPE_UNDERLINE = 1
 const val OTP_VIEW_TYPE_BORDER = 2
 
