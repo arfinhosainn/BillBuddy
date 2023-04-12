@@ -16,14 +16,12 @@ val LightGreen100 = Color(0xFFcfeade)
 val LightBlack = Color(0xFFf8f8f8)
 val LightBlackUltra = Color(0xFFf5f5f4)
 
-
 val FoodBG = Color(0xFF12c4d1)
 val TravelBG = Color(0xFFf36436)
 val VideoGamesBG = Color(0xFFf2c84d)
 val GroceryBG = Color(0xFF68cf73)
 val EntertainmentBG = Color(0xFFbf63e8)
 val OthersBG = Color(0xFF4584ea)
-
 
 val LightBlue500 = Color(0xFF03A9F4)
 val Grey100 = Color(0xFFF5F5F5)

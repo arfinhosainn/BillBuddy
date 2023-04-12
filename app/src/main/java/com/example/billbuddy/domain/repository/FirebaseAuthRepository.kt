@@ -10,9 +10,7 @@ interface FirebaseAuthRepository {
         activity: Activity
     ): Flow<Resource<String>>
 
-
     fun signWithCredential(
         otp: String
     ): Flow<Resource<String>>
-
 }

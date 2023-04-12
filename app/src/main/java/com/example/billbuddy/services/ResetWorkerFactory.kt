@@ -9,8 +9,7 @@ import javax.inject.Inject
 
 class ResetWorkerFactory @Inject constructor(
     private val dataStoreOperation: DataStoreOperation
-): WorkerFactory() {
-
+) : WorkerFactory() {
 
     override fun createWorker(
         appContext: Context,

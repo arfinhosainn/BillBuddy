@@ -17,7 +17,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object LocalModule {
 
-
     @Provides
     @Singleton
     fun providesDataStoreOperation(@ApplicationContext context: Context): DataStoreOperation {
@@ -30,7 +29,6 @@ object LocalModule {
         return PaymentRepositoryImpl(paymentDao = paymentDao)
     }
 
-
     @Provides
     @Singleton
     fun providesPaymentHistoryRepository(paymentHistoryDao: PaymentHistoryDao): PaymentHistoryRepository {
@@ -39,7 +37,7 @@ object LocalModule {
 
     @Provides
     @Singleton
-    fun providesPaymentHistoryDao(billBuddyDatabase: BillBuddyDatabase): PaymentHistoryDao{
+    fun providesPaymentHistoryDao(billBuddyDatabase: BillBuddyDatabase): PaymentHistoryDao {
         return billBuddyDatabase.paymentHistoryDao
     }
 
@@ -55,7 +53,6 @@ object LocalModule {
         return billBuddyDatabase.expenseDao
     }
 
-
     @Provides
     fun provideAndroidAlarmScheduler(@ApplicationContext context: Context): AndroidAlarmScheduler {
         return AndroidAlarmScheduler(context)
@@ -66,7 +63,6 @@ object LocalModule {
     fun provideTransactionRepository(transactionDao: TransactionDao): TransactionRepository {
         return TransactionRepositoryImpl(dao = transactionDao)
     }
-
 
     @Provides
     @Singleton
@@ -93,11 +89,9 @@ object LocalModule {
         return NotificationRepositoryImpl(notificationDao = notificationDao)
     }
 
-
     @Provides
     @Singleton
     fun providesTransactionDao(database: BillBuddyDatabase): TransactionDao {
         return database.transactionDao
     }
-
 }

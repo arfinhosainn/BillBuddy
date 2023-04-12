@@ -7,4 +7,4 @@ data class ReportsScreenState(
     var expense: List<Expense> = emptyList(),
     var startMonthAndYear: LocalDateTime = LocalDateTime.now(),
     val endMonthAndYear: LocalDateTime = LocalDateTime.now()
-    )
+)

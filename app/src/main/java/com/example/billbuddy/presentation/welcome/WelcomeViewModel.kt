@@ -19,7 +19,6 @@ class WelcomeViewModel @Inject constructor(
     var countryCurrencies = mutableStateOf(emptyMap<Char, List<CurrencyModel>>())
         private set
 
-
     init {
         countryCurrencies.value = getCurrency().groupBy { it.country[0] }
     }
@@ -44,7 +43,6 @@ class WelcomeViewModel @Inject constructor(
         }
     }
 
-
     private fun getCurrency(): List<CurrencyModel> {
         val currencies = mutableListOf<CurrencyModel>()
         val countries = mutableListOf<String>()
@@ -67,11 +65,8 @@ class WelcomeViewModel @Inject constructor(
                     currencies.add(currencyModel)
                 }
             } catch (e: Exception) {
-
             }
         }
         return currencies.sortedBy { it.country }
     }
-
-
 }

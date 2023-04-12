@@ -40,7 +40,8 @@ fun PaymentCardView(
                 onClick()
             },
         shape = RoundedCornerShape(10.dp),
-        elevation = 0.dp, backgroundColor = LightBlack
+        elevation = 0.dp,
+        backgroundColor = LightBlack
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -59,7 +60,8 @@ fun PaymentCardView(
             Spacer(modifier = Modifier.width(16.dp))
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = paymentTitle, style = TextStyle(
+                    text = paymentTitle,
+                    style = TextStyle(
                         color = Color.Black,
                         fontFamily = FontAverta,
                         fontSize = 15.sp,
@@ -67,7 +69,8 @@ fun PaymentCardView(
                     )
                 )
                 Text(
-                    text = paymentDate, style = TextStyle(
+                    text = paymentDate,
+                    style = TextStyle(
                         color = LightBlack100,
                         fontFamily = FontAverta,
                         fontWeight = FontWeight.Medium

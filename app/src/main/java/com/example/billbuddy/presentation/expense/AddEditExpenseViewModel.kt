@@ -24,10 +24,8 @@ class AddEditExpenseViewModel @Inject constructor(
     private val expenseRepository: ExpenseRepository
 ) : ViewModel() {
 
-
     var paymentCurrency = MutableStateFlow("")
         private set
-
 
     private val _expenseAmount = MutableStateFlow(
         ExpenseScreenState(
@@ -35,7 +33,6 @@ class AddEditExpenseViewModel @Inject constructor(
         )
     )
     val expenseAmount = _expenseAmount.asStateFlow()
-
 
     private val _expenseDate = MutableStateFlow(
         ExpenseScreenState(
@@ -45,21 +42,17 @@ class AddEditExpenseViewModel @Inject constructor(
 
     val expenseDate = _expenseDate.asStateFlow()
 
-
     private val _expenseCategoryTitle = MutableStateFlow(
         ExpenseScreenState()
     )
 
     val expenseCategoryTitle = _expenseCategoryTitle.asStateFlow()
 
-
     private val _expenseCategoryColor = MutableStateFlow(
-        ExpenseScreenState(
-        )
+        ExpenseScreenState()
     )
 
     val expenseCategoryColor = _expenseCategoryColor.asStateFlow()
-
 
     private val _expenseCategory = MutableStateFlow(
         ExpenseScreenState(
@@ -68,7 +61,6 @@ class AddEditExpenseViewModel @Inject constructor(
     )
 
     val expenseCategory = _expenseCategory.asStateFlow()
-
 
     init {
         savedStateHandle.get<Int>("expenseId")?.let { expenseId ->
@@ -87,7 +79,6 @@ class AddEditExpenseViewModel @Inject constructor(
                     }
                 }
             }
-
         }
 
         viewModelScope.launch(Dispatchers.IO) {
@@ -95,9 +86,7 @@ class AddEditExpenseViewModel @Inject constructor(
                 paymentCurrency.value = currency
             }
         }
-
     }
-
 
     private val _eventFlow = MutableSharedFlow<ExpenseUiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
@@ -106,7 +95,6 @@ class AddEditExpenseViewModel @Inject constructor(
 
     fun onEvent(event: AddEditExpenseEvent) {
         when (event) {
-
             is AddEditExpenseEvent.EnteredAmount -> {
                 _expenseAmount.value = expenseAmount.value.copy(
                     expenseAmount = event.value
@@ -158,7 +146,6 @@ class AddEditExpenseViewModel @Inject constructor(
         }
     }
 }
-
 
 sealed class ExpenseUiEvent {
     data class ShowSnackbar(val message: String) : ExpenseUiEvent()

@@ -30,7 +30,8 @@ fun ListPlaceholder(
             )
             .fillMaxSize()
     ) {
-        Icon(modifier = Modifier.size(60.dp),
+        Icon(
+            modifier = Modifier.size(60.dp),
             painter = painterResource(R.drawable.wallet),
             tint = MaterialTheme.colors.onBackground,
             contentDescription = "no item added"

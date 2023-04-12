@@ -19,12 +19,10 @@ import com.maxkeppeler.sheets.calendar.models.CalendarStyle
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 
-
 @Composable
 fun MonthRangeToggle(
     reportsViewModel: ReportsViewModel = hiltViewModel()
 ) {
-
     val startDate by reportsViewModel.startMonthAndYearState.collectAsState()
 
     val endDate by reportsViewModel.endMonthAndYearState.collectAsState()
@@ -70,7 +68,7 @@ fun MonthRangeToggle(
         selection = CalendarSelection.Date { date ->
             val newDate = date.atStartOfDay().plusDays(1)
             endMonthYear = newDate.minusSeconds(1)
-           reportsViewModel.onEvent(ReportsEvent.EndMonthYear(newDate))
+            reportsViewModel.onEvent(ReportsEvent.EndMonthYear(newDate))
         }
     )
 
@@ -83,7 +81,6 @@ fun MonthRangeToggle(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.padding(vertical = 8.dp)
     ) {
-
         Text(
             text = startMonthYear.format(DateTimeFormatter.ofPattern("MM yyyy")),
             fontWeight = FontWeight.Bold,
@@ -92,7 +89,6 @@ fun MonthRangeToggle(
                 .padding(horizontal = 8.dp)
                 .clickable {
                     startCalenderState.show()
-
                 }
         )
 

@@ -25,5 +25,4 @@ interface DataStoreOperation {
     suspend fun readLimitDurationFromDataStore(): Flow<Int>
 
     suspend fun eraseDataStore()
-
 }

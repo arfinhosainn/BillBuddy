@@ -13,6 +13,5 @@ data class PaymentHistory(
     val paymentAmount: String,
     val paymentIcon: Int,
     val paymentDate: LocalDate,
-    val paymentHistoryDate: LocalDate = LocalDate.now(),
+    val paymentHistoryDate: LocalDate = LocalDate.now()
 )
-

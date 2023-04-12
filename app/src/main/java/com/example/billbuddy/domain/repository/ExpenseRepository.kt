@@ -17,14 +17,11 @@ interface ExpenseRepository {
 
     fun get3DayExpenses(): Flow<Resource<List<Expense>>>
 
-    fun get14DayExpenses():Flow<Resource<List<Expense>>>
+    fun get14DayExpenses(): Flow<Resource<List<Expense>>>
 
     suspend fun deleteExpense(expense: Expense)
 
     suspend fun getExpenseById(id: Int): Expense?
 
-   suspend fun getExpensesForMonthRange(startMonth: LocalDateTime, endMonth: LocalDateTime): List<Expense>
-
-
-
+    suspend fun getExpensesForMonthRange(startMonth: LocalDateTime, endMonth: LocalDateTime): List<Expense>
 }

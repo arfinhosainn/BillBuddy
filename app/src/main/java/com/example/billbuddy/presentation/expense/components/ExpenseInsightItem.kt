@@ -19,7 +19,10 @@ import com.example.billbuddy.util.ExpenseCategoryIcon
 
 @Composable
 fun ExpenseInsightItem(
-    cat: ExpenseCategoryIcon, currencyCode: String, amount: Double, percent: Float
+    cat: ExpenseCategoryIcon,
+    currencyCode: String,
+    amount: Double,
+    percent: Float
 ) {
     Card(
         elevation = 0.dp,
@@ -44,7 +47,6 @@ fun ExpenseInsightItem(
             )
 
             Spacer(modifier = Modifier.width(MaterialTheme.spacing.small))
-
 
             Column(
                 verticalArrangement = Arrangement.SpaceBetween,
@@ -73,8 +75,6 @@ fun ExpenseInsightItem(
                     textAlign = TextAlign.End
                 )
             }
-
         }
     }
-
 }

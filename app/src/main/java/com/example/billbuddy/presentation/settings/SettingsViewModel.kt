@@ -49,9 +49,7 @@ class SettingsViewModel @Inject constructor(
                 expenseLimitDuration.value.expenseLimitDuration = duration
             }
         }
-
     }
-
 
     fun editExpenseLimit(amount: Double) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -71,5 +69,4 @@ class SettingsViewModel @Inject constructor(
             dataStoreOperation.writeLimitDurationToDataStore(duration)
         }
     }
-
 }

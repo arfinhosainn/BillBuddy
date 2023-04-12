@@ -1,6 +1,5 @@
 package com.example.billbuddy.presentation.expense
 
-import com.example.billbuddy.R
 import java.time.LocalDateTime
 
 data class ExpenseScreenState(

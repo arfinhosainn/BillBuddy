@@ -18,7 +18,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -38,7 +37,6 @@ fun AuthScreen(
     viewModel: AuthScreenViewModel = hiltViewModel(),
     navController: NavController
 ) {
-
     var mobile by remember {
         mutableStateOf("+880")
     }
@@ -49,9 +47,9 @@ fun AuthScreen(
         mutableStateOf(false)
     }
 
-
-    if (isDialog)
+    if (isDialog) {
         CommonDialog()
+    }
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -65,11 +63,13 @@ fun AuthScreen(
         ) {
             Image(
                 painter = painterResource(id = R.drawable.logofull),
-                contentDescription = "logo", modifier = Modifier.size(250.dp)
+                contentDescription = "logo",
+                modifier = Modifier.size(250.dp)
             )
             Text(
                 modifier = Modifier.align(Start),
-                text = "Welcome to BillBuddy", style =
+                text = "Welcome to BillBuddy",
+                style =
                 TextStyle(
                     fontFamily = FontAverta,
                     fontWeight = FontWeight.Bold,
@@ -103,11 +103,13 @@ fun AuthScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp)
-                .align(Alignment.BottomCenter), shape = RoundedCornerShape(10.dp),
+                .align(Alignment.BottomCenter),
+            shape = RoundedCornerShape(10.dp),
             onClick = {
                 scope.launch {
                     viewModel.createUserWithPhone(
-                        mobile, activity
+                        mobile,
+                        activity
                     ).collect { result ->
                         when (result) {
                             is Resource.Success -> {
@@ -125,10 +127,10 @@ fun AuthScreen(
                         }
                     }
                 }
-
             },
             colors = ButtonDefaults.buttonColors(
-                backgroundColor = DarkGreen, contentColor = Color.White
+                backgroundColor = DarkGreen,
+                contentColor = Color.White
             )
         ) {
             Text(
@@ -143,12 +145,11 @@ fun AuthScreen(
 }
 
 //
-//@Preview
-//@Composable
-//fun PreviewAuthScreen() {
+// @Preview
+// @Composable
+// fun PreviewAuthScreen() {
 //    AuthScreen()
-//}
-
+// }
 
 @Composable
 fun CommonDialog() {
@@ -156,7 +157,6 @@ fun CommonDialog() {
         CircularProgressIndicator()
     }
 }
-
 
 fun Context.showMsg(
     msg: String,

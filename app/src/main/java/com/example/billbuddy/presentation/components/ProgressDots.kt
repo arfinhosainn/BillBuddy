@@ -1,11 +1,9 @@
 package com.example.billbuddy.presentation.components
 
-
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -24,18 +22,18 @@ fun ProgressDots(
     modifier: Modifier = Modifier.padding(4.dp),
     color: Color = DarkGreen
 ) {
-
     val dots = listOf(
         remember { Animatable(0f) },
         remember { Animatable(0f) },
-        remember { Animatable(0f) },
+        remember { Animatable(0f) }
     )
 
     dots.forEachIndexed { index, animatable ->
         LaunchedEffect(animatable) {
             delay(index * 100L)
             animatable.animateTo(
-                targetValue = 1f, animationSpec = infiniteRepeatable(
+                targetValue = 1f,
+                animationSpec = infiniteRepeatable(
                     animation = keyframes {
                         durationMillis = 2000
                         0.0f at 0 with LinearOutSlowInEasing
@@ -43,7 +41,7 @@ fun ProgressDots(
                         0.0f at 400 with LinearOutSlowInEasing
                         0.0f at 2000
                     },
-                    repeatMode = RepeatMode.Restart,
+                    repeatMode = RepeatMode.Restart
                 )
             )
         }
@@ -60,7 +58,7 @@ fun ProgressDots(
                     .size(25.dp)
                     .graphicsLayer {
                         translationY = -dy * travelDistance
-                    },
+                    }
             ) {
                 Row(modifier) {
                     dots.forEachIndexed { index, _ ->
@@ -81,7 +79,5 @@ fun ProgressDots(
                 }
             }
         }
-
     }
 }
-

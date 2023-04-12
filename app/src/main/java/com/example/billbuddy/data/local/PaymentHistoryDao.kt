@@ -11,9 +11,7 @@ interface PaymentHistoryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPaymentHistory(paymentHistory: PaymentHistory)
 
-
     @Transaction
     @Query("SELECT * FROM payment_history_table")
-    fun getPaymentHistory():Flow<List<PaymentAndPaymentHistory>>
-
+    fun getPaymentHistory(): Flow<List<PaymentAndPaymentHistory>>
 }

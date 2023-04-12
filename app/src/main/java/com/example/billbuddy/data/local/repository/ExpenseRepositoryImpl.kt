@@ -94,7 +94,6 @@ class ExpenseRepositoryImpl @Inject constructor(
         return expenseDao.getExpenseById(id)
     }
 
-
     override suspend fun getExpensesForMonthRange(
         startMonth: LocalDateTime,
         endMonth: LocalDateTime

@@ -39,23 +39,27 @@ fun ReportScreen(
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            TopAppBar(backgroundColor = Color.White, elevation = 0.dp,
+            TopAppBar(
+                backgroundColor = Color.White,
+                elevation = 0.dp,
                 title = {
                     Text(
-                        text = "Savings", style =
+                        text = "Savings",
+                        style =
                         TextStyle(
                             fontFamily = FontAverta,
                             fontWeight = FontWeight.Bold,
                             fontSize = Heading
                         )
                     )
-                }, navigationIcon = {
+                },
+                navigationIcon = {
                     IconButton(onClick = { navController.navigateUp() }) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "back", tint = Color.Black
+                            contentDescription = "back",
+                            tint = Color.Black
                         )
-
                     }
                 }
             )
@@ -73,7 +77,8 @@ fun ReportScreen(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = "Savings", style =
+                    text = "Savings",
+                    style =
                     TextStyle(
                         fontFamily = FontAverta,
                         fontWeight = FontWeight.Bold,
@@ -82,7 +87,8 @@ fun ReportScreen(
                     )
                 )
                 Text(
-                    text = "Set Goal", style =
+                    text = "Set Goal",
+                    style =
                     TextStyle(
                         fontFamily = FontAverta,
                         fontWeight = FontWeight.Bold,
@@ -108,7 +114,6 @@ fun ReportScreen(
                     .padding(horizontal = 25.dp),
                 horizontalArrangement = Arrangement.Center
             ) {
-
                 if (expenseAmount.expense.isNotEmpty()) {
                     val barData = expenseAmount.expense
                         .groupBy { it.expenseDate.month }
@@ -127,9 +132,13 @@ fun ReportScreen(
                                 it.expenseDate.month.toString() == barData.xValue
                             }.sumOf { it.expenseAmount.toInt() }.toFloat()
                         },
-                        color = if (barData.any { it.xValue == selectedBarXValue.value }) Color(
-                            0xFF008E59
-                        ) else Color(0xFFff3c3c)
+                        color = if (barData.any { it.xValue == selectedBarXValue.value }) {
+                            Color(
+                                0xFF008E59
+                            )
+                        } else {
+                            Color(0xFFff3c3c)
+                        }
                     )
                 } else {
                     Column(
@@ -150,7 +159,8 @@ fun ReportScreen(
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .fillMaxHeight(), backgroundColor = LightBlack
+                    .fillMaxHeight(),
+                backgroundColor = LightBlack
             ) {
                 Column(
                     modifier = Modifier
@@ -208,7 +218,6 @@ fun ReportScreen(
                             fontWeight = FontWeight.Medium,
                             modifier = Modifier.padding(top = 16.dp)
                         )
-
                     }
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -228,7 +237,6 @@ fun ReportScreen(
                             fontWeight = FontWeight.Medium,
                             modifier = Modifier.padding(top = 16.dp)
                         )
-
                     }
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -248,14 +256,9 @@ fun ReportScreen(
                             fontWeight = FontWeight.Medium,
                             modifier = Modifier.padding(top = 16.dp)
                         )
-
                     }
-
                 }
             }
-
         }
     }
 }
-
-

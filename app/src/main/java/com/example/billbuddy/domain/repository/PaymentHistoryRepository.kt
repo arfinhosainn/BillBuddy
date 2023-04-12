@@ -7,6 +7,5 @@ import kotlinx.coroutines.flow.Flow
 interface PaymentHistoryRepository {
 
     suspend fun insertPaymentHistory(paymentHistory: PaymentHistory)
-    fun getPaymentHistory():Flow<List<PaymentAndPaymentHistory>>
-
+    fun getPaymentHistory(): Flow<List<PaymentAndPaymentHistory>>
 }

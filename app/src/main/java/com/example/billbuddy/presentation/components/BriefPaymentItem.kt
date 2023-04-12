@@ -28,7 +28,6 @@ fun BriefPaymentItem(
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 
-
 ) {
     Card(
         modifier = modifier
@@ -36,7 +35,8 @@ fun BriefPaymentItem(
                 onClick()
             },
         shape = RoundedCornerShape(10.dp),
-        elevation = 0.dp, backgroundColor = LightGreen
+        elevation = 0.dp,
+        backgroundColor = LightGreen
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -55,7 +55,8 @@ fun BriefPaymentItem(
             Spacer(modifier = Modifier.width(16.dp))
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = paymentTitle, style = TextStyle(
+                    text = paymentTitle,
+                    style = TextStyle(
                         color = Color.Black,
                         fontFamily = FontAverta,
                         fontSize = 15.sp,
@@ -63,7 +64,8 @@ fun BriefPaymentItem(
                     )
                 )
                 Text(
-                    text = paymentDate, style = TextStyle(
+                    text = paymentDate,
+                    style = TextStyle(
                         color = LightBlack100,
                         fontFamily = FontAverta,
                         fontWeight = FontWeight.Medium

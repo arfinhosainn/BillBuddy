@@ -1,6 +1,5 @@
 package com.example.billbuddy.presentation.components
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -28,13 +27,13 @@ fun CardView(
     onClick: () -> Unit
 
 ) {
-
     Card(
         modifier = modifier
             .fillMaxWidth()
             .height(185.dp),
         backgroundColor = LightGreen,
-        shape = RoundedCornerShape(15.dp), elevation = 0.dp
+        shape = RoundedCornerShape(15.dp),
+        elevation = 0.dp
     ) {
         Column(
             modifier = modifier
@@ -70,7 +69,8 @@ fun CardView(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = billTitle, style = TextStyle(
+                    text = billTitle,
+                    style = TextStyle(
                         color = Color.Black,
                         fontFamily = FontAverta,
                         fontSize = 15.sp,
@@ -79,7 +79,8 @@ fun CardView(
                 )
 
                 Text(
-                    text = billDate, style = TextStyle(
+                    text = billDate,
+                    style = TextStyle(
                         color = LightBlack100,
                         fontSize = 15.sp,
                         fontFamily = FontAverta,
@@ -95,17 +96,20 @@ fun CardView(
                 Button(
                     onClick = {
                         // TODO:
-                    }, modifier = modifier
+                    },
+                    modifier = modifier
                         .weight(4f)
-                        .height(45.dp), colors = ButtonDefaults.buttonColors(
+                        .height(45.dp),
+                    colors = ButtonDefaults.buttonColors(
                         backgroundColor = LightGreen100
                     )
                 ) {
                     Text(
-                        text = billPaid, style = TextStyle(
+                        text = billPaid,
+                        style = TextStyle(
                             color = DarkGreen,
                             fontWeight = FontWeight.Medium,
-                            fontFamily = FontAverta,
+                            fontFamily = FontAverta
                         )
                     )
                 }
@@ -114,21 +118,23 @@ fun CardView(
                 Button(
                     onClick = {
                         onClick()
-                    }, modifier = modifier
+                    },
+                    modifier = modifier
                         .weight(4f)
-                        .height(45.dp), colors = ButtonDefaults.buttonColors(
+                        .height(45.dp),
+                    colors = ButtonDefaults.buttonColors(
                         backgroundColor = DarkGreen
                     )
                 ) {
                     Text(
-                        text = billPay, style = TextStyle(
+                        text = billPay,
+                        style = TextStyle(
                             color = Color.White,
                             fontWeight = FontWeight.Medium,
-                            fontFamily = FontAverta,
+                            fontFamily = FontAverta
                         )
                     )
                 }
-
             }
             Spacer(modifier = Modifier.height(20.dp))
 
@@ -137,22 +143,21 @@ fun CardView(
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = remainingBudget, style = TextStyle(
+                    text = remainingBudget,
+                    style = TextStyle(
                         color = LightBlack200,
                         fontFamily = FontAverta,
                         fontWeight = FontWeight.Medium
                     )
                 )
             }
-
         }
     }
-
 }
 
-//@Preview(showBackground = true)
-//@Composable
-//fun PreviewCardView() {
+// @Preview(showBackground = true)
+// @Composable
+// fun PreviewCardView() {
 //    CardView(
 //        billTitle = "Electricity Bill",
 //        billAmount = " ${987.00}".toDouble(),
@@ -164,4 +169,4 @@ fun CardView(
 //    )
 //
 //
-//}
+// }

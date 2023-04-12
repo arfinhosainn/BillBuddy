@@ -30,9 +30,7 @@ class DateConverter {
         return value?.let { LocalDate.parse(it, formatter) }
     }
 
-
     private val localDateTime = DateTimeFormatter.ofPattern("MM dd yyyy hh:mm:ss a")
-
 
     @TypeConverter
     fun fromLocalDate(date: LocalDateTime?): String? {
@@ -45,6 +43,4 @@ class DateConverter {
             LocalDateTime.parse(it, localDateTime)
         }
     }
-
-
 }

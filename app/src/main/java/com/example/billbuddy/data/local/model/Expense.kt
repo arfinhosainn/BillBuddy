@@ -21,4 +21,3 @@ data class Expense(
 )
 
 class InvalidExpenseException(message: String) : Exception(message)
-

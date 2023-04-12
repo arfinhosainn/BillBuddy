@@ -1,4 +1,4 @@
-package com.example.billbuddy.presentation.your_payments.components
+package com.example.billbuddy.presentation.yourpayments.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.billbuddy.presentation.home.HomeViewModel
-import com.example.billbuddy.presentation.your_payments.add_edit_payment.AddEditPaymentViewModel
+import com.example.billbuddy.presentation.yourpayments.writepayments.AddEditPaymentViewModel
 import com.example.billbuddy.ui.theme.DarkGreen
 import com.example.billbuddy.ui.theme.LightGreen100
 import com.example.billbuddy.ui.theme.LightRed
@@ -59,9 +59,11 @@ fun YourPaymentAndBudgetBox(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "This Month", style = TextStyle(
+                        text = "This Month",
+                        style = TextStyle(
                             color = DarkGreen,
-                            fontFamily = FontAverta, fontWeight = FontWeight.Medium
+                            fontFamily = FontAverta,
+                            fontWeight = FontWeight.Medium
                         )
                     )
                 }
@@ -83,15 +85,19 @@ fun YourPaymentAndBudgetBox(
                         verticalArrangement = Arrangement.Center
                     ) {
                         Text(
-                            text = "To Pay", style = TextStyle(
+                            text = "To Pay",
+                            style = TextStyle(
                                 color = Color.White,
-                                fontFamily = FontAverta, fontWeight = FontWeight.Normal
+                                fontFamily = FontAverta,
+                                fontWeight = FontWeight.Normal
                             )
                         )
                         Text(
-                            text = total.toString(), style = TextStyle(
+                            text = total.toString(),
+                            style = TextStyle(
                                 color = Color.White,
-                                fontFamily = FontAverta, fontWeight = FontWeight.Medium,
+                                fontFamily = FontAverta,
+                                fontWeight = FontWeight.Medium,
                                 fontSize = 15.sp
                             )
                         )

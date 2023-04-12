@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.billbuddy.presentation.your_payments.add_edit_payment.addCommas
+import com.example.billbuddy.presentation.yourpayments.writepayments.addCommas
 import com.example.billbuddy.ui.theme.*
 import com.example.billbuddy.util.ExpenseCategoryIcon
 import com.example.billbuddy.util.FontAverta
@@ -43,14 +43,11 @@ fun AddEditExpenseScreen(
     navController: NavController,
     addEditExpenseViewModel: AddEditExpenseViewModel = hiltViewModel()
 ) {
-
     val scaffoldState = rememberScaffoldState()
     val expenseAmount by addEditExpenseViewModel.expenseAmount.collectAsState()
     val context = LocalContext.current
     val currencyCode by addEditExpenseViewModel.paymentCurrency.collectAsState()
     var isFieldFocused by remember { mutableStateOf(false) }
-
-
 
     LaunchedEffect(key1 = true) {
         addEditExpenseViewModel.eventFlow.collectLatest { event ->
@@ -68,7 +65,6 @@ fun AddEditExpenseScreen(
         }
     }
 
-
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
@@ -83,7 +79,8 @@ fun AddEditExpenseScreen(
                         horizontalArrangement = Arrangement.Center
                     ) {
                         Text(
-                            text = "Add an expense", style =
+                            text = "Add an expense",
+                            style =
                             TextStyle(
                                 fontFamily = FontAverta,
                                 fontWeight = FontWeight.Bold,
@@ -96,7 +93,8 @@ fun AddEditExpenseScreen(
                     IconButton(onClick = { navController.navigateUp() }) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "back", tint = Color.Black
+                            contentDescription = "back",
+                            tint = Color.Black
                         )
                     }
                 }
@@ -117,7 +115,8 @@ fun AddEditExpenseScreen(
                 item {
                     Spacer(modifier = Modifier.height(15.dp))
                     Text(
-                        text = "Amount", style = TextStyle(
+                        text = "Amount",
+                        style = TextStyle(
                             color = LightBlack200,
                             fontFamily = FontAverta,
                             fontWeight = FontWeight.Medium,
@@ -156,16 +155,16 @@ fun AddEditExpenseScreen(
                             focusedIndicatorColor = Color.Transparent,
                             unfocusedIndicatorColor = Color.Transparent
                         ),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
 
                     )
-
                 }
 
                 item {
                     Spacer(modifier = Modifier.height(50.dp))
                     Text(
-                        text = "Choose the category", style = TextStyle(
+                        text = "Choose the category",
+                        style = TextStyle(
                             color = LightBlack200,
                             fontFamily = FontAverta,
                             fontWeight = FontWeight.Medium,
@@ -203,10 +202,12 @@ fun AddEditExpenseScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp)
-                    .align(Alignment.BottomCenter), shape = RoundedCornerShape(10.dp),
+                    .align(Alignment.BottomCenter),
+                shape = RoundedCornerShape(10.dp),
                 onClick = { addEditExpenseViewModel.onEvent(AddEditExpenseEvent.SaveExpense) },
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = DarkGreen, contentColor = Color.White
+                    backgroundColor = DarkGreen,
+                    contentColor = Color.White
                 )
             ) {
                 Text(
@@ -224,11 +225,11 @@ fun AddEditExpenseScreen(
 @Composable
 fun ExpenseCategoryIconItem(
     expenseIcon: ExpenseCategoryIcon,
-    onIconSelected: (ExpenseCategoryIcon) -> Unit,
+    onIconSelected: (ExpenseCategoryIcon) -> Unit
 ) {
     var isSelected by remember { mutableStateOf(false) }
 
-    Column (horizontalAlignment = Alignment.CenterHorizontally){
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Box(
             modifier = Modifier
                 .padding(8.dp)
@@ -249,11 +250,14 @@ fun ExpenseCategoryIconItem(
                     contentDescription = null,
                     modifier = Modifier
                         .size(30.dp),
-                    colorFilter = if (isSelected) ColorFilter.tint(Color.White) else ColorFilter.tint(
-                        Color.Black
-                    )
+                    colorFilter = if (isSelected) {
+                        ColorFilter.tint(Color.White)
+                    } else {
+                        ColorFilter.tint(
+                            Color.Black
+                        )
+                    }
                 )
-
             }
         }
         Text(
@@ -264,7 +268,4 @@ fun ExpenseCategoryIconItem(
             modifier = Modifier.padding(top = 4.dp)
         )
     }
-
 }
-
-

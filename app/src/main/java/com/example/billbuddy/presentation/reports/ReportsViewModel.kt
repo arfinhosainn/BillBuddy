@@ -17,19 +17,16 @@ class ReportsViewModel @Inject constructor(
     private val _expenseAmount = MutableStateFlow(ReportsScreenState())
     val expenseAmount = _expenseAmount.asStateFlow()
 
-
     private val _startMonthAndYearState = MutableStateFlow(ReportsScreenState())
     val startMonthAndYearState = _startMonthAndYearState.asStateFlow()
 
     private val _endMonthAndYearState = MutableStateFlow(ReportsScreenState())
     val endMonthAndYearState = _endMonthAndYearState.asStateFlow()
 
-
     private val _startAndEndMonthYearState = MutableStateFlow(
         ReportsScreenState()
     )
     val startAndEndMonthYearState = _startAndEndMonthYearState.asStateFlow()
-
 
     fun onEvent(event: ReportsEvent) {
         when (event) {
@@ -41,9 +38,7 @@ class ReportsViewModel @Inject constructor(
                     )
                     _startAndEndMonthYearState.value =
                         _startAndEndMonthYearState.value.copy(expense = expenses)
-
                 }
-
             }
             is ReportsEvent.EndMonthYear -> {
                 _endMonthAndYearState.value = endMonthAndYearState.value.copy(

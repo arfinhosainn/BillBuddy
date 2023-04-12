@@ -1,6 +1,5 @@
 package com.example.billbuddy.presentation.settings.components
 
-
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -17,24 +16,26 @@ import androidx.navigation.NavController
 import com.example.billbuddy.R
 import com.example.billbuddy.presentation.navigation.Screens
 import com.example.billbuddy.ui.theme.LightGreen
-import com.example.billbuddy.ui.theme.LightGreen100
 import com.example.billbuddy.util.FontAverta
 
 @Composable
 fun PaymentHistory(navController: NavController) {
-    Card(elevation = 0.dp,
+    Card(
+        elevation = 0.dp,
         modifier = Modifier
             .fillMaxWidth()
             .clickable {
                 navController.navigate(Screens.History.route)
             }
-            .height(60.dp), shape = RoundedCornerShape(0.dp),
+            .height(60.dp),
+        shape = RoundedCornerShape(0.dp),
         backgroundColor = LightGreen
     ) {
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 15.dp), verticalAlignment = Alignment.CenterVertically
+                .padding(horizontal = 15.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 text = "Payments History",
@@ -45,16 +46,12 @@ fun PaymentHistory(navController: NavController) {
             )
 
             CompositionLocalProvider(LocalContentAlpha provides ContentAlpha.medium) {
-
                 Icon(
                     painter = painterResource(R.drawable.edit),
                     contentDescription = null,
                     modifier = Modifier.then(Modifier.size(16.dp))
                 )
             }
-
         }
-
     }
 }
-

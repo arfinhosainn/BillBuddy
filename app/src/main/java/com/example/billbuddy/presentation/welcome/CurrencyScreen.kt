@@ -61,9 +61,8 @@ fun CurrencyScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(15.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-
                 Card(elevation = 1.dp) {
                     Text(
                         text = "Set currency",
@@ -138,12 +137,18 @@ fun CurrencyScreen(
                                     },
                                     modifier = Modifier.fillMaxWidth(),
                                     colors = ButtonDefaults.buttonColors(
-                                        backgroundColor = if (selectedCountry == currency)
+                                        backgroundColor = if (selectedCountry == currency) {
                                             DarkGreen
-                                        else Color.DarkGray.copy(alpha = 0.1f),
-                                        contentColor = if (selectedCountry == currency)
-                                            contentColorFor(backgroundColor = MaterialTheme.colors.primary)
-                                        else MaterialTheme.colors.onSurface
+                                        } else {
+                                            Color.DarkGray.copy(alpha = 0.1f)
+                                        },
+                                        contentColor = if (selectedCountry == currency) {
+                                            contentColorFor(
+                                                backgroundColor = MaterialTheme.colors.primary
+                                            )
+                                        } else {
+                                            MaterialTheme.colors.onSurface
+                                        }
                                     ),
                                     shape = RoundedCornerShape(8.dp),
                                     contentPadding = PaddingValues(20.dp)
@@ -204,9 +209,9 @@ fun ContinueButton(
         Button(
             onClick = {
                 welcomeViewModel.saveCurrency(currency.currencyCode)
-                if (setting!!)
+                if (setting!!) {
                     navController.popBackStack()
-                else {
+                } else {
                     navController.popBackStack()
                     welcomeViewModel.saveOnBoardingState(completed = true)
                     navController.navigate(Screens.Home.route)

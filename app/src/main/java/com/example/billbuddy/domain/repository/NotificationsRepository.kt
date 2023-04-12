@@ -7,5 +7,4 @@ import kotlinx.coroutines.flow.Flow
 interface NotificationsRepository {
 
     fun getAllNotifications(): Flow<Resource<List<Notification>>>
-
 }

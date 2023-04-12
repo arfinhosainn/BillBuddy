@@ -13,6 +13,4 @@ interface PaymentRepository {
     suspend fun getPaymentById(id: Int): Payment?
 
     suspend fun deletePayment(payments: Payment)
-
-
 }

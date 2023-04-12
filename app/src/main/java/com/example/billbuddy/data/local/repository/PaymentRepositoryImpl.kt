@@ -19,7 +19,7 @@ class PaymentRepositoryImpl @Inject constructor(
         if (payments.paymentTitle.isBlank()) {
             throw InvalidPaymentException("The title of the payment can't be empty")
         }
-        if (payments.paymentAmount.isBlank()){
+        if (payments.paymentAmount.isBlank()) {
             throw InvalidPaymentException("The amount of the payment can't be empty")
         }
         paymentDao.insertPayments(payments = payments)

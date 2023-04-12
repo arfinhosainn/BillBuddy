@@ -56,10 +56,8 @@ fun PagerScreen(
             style = MaterialTheme.typography.body2,
             modifier = Modifier.fillMaxWidth(.7f)
         )
-
     }
 }
-
 
 @ExperimentalPagerApi
 @Composable
@@ -75,11 +73,14 @@ fun GetStartedButton(modifier: Modifier, pagerState: PagerState, onClick: () -> 
             Button(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(50.dp), shape = RoundedCornerShape(10.dp),
+                    .height(50.dp),
+                shape = RoundedCornerShape(10.dp),
                 onClick = { onClick() },
                 colors = ButtonDefaults.buttonColors(
-                    backgroundColor = DarkGreen, contentColor = Color.White
-                ),  contentPadding = PaddingValues(vertical = 12.dp)
+                    backgroundColor = DarkGreen,
+                    contentColor = Color.White
+                ),
+                contentPadding = PaddingValues(vertical = 12.dp)
             ) {
                 Text(
                     text = "Get Started",
@@ -105,7 +106,6 @@ fun GetStartedButton(modifier: Modifier, pagerState: PagerState, onClick: () -> 
         }
     }
 }
-
 
 @Composable
 @Preview(showBackground = true)

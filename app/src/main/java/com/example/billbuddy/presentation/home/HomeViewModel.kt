@@ -20,10 +20,8 @@ class HomeViewModel @Inject constructor(
     private val _paymentList = MutableStateFlow(PaymentListState())
     val paymentList = _paymentList.asStateFlow()
 
-
     init {
         getPayments()
-
     }
 
     private fun getPayments() {

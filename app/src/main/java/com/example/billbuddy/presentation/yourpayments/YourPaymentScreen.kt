@@ -1,4 +1,4 @@
-package com.example.billbuddy.presentation.your_payments
+package com.example.billbuddy.presentation.yourpayments
 
 import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -32,7 +32,7 @@ import com.example.billbuddy.data.local.model.Payment
 import com.example.billbuddy.presentation.components.PaymentCardView
 import com.example.billbuddy.presentation.home.HomeViewModel
 import com.example.billbuddy.presentation.navigation.Screens
-import com.example.billbuddy.presentation.your_payments.components.YourPaymentAndBudgetBox
+import com.example.billbuddy.presentation.yourpayments.components.YourPaymentAndBudgetBox
 import com.example.billbuddy.ui.theme.DarkGreen
 import com.example.billbuddy.ui.theme.Heading
 import com.example.billbuddy.ui.theme.LightBlack200
@@ -44,39 +44,42 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun YourPaymentScreen(navController: NavController) {
-
     val scaffoldState = rememberScaffoldState()
     val pagerState = rememberPagerState()
 
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            TopAppBar(backgroundColor = Color.White, elevation = 0.dp,
+            TopAppBar(
+                backgroundColor = Color.White,
+                elevation = 0.dp,
                 title = {
                     Text(
-                        text = "Home", style =
+                        text = "Home",
+                        style =
                         TextStyle(
                             fontFamily = FontAverta,
                             fontWeight = FontWeight.Bold,
                             fontSize = Heading
                         )
                     )
-                }, navigationIcon = {
+                },
+                navigationIcon = {
                     IconButton(onClick = { navController.navigateUp() }) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Home", tint = Color.Black
+                            contentDescription = "Home",
+                            tint = Color.Black
                         )
-
                     }
-                }, actions = {
-
+                },
+                actions = {
                     IconButton(onClick = { navController.navigateUp() }) {
                         Icon(
                             imageVector = Icons.Default.Menu,
-                            contentDescription = "back", tint = Color.Black
+                            contentDescription = "back",
+                            tint = Color.Black
                         )
-
                     }
                 }
             )
@@ -87,14 +90,13 @@ fun YourPaymentScreen(navController: NavController) {
                 .fillMaxSize()
                 .padding(15.dp)
         ) {
-
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-
                 Text(
-                    text = "Your Payments", style =
+                    text = "Your Payments",
+                    style =
                     TextStyle(
                         fontFamily = FontAverta,
                         fontWeight = FontWeight.Bold,
@@ -105,16 +107,16 @@ fun YourPaymentScreen(navController: NavController) {
                 IconButton(onClick = { navController.navigateUp() }) {
                     Icon(
                         imageVector = Icons.Default.Settings,
-                        contentDescription = "back", tint = Color.Black
+                        contentDescription = "back",
+                        tint = Color.Black
                     )
-
 
                     IconButton(onClick = { navController.navigateUp() }) {
                         Icon(
                             imageVector = Icons.Default.Notifications,
-                            contentDescription = "back", tint = Color.Black
+                            contentDescription = "back",
+                            tint = Color.Black
                         )
-
                     }
                 }
             }
@@ -125,13 +127,11 @@ fun YourPaymentScreen(navController: NavController) {
     }
 }
 
-
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun TabView(
     pagerState: PagerState
 ) {
-
     val tabItem = listOf(
         "Upcoming" to R.drawable.broadband,
         "OverDue" to R.drawable.tv,
@@ -167,7 +167,8 @@ fun TabView(
                     scope.launch {
                         pagerState.animateScrollToPage(index)
                     }
-                }, enabled = true
+                },
+                enabled = true
             ) {
                 Column(
                     modifier = Modifier
@@ -211,46 +212,36 @@ fun TabView(
                             FontWeight.Normal
                         }
                     )
-
                 }
             }
         }
     }
-
 }
-
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalPagerApi::class)
 @Composable
 fun TabPager(
-    pagerState: PagerState, navController: NavController
+    pagerState: PagerState,
+    navController: NavController
 ) {
-
     CompositionLocalProvider(LocalOverscrollConfiguration provides null) {
         Box(modifier = Modifier.fillMaxSize()) {
             HorizontalPager(count = 3, state = pagerState) { pager ->
                 when (pager) {
                     0 -> {
                         PaymentLazyList(navController = navController)
-
                     }
                     1 -> {
                         MockLazyList1()
-
                     }
                     2 -> {
                         MockLazyList2()
                     }
                 }
-
             }
-
         }
-
     }
 }
-
-
 
 @Composable
 fun PaymentList(
@@ -264,7 +255,6 @@ fun PaymentList(
         paymentAmount = payment.paymentAmount.toString(),
         onClick = onClick
     )
-
 }
 
 @Composable
@@ -272,25 +262,21 @@ fun PaymentLazyList(
     homeViewModel: HomeViewModel = hiltViewModel(),
     navController: NavController
 ) {
-
     val paymentListState by homeViewModel.paymentList.collectAsState()
     val paymentList = paymentListState.payments
-
-
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-
         items(paymentList) {
-            PaymentList(payment = it,
+            PaymentList(
+                payment = it,
                 onClick = {
                     navController.navigate(Screens.AddEditPayment.route + "?paymentId=${it.id}")
                     Log.d("paymentId", "PaymentLazyList: ${it.id}")
                 }
             )
-
         }
     }
 }
@@ -304,7 +290,6 @@ fun MockLazyList1() {
             Text(text = it.toString())
         }
     }
-
 }
 
 @Composable
@@ -316,6 +301,4 @@ fun MockLazyList2() {
             Text(text = it.toString())
         }
     }
-
 }
-

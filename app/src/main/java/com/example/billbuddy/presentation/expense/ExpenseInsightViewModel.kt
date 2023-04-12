@@ -18,10 +18,8 @@ class ExpenseInsightViewModel @Inject constructor(
     private val expenseRepository: ExpenseRepository
 ) : ViewModel() {
 
-
     private var _filteredExpense = MutableStateFlow(ExpenseInsightScreenState().payments)
     val filteredExpense = _filteredExpense.asStateFlow()
-
 
     private var _fakeList = MutableStateFlow(ExpenseInsightScreenState())
     val fakeList = _fakeList.asStateFlow()
@@ -31,13 +29,11 @@ class ExpenseInsightViewModel @Inject constructor(
         getAllExpenses()
     }
 
-
     fun getFilteredExpense(duration: Int = 4) {
         viewModelScope.launch(Dispatchers.IO) {
             filterExpense(duration)
         }
     }
-
 
     fun getAllExpenses() {
         viewModelScope.launch {
@@ -45,15 +41,13 @@ class ExpenseInsightViewModel @Inject constructor(
                 when (it) {
                     is Resource.Error -> null
                     is Resource.Loading -> null
-                    is Resource.Success -> _fakeList.value =
-                        ExpenseInsightScreenState(payments = it.data ?: emptyList())
+                    is Resource.Success ->
+                        _fakeList.value =
+                            ExpenseInsightScreenState(payments = it.data ?: emptyList())
                 }
-
             }
-
         }
     }
-
 
     private suspend fun filterExpense(duration: Int) {
         when (duration) {
@@ -82,12 +76,8 @@ class ExpenseInsightViewModel @Inject constructor(
                 expenseRepository.getAllExpenses().collectLatest { filteredResults ->
                     _filteredExpense.value = filteredResults.data ?: emptyList()
                     Log.d("ExpenseData", "Size of expenses: ${filteredResults.data}")
-
                 }
             }
         }
-
     }
-
-
 }

@@ -5,20 +5,23 @@ import androidx.room.migration.AutoMigrationSpec
 import com.example.billbuddy.data.local.converter.DateConverter
 import com.example.billbuddy.data.local.model.*
 
-
 @Database(
     entities =
-    [TransactionDto::class,
+    [
+        TransactionDto::class,
         Payment::class,
         Notification::class,
         Expense::class,
-        PaymentHistory::class],
+        PaymentHistory::class
+    ],
     version = 4,
-    autoMigrations = [AutoMigration(
-        from = 3,
-        to = 4,
-        spec = BillBuddyDatabase.Migration2to3::class
-    )]
+    autoMigrations = [
+        AutoMigration(
+            from = 3,
+            to = 4,
+            spec = BillBuddyDatabase.Migration2to3::class
+        )
+    ]
 )
 @TypeConverters(value = [DateConverter::class])
 abstract class BillBuddyDatabase : RoomDatabase() {
@@ -35,5 +38,4 @@ abstract class BillBuddyDatabase : RoomDatabase() {
         )
     )
     class Migration2to3 : AutoMigrationSpec
-
 }

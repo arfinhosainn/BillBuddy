@@ -26,7 +26,7 @@ import com.example.billbuddy.presentation.expense.components.ExpenseItem
 import com.example.billbuddy.presentation.expense.components.PieChart
 import com.example.billbuddy.presentation.navigation.Screens
 import com.example.billbuddy.presentation.settings.components.SetBudgetContent
-import com.example.billbuddy.presentation.your_payments.components.removeCommasAndDecimals
+import com.example.billbuddy.presentation.yourpayments.components.removeCommasAndDecimals
 import com.example.billbuddy.ui.theme.DarkGreen
 import com.example.billbuddy.ui.theme.Heading
 import com.example.billbuddy.ui.theme.LightBlack
@@ -41,7 +41,6 @@ fun ExpenseInsightScreen(
     expenseInsightViewModel: ExpenseInsightViewModel = hiltViewModel(),
     navController: NavController
 ) {
-
     val sheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed)
 
     val scaffoldState = rememberBottomSheetScaffoldState(
@@ -50,7 +49,6 @@ fun ExpenseInsightScreen(
     val scope = rememberCoroutineScope()
     val expenseList by expenseInsightViewModel.fakeList.collectAsState()
     val expenseListByDate = expenseList.payments.groupBy { it.expenseDate.toLocalDate() }
-
 
     val filteredExpenses by expenseInsightViewModel.filteredExpense.collectAsState()
 
@@ -83,7 +81,11 @@ fun ExpenseInsightScreen(
     val limitDuration by remember {
         mutableStateOf(
             listOf(
-                "Last 3 Days", "This Week", "Last 14 Days", "This Month", "All"
+                "Last 3 Days",
+                "This Week",
+                "Last 14 Days",
+                "This Month",
+                "All"
             )
         )
     }
@@ -104,7 +106,8 @@ fun ExpenseInsightScreen(
                     elevation = 0.dp,
                     title = {
                         Text(
-                            text = "Expenses", style =
+                            text = "Expenses",
+                            style =
                             TextStyle(
                                 fontFamily = FontAverta,
                                 fontWeight = FontWeight.Bold,
@@ -115,13 +118,15 @@ fun ExpenseInsightScreen(
                     },
                     actions = {
                         Text(
-                            text = "Set Budget", style =
+                            text = "Set Budget",
+                            style =
                             TextStyle(
                                 fontFamily = FontAverta,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 16.sp,
                                 color = DarkGreen
-                            ), modifier = Modifier.clickable {
+                            ),
+                            modifier = Modifier.clickable {
                                 scope.launch {
                                     sheetState.expand()
                                 }
@@ -145,7 +150,7 @@ fun ExpenseInsightScreen(
         },
         sheetContent = {
             SetBudgetContent(bottomSheetState = sheetState, scope = scope)
-        },
+        }
     ) { paddingValues ->
 
         Surface(
@@ -162,7 +167,6 @@ fun ExpenseInsightScreen(
                     .padding(10.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-
                 Row(
                     modifier = Modifier
                         .clickable {
@@ -172,7 +176,6 @@ fun ExpenseInsightScreen(
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-
                     Text(
                         text = selectedDuration,
                         style = MaterialTheme.typography.subtitle1
@@ -196,10 +199,11 @@ fun ExpenseInsightScreen(
                                 Text(
                                     text = label,
                                     style = MaterialTheme.typography.subtitle2,
-                                    color = if (selectedDuration == label)
+                                    color = if (selectedDuration == label) {
                                         MaterialTheme.colors.primary
-                                    else
+                                    } else {
                                         Color.Gray
+                                    }
                                 )
                             }
                         }
@@ -262,7 +266,6 @@ fun ExpenseInsightScreen(
                         "No transaction. Tap the '+' button on the home menu to get started."
                     )
                 }
-
             }
         }
     }

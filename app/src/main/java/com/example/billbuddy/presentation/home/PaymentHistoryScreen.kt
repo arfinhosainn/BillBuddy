@@ -55,25 +55,29 @@ fun PaymentHistoryScreen(
     var selectedSectionIndex by remember { mutableStateOf(0) }
     val scaffoldState = rememberScaffoldState()
 
-
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            TopAppBar(backgroundColor = Color.White, elevation = 0.dp,
+            TopAppBar(
+                backgroundColor = Color.White,
+                elevation = 0.dp,
                 title = {
                     Text(
-                        text = "Home", style =
+                        text = "Home",
+                        style =
                         TextStyle(
                             fontFamily = FontAverta,
                             fontWeight = FontWeight.Bold,
                             fontSize = Heading
                         )
                     )
-                }, navigationIcon = {
+                },
+                navigationIcon = {
                     IconButton(onClick = { navController.navigateUp() }) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "back", tint = Color.Black
+                            contentDescription = "back",
+                            tint = Color.Black
                         )
                     }
                 }
@@ -81,7 +85,6 @@ fun PaymentHistoryScreen(
         }
     ) { paddingValues ->
         Column(modifier = modifier.padding(paddingValues)) {
-
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -89,9 +92,9 @@ fun PaymentHistoryScreen(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-
                 Text(
-                    text = "Payments History", style =
+                    text = "Payments History",
+                    style =
                     TextStyle(
                         fontFamily = FontAverta,
                         fontWeight = FontWeight.Bold,
@@ -105,27 +108,23 @@ fun PaymentHistoryScreen(
                         .weight(5f),
                     horizontalArrangement = Arrangement.End
                 ) {
-
                     IconButton(onClick = { navController.navigateUp() }) {
                         Icon(
                             modifier = modifier.size(28.dp),
                             painter = painterResource(id = R.drawable.filter),
-                            contentDescription = "back", tint = LightBlack200
+                            contentDescription = "back",
+                            tint = LightBlack200
                         )
-
                     }
                     IconButton(onClick = { navController.navigateUp() }) {
                         Icon(
                             modifier = modifier.size(28.dp),
                             imageVector = Icons.Default.Search,
-                            contentDescription = "back", tint = LightBlack200
+                            contentDescription = "back",
+                            tint = LightBlack200
                         )
-
                     }
-
                 }
-
-
             }
             Spacer(modifier = Modifier.height(8.dp))
 
@@ -164,7 +163,6 @@ fun PaymentHistoryScreen(
     }
 }
 
-
 @Composable
 fun PaymentHistoryScreenList(
     paymentHistorySections: List<PaymentHistory>,
@@ -196,13 +194,11 @@ fun PaymentHistoryScreenList(
                     paymentDate = paymentHistory.paymentDate.toString(),
                     paymentAmount = paymentHistory.paymentAmount
                 ) {
-
                 }
             }
         }
     }
 }
-
 
 @Composable
 fun PaymentHistoryDateRow(
@@ -211,9 +207,7 @@ fun PaymentHistoryDateRow(
     sectionsListState: LazyListState,
     onClick: (sectionIndex: Int) -> Unit
 ) {
-
     val uniqueMonths = dateSections.groupBy { it.paymentDate.month }.values.map { it.first() }
-
 
     LazyRow(modifier = Modifier.padding(), state = sectionsListState) {
         dateSections.forEachIndexed { index, payment ->
@@ -232,14 +226,13 @@ fun PaymentHistoryDateRow(
                         isSelected = selectedIndex == index,
                         modifier = Modifier
                             .padding(horizontal = 10.dp)
-                            .clickable { onClick(index) },
+                            .clickable { onClick(index) }
                     )
                 }
             }
         }
     }
 }
-
 
 @Composable
 fun DateSectionText(
@@ -254,7 +247,7 @@ fun DateSectionText(
         Text(
             modifier = Modifier.onGloballyPositioned {
                 textWidth =
-                    with(density) { it.size.width.toDp() } //update text width value according to the content size
+                    with(density) { it.size.width.toDp() } // update text width value according to the content size
             },
             text = text,
             style = TextStyle(
@@ -265,7 +258,7 @@ fun DateSectionText(
             color = if (isSelected) DarkGreen else LightBlack200
         )
 
-        //Show the text underline with animation
+        // Show the text underline with animation
         AnimatedVisibility(
             visible = isSelected,
             enter = expandHorizontally() + fadeIn(),
@@ -282,11 +275,9 @@ fun DateSectionText(
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
 fun PreviewPaymentHistoryScreen() {
-
     val navController = rememberNavController()
     val paymentHistoryListState = PaymentHistoryState()
 
@@ -294,5 +285,4 @@ fun PreviewPaymentHistoryScreen() {
         navController = navController,
         paymentHistoryListState = paymentHistoryListState
     )
-
 }

@@ -22,12 +22,10 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
 
     override fun createUserWithPhone(phone: String, activity: Activity): Flow<Resource<String>> =
         callbackFlow {
-
             trySend(Resource.Loading())
             val onVerificationCallback =
                 object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
                     override fun onVerificationCompleted(p0: PhoneAuthCredential) {
-
                     }
 
                     override fun onVerificationFailed(p0: FirebaseException) {
@@ -55,7 +53,6 @@ class FirebaseAuthRepositoryImpl @Inject constructor(
                 close()
             }
         }
-
 
     override fun signWithCredential(otp: String): Flow<Resource<String>> = callbackFlow {
         trySend(Resource.Loading())

@@ -15,8 +15,6 @@ class PaymentHistoryRepositoryImpl @Inject constructor(
     }
 
     override fun getPaymentHistory(): Flow<List<PaymentAndPaymentHistory>> {
-
         return paymentHistoryDao.getPaymentHistory()
     }
-
 }

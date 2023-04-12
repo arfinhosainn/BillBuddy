@@ -34,17 +34,14 @@ class TransactionRepositoryImpl @Inject constructor(
     }
 
     override fun get14DayTransaction(transactionType: String): Flow<List<TransactionDto>> {
-
         return get14DayTransaction(transactionType = transactionType)
     }
 
     override fun getStartOfMonthTransaction(transactionType: String): Flow<List<TransactionDto>> {
-
         return getStartOfMonthTransaction(transactionType = transactionType)
     }
 
     override fun getLastMonthTransaction(transactionType: String): Flow<List<TransactionDto>> {
-
         return dao.getLastMonthTransaction(transactionType = transactionType)
     }
 

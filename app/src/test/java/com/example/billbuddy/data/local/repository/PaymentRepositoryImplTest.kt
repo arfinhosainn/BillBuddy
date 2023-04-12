@@ -36,7 +36,6 @@ class PaymentRepositoryImplTest {
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
-
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
@@ -65,8 +64,9 @@ class PaymentRepositoryImplTest {
     }
 
     @Test
-    fun `insert payments with invalid amount should throw InvalidPaymentException`() = runTest (
-        UnconfinedTestDispatcher()){
+    fun `insert payments with invalid amount should throw InvalidPaymentException`() = runTest(
+        UnconfinedTestDispatcher()
+    ) {
         val invalidPayment = Payment(
             paymentTitle = "House Rent",
             paymentAmount = "",
@@ -78,12 +78,10 @@ class PaymentRepositoryImplTest {
             paymentRepository.insertPayments(invalidPayment)
 
             fail("Expected InvalidPaymentException was not thrown")
-
         } catch (e: InvalidPaymentException) {
             assertThat(e.message).isEqualTo("The amount of the payment can't be empty")
         }
     }
-
 
     @Test
     fun `getAllPayments should emit loading and success state with correct data`() = runBlocking {
@@ -118,22 +116,20 @@ class PaymentRepositoryImplTest {
         assertThat(result[0]).isInstanceOf(Resource.Loading::class.java)
         assertThat(result[1]).isInstanceOf(Resource.Success::class.java)
         assertThat((result[1] as Resource.Success<List<Payment>>).data).isEqualTo(payments)
-
     }
-
 
     @Test
     fun `getAllPayments should emit error state when IOException is thrown()`() = runBlocking {
-
         every { paymentDao.getAllPayments() } throws IOException("Error")
 
         val result = paymentRepository.getAllPayments().toList()
 
         assertThat(result.size).isEqualTo(2)
         assertThat(result[1]).isInstanceOf(Resource.Error::class.java)
-        assertThat((result[1] as Resource.Error).message).isEqualTo("Couldn't reach server. Check your internet connection")
+        assertThat((result[1] as Resource.Error).message).isEqualTo(
+            "Couldn't reach server. Check your internet connection"
+        )
     }
-
 
     @Test
     fun `getAllPayments should emit error when another exception is thrown`() = runBlocking {
@@ -146,11 +142,10 @@ class PaymentRepositoryImplTest {
         assertThat((result[1] as Resource.Error).message).isEqualTo("Something is wrong")
     }
 
-
     @Test
-    fun `getPaymentById should return the correct payment with his id`() = runTest (
-        UnconfinedTestDispatcher()){
-
+    fun `getPaymentById should return the correct payment with his id`() = runTest(
+        UnconfinedTestDispatcher()
+    ) {
         val payment = Payment(
             paymentTitle = "Water Bill",
             paymentAmount = "324",
@@ -167,11 +162,10 @@ class PaymentRepositoryImplTest {
         assertThat(payment).isEqualTo(result)
     }
 
-
     @Test
-    fun `getPaymentById should return null when the payment database is empty`() = runTest (
-        UnconfinedTestDispatcher()){
-
+    fun `getPaymentById should return null when the payment database is empty`() = runTest(
+        UnconfinedTestDispatcher()
+    ) {
         coEvery { paymentRepository.getPaymentById(any()) } returns null
 
         val result = paymentRepository.getPaymentById(1)
@@ -180,8 +174,9 @@ class PaymentRepositoryImplTest {
     }
 
     @Test
-    fun `deletePayment should delete the payment from database`() = runTest (
-        UnconfinedTestDispatcher()){
+    fun `deletePayment should delete the payment from database`() = runTest(
+        UnconfinedTestDispatcher()
+    ) {
         val payment = Payment(
             paymentTitle = "Water Bill",
             paymentAmount = "324",
@@ -195,5 +190,4 @@ class PaymentRepositoryImplTest {
         paymentRepository.deletePayment(payments = payment)
         coVerify { paymentDao.deletePayment(payment) }
     }
-
 }

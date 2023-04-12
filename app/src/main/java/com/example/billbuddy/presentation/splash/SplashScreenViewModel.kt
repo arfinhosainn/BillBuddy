@@ -25,6 +25,4 @@ class SplashScreenViewModel @Inject constructor(
                 dataStoreOperation.readOnBoardingKeyFormDataStore().stateIn(viewModelScope).value
         }
     }
-
-
 }

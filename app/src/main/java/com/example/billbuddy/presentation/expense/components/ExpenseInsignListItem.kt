@@ -1,6 +1,5 @@
 package com.example.billbuddy.presentation.expense.components
 
-
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -19,7 +18,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.billbuddy.data.local.model.Expense
-import com.example.billbuddy.presentation.components.BriefPaymentItem
 import com.example.billbuddy.ui.theme.*
 import com.example.billbuddy.util.FontAverta
 
@@ -39,7 +37,8 @@ fun ExpenseInsightListItem(
                 onClick()
             },
         shape = RoundedCornerShape(10.dp),
-        elevation = 0.dp, backgroundColor = LightGreen
+        elevation = 0.dp,
+        backgroundColor = LightGreen
     ) {
         Row(
             verticalAlignment = CenterVertically,
@@ -58,7 +57,8 @@ fun ExpenseInsightListItem(
             Spacer(modifier = Modifier.width(16.dp))
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = expenseTitle, style = TextStyle(
+                    text = expenseTitle,
+                    style = TextStyle(
                         color = Color.Black,
                         fontFamily = FontAverta,
                         fontSize = 15.sp,
@@ -66,7 +66,8 @@ fun ExpenseInsightListItem(
                     )
                 )
                 Text(
-                    text = expenseDate, style = TextStyle(
+                    text = expenseDate,
+                    style = TextStyle(
                         color = LightBlack100,
                         fontFamily = FontAverta,
                         fontWeight = FontWeight.Medium
@@ -95,7 +96,6 @@ fun ExpenseItem(expense: Expense) {
             .padding(8.dp)
             .background(Color.White)
     ) {
-
         ExpenseInsightListItem(
             expenseIcon = expense.expenseCategory.toInt(),
             expenseTitle = expense.expenseTitle,
@@ -105,7 +105,6 @@ fun ExpenseItem(expense: Expense) {
                 .height(70.dp),
             expenseAmount = expense.expenseAmount.toString()
         ) {
-
         }
     }
 }

@@ -7,9 +7,9 @@ import com.example.billbuddy.data.local.model.PaymentHistory
 
 data class PaymentAndPaymentHistory(
     @Embedded val payment: Payment,
-    @Relation (
+    @Relation(
         parentColumn = "id",
         entityColumn = "id"
-            )
+    )
     val paymentHistory: PaymentHistory
 )

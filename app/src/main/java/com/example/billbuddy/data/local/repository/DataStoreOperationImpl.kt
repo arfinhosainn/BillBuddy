@@ -17,14 +17,12 @@ class DataStoreOperationImpl @Inject constructor(
     context: Context
 ) : DataStoreOperation {
 
-
     private val budgetLimit = doublePreferencesKey(Constants.EXPENSE_LIMIT_KEY)
     private val datastore = context.datastore
     private val onBoardingKey = booleanPreferencesKey(Constants.WELCOME_KEY)
     private val limitKey = booleanPreferencesKey(Constants.LIMIT_KEY)
     private val selectedCurrency = stringPreferencesKey(Constants.CURRENCY_KEY)
     private val limitDuration = intPreferencesKey(Constants.LIMIT_DURATION)
-
 
     override suspend fun writeOnBoardingKeyToDataStore(completed: Boolean) {
         datastore.edit { store ->
@@ -56,12 +54,10 @@ class DataStoreOperationImpl @Inject constructor(
         }
     }
 
-
     override suspend fun writeBudgetLimitToDataStore(amount: Double) {
         datastore.edit { store ->
             store[budgetLimit] = amount
         }
-
     }
 
     override suspend fun readExpenseLimitFromDataStore(): Flow<Double> {
@@ -69,11 +65,9 @@ class DataStoreOperationImpl @Inject constructor(
         return flow {
             preferences.collect { pref ->
                 emit(pref[budgetLimit] ?: 0.0)
-
             }
         }
     }
-
 
     override suspend fun readLimitKeyFromDataStore(): Flow<Boolean> {
         val preferences = datastore.data
@@ -88,7 +82,6 @@ class DataStoreOperationImpl @Inject constructor(
         datastore.edit { store ->
             store[limitKey] = enables
         }
-
     }
 
     override suspend fun writeLimitDurationToDataStore(duration: Int) {

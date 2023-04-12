@@ -1,6 +1,5 @@
 package com.example.billbuddy.presentation.settings.components
 
-
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -22,8 +21,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.billbuddy.R
-import com.example.billbuddy.ui.theme.BILL_AMOUNT
-import com.example.billbuddy.ui.theme.LightBlack
 import com.example.billbuddy.ui.theme.LightBlack100
 import com.example.billbuddy.util.FontAverta
 
@@ -43,7 +40,8 @@ fun Account(
                 onClick()
             },
         shape = RoundedCornerShape(10.dp),
-        elevation = 0.dp, backgroundColor = Color.White
+        elevation = 0.dp,
+        backgroundColor = Color.White
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -66,7 +64,8 @@ fun Account(
             Spacer(modifier = Modifier.width(16.dp))
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = paymentTitle, style = TextStyle(
+                    text = paymentTitle,
+                    style = TextStyle(
                         color = Color.Black,
                         fontFamily = FontAverta,
                         fontSize = 15.sp,
@@ -74,7 +73,8 @@ fun Account(
                     )
                 )
                 Text(
-                    text = paymentDate, style = TextStyle(
+                    text = paymentDate,
+                    style = TextStyle(
                         color = LightBlack100,
                         fontFamily = FontAverta,
                         fontWeight = FontWeight.Medium

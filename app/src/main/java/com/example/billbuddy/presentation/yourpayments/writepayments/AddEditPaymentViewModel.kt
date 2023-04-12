@@ -1,4 +1,4 @@
-package com.example.billbuddy.presentation.your_payments.add_edit_payment
+package com.example.billbuddy.presentation.yourpayments.writepayments
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -29,7 +29,6 @@ class AddEditPaymentViewModel @Inject constructor(
     var setBudgetAmount = MutableStateFlow(0.0)
         private set
 
-
     private val _paymentTitle = MutableStateFlow(
         PaymentTextFieldState(
             hint = "Enter Title"
@@ -52,7 +51,6 @@ class AddEditPaymentViewModel @Inject constructor(
     )
     val paymentAmount = _paymentAmount.asStateFlow()
 
-
     private val _paymentDate = MutableStateFlow(
         PaymentTextFieldState(
             paymentDate = LocalDate.now()
@@ -68,7 +66,6 @@ class AddEditPaymentViewModel @Inject constructor(
     )
 
     val paymentIcon = _paymentIcon.asStateFlow()
-
 
     init {
         savedStateHandle.get<Int>("paymentId")?.let { paymentId ->
@@ -110,9 +107,7 @@ class AddEditPaymentViewModel @Inject constructor(
                 setBudgetAmount.value = budget
             }
         }
-
     }
-
 
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
@@ -191,14 +186,12 @@ class AddEditPaymentViewModel @Inject constructor(
                                 paymentIcon = paymentIcon.value.paymentIcon
                             )
                         )
-
                     } catch (e: InvalidPaymentException) {
                         _eventFlow.emit(
                             UiEvent.ShowSnackbar(
                                 message = e.message ?: "Couldn't save payment"
                             )
                         )
-
                     }
                 }
             }
@@ -210,5 +203,3 @@ sealed class UiEvent {
     data class ShowSnackbar(val message: String) : UiEvent()
     object SaveNote : UiEvent()
 }
-
-

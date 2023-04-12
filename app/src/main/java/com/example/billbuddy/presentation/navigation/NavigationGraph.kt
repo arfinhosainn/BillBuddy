@@ -29,23 +29,25 @@ import com.example.billbuddy.presentation.settings.SettingsScreen
 import com.example.billbuddy.presentation.settings.SettingsViewModel
 import com.example.billbuddy.presentation.welcome.CurrencyScreen
 import com.example.billbuddy.presentation.welcome.WelcomeScreen
-import com.example.billbuddy.presentation.your_payments.YourPaymentScreen
-import com.example.billbuddy.presentation.your_payments.add_edit_payment.AddEditPaymentScreen
-import com.example.billbuddy.presentation.your_payments.add_edit_payment.AddEditPaymentViewModel
+import com.example.billbuddy.presentation.yourpayments.YourPaymentScreen
+import com.example.billbuddy.presentation.yourpayments.writepayments.AddEditPaymentScreen
+import com.example.billbuddy.presentation.yourpayments.writepayments.AddEditPaymentViewModel
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 
 @OptIn(
-    ExperimentalMaterialApi::class, ExperimentalUnitApi::class, ExperimentalFoundationApi::class,
+    ExperimentalMaterialApi::class,
+    ExperimentalUnitApi::class,
+    ExperimentalFoundationApi::class,
     ExperimentalAnimationApi::class
 )
 @Composable
 fun NavigationGraph(
-    navHostController: NavHostController,
+    navHostController: NavHostController
 ) {
-
     AnimatedNavHost(
-        navController = navHostController, startDestination = Screens.Authentication.route,
+        navController = navHostController,
+        startDestination = Screens.Home.route,
         exitTransition = {
             slideOutHorizontally(
                 targetOffsetX = { -300 },
@@ -62,7 +64,7 @@ fun NavigationGraph(
                 initialOffsetX = { -300 },
                 animationSpec = tween(durationMillis = 300, easing = FastOutSlowInEasing)
             ) + fadeIn(animationSpec = tween(300))
-        },
+        }
     ) {
         composable(route = Screens.Home.route) {
             val homeViewModel = hiltViewModel<HomeViewModel>()
@@ -83,7 +85,8 @@ fun NavigationGraph(
                 markPaidPaymentEvent = addEditPaymentViewModel::onEvent
             )
         }
-        composable(route = Screens.AddEditPayment.route + "?paymentId={paymentId}",
+        composable(
+            route = Screens.AddEditPayment.route + "?paymentId={paymentId}",
             arguments = listOf(
                 navArgument(
                     name = "paymentId"
@@ -91,7 +94,8 @@ fun NavigationGraph(
                     type = NavType.IntType
                     defaultValue = -1
                 }
-            )) {
+            )
+        ) {
             AddEditPaymentScreen(navController = navHostController)
         }
         composable(route = Screens.YourPayments.route) {
@@ -100,12 +104,15 @@ fun NavigationGraph(
         composable(route = Screens.Notifications.route) {
             NotificationsScreen(navController = navHostController)
         }
-        composable(route = "${Screens.Currency.route}/{setting}", arguments = listOf(
-            navArgument("setting") {
-                type = NavType.BoolType
-                defaultValue = true
-            }
-        )) { entry ->
+        composable(
+            route = "${Screens.Currency.route}/{setting}",
+            arguments = listOf(
+                navArgument("setting") {
+                    type = NavType.BoolType
+                    defaultValue = true
+                }
+            )
+        ) { entry ->
             CurrencyScreen(
                 navController = navHostController,
                 setting = entry.arguments?.getBoolean("setting")
@@ -122,9 +129,9 @@ fun NavigationGraph(
         }
         composable(route = Screens.Settings.route) {
             SettingsScreen(navController = navHostController)
-
         }
-        composable(route = Screens.History.route,
+        composable(
+            route = Screens.History.route,
             enterTransition = {
                 slideInHorizontally(
                     initialOffsetX = { 300 },
@@ -136,14 +143,14 @@ fun NavigationGraph(
                     targetOffsetX = { 300 },
                     animationSpec = tween(durationMillis = 300)
                 ) + fadeOut(animationSpec = tween(300))
-            }) {
-
+            }
+        ) {
             val paymentHistoryViewModel = hiltViewModel<PaymentHistoryViewModel>()
             val paymentHistoryListState by paymentHistoryViewModel.paymentHistory.collectAsState()
 
             PaymentHistoryScreen(
                 navController = navHostController,
-                paymentHistoryListState = paymentHistoryListState,
+                paymentHistoryListState = paymentHistoryListState
             )
         }
         composable(route = Screens.Reports.route) {

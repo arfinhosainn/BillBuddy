@@ -22,5 +22,4 @@ interface PaymentDao {
 
     @Delete
     suspend fun deletePayment(payments: Payment)
-
 }

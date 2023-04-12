@@ -8,5 +8,4 @@ class Constants {
         const val EXPENSE_LIMIT_KEY = "expense_limit"
         const val LIMIT_DURATION = "limit_duration"
     }
-
 }

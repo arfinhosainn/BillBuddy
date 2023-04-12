@@ -47,7 +47,11 @@ fun SetBudgetContent(
     var selectedIndex by remember { mutableStateOf(0) }
     val expenseLimitAmount by settingsViewModel.expenseLimit.collectAsState()
     val expenseLimitDuration by settingsViewModel.expenseLimitDuration.collectAsState()
-    var selectedLimit by remember { mutableStateOf(limitDurationText[expenseLimitDuration.expenseLimitDuration]) }
+    var selectedLimit by remember {
+        mutableStateOf(
+            limitDurationText[expenseLimitDuration.expenseLimitDuration]
+        )
+    }
     var isAmountEmpty by remember { mutableStateOf(false) }
     var limitTextFieldValue by remember { mutableStateOf(TextFieldValue(String())) }
     var expandedState by remember { mutableStateOf(false) }
@@ -164,7 +168,7 @@ fun SetBudgetContent(
 
         TextButton(
             onClick = {
-                scope.launch { bottomSheetState.collapse()}
+                scope.launch { bottomSheetState.collapse() }
             },
             modifier = Modifier
                 .fillMaxWidth(),
@@ -184,9 +188,9 @@ fun SetBudgetContent(
             onClick = {
                 scope.launch {
                     val amount = limitTextFieldValue.text
-                    if (amount.isBlank())
+                    if (amount.isBlank()) {
                         isAmountEmpty = true
-                    else {
+                    } else {
                         isAmountEmpty = false
                         settingsViewModel.editExpenseLimit(limitTextFieldValue.text.toDouble())
                         bottomSheetState.collapse()
@@ -215,5 +219,4 @@ fun SetBudgetContent(
             )
         }
     }
-
 }

@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -26,7 +25,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.billbuddy.R
 import com.example.billbuddy.data.local.model.PaymentHistory
-import com.example.billbuddy.presentation.components.BriefPaymentItem
 import com.example.billbuddy.presentation.components.CardView
 import com.example.billbuddy.presentation.components.ListPlaceholder
 import com.example.billbuddy.presentation.components.PaymentCardView
@@ -34,11 +32,9 @@ import com.example.billbuddy.presentation.home.components.PaymentHistoryEvent
 import com.example.billbuddy.presentation.home.components.PaymentHistoryState
 import com.example.billbuddy.presentation.home.components.PaymentListState
 import com.example.billbuddy.presentation.home.components.YourPaymentItem
-import com.example.billbuddy.presentation.navigation.BottomNavBar
-import com.example.billbuddy.presentation.navigation.BottomNavItem
 import com.example.billbuddy.presentation.navigation.Screens
 import com.example.billbuddy.presentation.settings.SettingState
-import com.example.billbuddy.presentation.your_payments.add_edit_payment.AddEditPaymentEvent
+import com.example.billbuddy.presentation.yourpayments.writepayments.AddEditPaymentEvent
 import com.example.billbuddy.ui.theme.*
 import com.example.billbuddy.util.FontAverta
 import com.google.accompanist.pager.*
@@ -54,51 +50,54 @@ fun HomeScreen(
     insertPaymentHistory: (PaymentHistoryEvent) -> Unit,
     markPaidPaymentEvent: (AddEditPaymentEvent) -> Unit
 ) {
-
     val pagerState = rememberPagerState()
     val scaffoldState = rememberScaffoldState()
 
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            TopAppBar(title = {
-
-                Column(modifier = Modifier.fillMaxWidth()) {
-                    Text(
-                        text = LocalDate.now().toString(), style =
-                        TextStyle(
-                            fontFamily = FontAverta,
-                            fontWeight = FontWeight.Medium,
-                            fontSize = 14.sp
+            TopAppBar(
+                title = {
+                    Column(modifier = Modifier.fillMaxWidth()) {
+                        Text(
+                            text = LocalDate.now().toString(),
+                            style =
+                            TextStyle(
+                                fontFamily = FontAverta,
+                                fontWeight = FontWeight.Medium,
+                                fontSize = 14.sp
+                            )
                         )
-                    )
-                    Text(
-                        text = "Welcome Edla!", style =
-                        TextStyle(
-                            fontFamily = FontAverta,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = Heading
+                        Text(
+                            text = "Welcome Edla!",
+                            style =
+                            TextStyle(
+                                fontFamily = FontAverta,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = Heading
+                            )
                         )
-                    )
-                }
-            }, actions = {
-                IconButton(
-                    onClick = { navController.navigate(Screens.Notifications.route) },
-                    modifier = Modifier
-                        .background(
-                            LightGreen,
-                            shape = RoundedCornerShape(10.dp)
+                    }
+                },
+                actions = {
+                    IconButton(
+                        onClick = { navController.navigate(Screens.Notifications.route) },
+                        modifier = Modifier
+                            .background(
+                                LightGreen,
+                                shape = RoundedCornerShape(10.dp)
+                            )
+                            .size(40.dp)
+                    ) {
+                        Icon(
+                            imageVector = ImageVector.vectorResource(id = R.drawable.bell),
+                            contentDescription = "Favorite",
+                            tint = LightBlack200,
+                            modifier = Modifier.size(22.dp)
                         )
-                        .size(40.dp)
-                ) {
-                    Icon(
-                        imageVector = ImageVector.vectorResource(id = R.drawable.bell),
-                        contentDescription = "Favorite", tint = LightBlack200,
-                        modifier = Modifier.size(22.dp)
-                    )
-                }
-
-            }, elevation = 0.dp,
+                    }
+                },
+                elevation = 0.dp,
                 backgroundColor = Color.White,
                 modifier = Modifier.padding(horizontal = 8.dp)
             )
@@ -114,40 +113,12 @@ fun HomeScreen(
                     contentDescription = "Add Icon"
                 )
             }
-
-        }, bottomBar = {
-            BottomNavBar(
-                items = listOf(
-                    BottomNavItem(
-                        title = "Home",
-                        route = Screens.Home.route,
-                        icon = ImageVector.vectorResource(id = R.drawable.home)
-                    ),
-                    BottomNavItem(
-                        title = "Expenses",
-                        route = Screens.ExpenseInsight.route,
-                        icon = ImageVector.vectorResource(id = R.drawable.coins)
-                    ),
-                    BottomNavItem(
-                        title = "Reports",
-                        route = Screens.Reports.route,
-                        icon = ImageVector.vectorResource(id = R.drawable.finance)
-                    ),
-                    BottomNavItem(
-                        title = "Settings",
-                        route = Screens.Settings.route,
-                        icon = ImageVector.vectorResource(id = R.drawable.setting)
-                    ),
-                ), navController = navController, onItemClick = {
-                    navController.navigate(it.route)
-                }
-            )
         }
     ) { paddingValues ->
         Box(modifier = Modifier.padding(paddingValues)) {
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.spacedBy(15.dp),
+                verticalArrangement = Arrangement.spacedBy(15.dp)
             ) {
                 item {
                     Spacer(modifier = Modifier.height(15.dp))
@@ -158,7 +129,8 @@ fun HomeScreen(
                     ) {
                         if (paymentList.payments.isNotEmpty()) {
                             Text(
-                                text = "Household", style =
+                                text = "Household",
+                                style =
                                 TextStyle(
                                     fontFamily = FontAverta,
                                     fontWeight = FontWeight.Bold,
@@ -168,7 +140,8 @@ fun HomeScreen(
                             )
                         } else {
                             Text(
-                                text = "Household", style =
+                                text = "Household",
+                                style =
                                 TextStyle(
                                     fontFamily = FontAverta,
                                     fontWeight = FontWeight.Bold,
@@ -184,21 +157,22 @@ fun HomeScreen(
                 }
                 item {
                     if (paymentList.payments.isEmpty()) {
-
                         Text(
-                            text = "There is no payments to show", style =
+                            text = "There is no payments to show",
+                            style =
                             TextStyle(
                                 fontFamily = FontAverta,
                                 fontWeight = FontWeight.Normal,
                                 fontSize = 15.sp,
                                 textAlign = TextAlign.Center
-                            ), color = Color.Black, modifier = Modifier
+                            ),
+                            color = Color.Black,
+                            modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(16.dp),
                             textAlign = TextAlign.Center
                         )
                     } else {
-
                         HorizontalPager(
                             count = paymentList.payments.size,
                             state = pagerState,
@@ -250,22 +224,27 @@ fun HomeScreen(
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Text(
-                                text = "Your Payments", style =
+                                text = "Your Payments",
+                                style =
                                 TextStyle(
                                     fontFamily = FontAverta,
                                     fontWeight = FontWeight.Bold,
                                     fontSize = Heading
-                                ), modifier = Modifier.clickable {
+                                ),
+                                modifier = Modifier.clickable {
                                     navController.navigate(Screens.Expense.route)
                                 }
                             )
                             Text(
-                                text = "See all", style =
+                                text = "See all",
+                                style =
                                 TextStyle(
                                     fontFamily = FontAverta,
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 15.sp
-                                ), color = DarkGreen, modifier = Modifier.clickable {
+                                ),
+                                color = DarkGreen,
+                                modifier = Modifier.clickable {
                                     navController.navigate(Screens.YourPayments.route)
                                 }
                             )
@@ -276,7 +255,6 @@ fun HomeScreen(
                             paymentListState = paymentList,
                             navController = navController
                         )
-
                     }
                 } else {
                     item {
@@ -287,22 +265,27 @@ fun HomeScreen(
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Text(
-                                text = "Your Payments", style =
+                                text = "Your Payments",
+                                style =
                                 TextStyle(
                                     fontFamily = FontAverta,
                                     fontWeight = FontWeight.Bold,
                                     fontSize = Heading
-                                ), modifier = Modifier.clickable {
+                                ),
+                                modifier = Modifier.clickable {
                                     navController.navigate(Screens.Expense.route)
                                 }
                             )
                             Text(
-                                text = "See all", style =
+                                text = "See all",
+                                style =
                                 TextStyle(
                                     fontFamily = FontAverta,
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 15.sp
-                                ), color = DarkGreen, modifier = Modifier.clickable {
+                                ),
+                                color = DarkGreen,
+                                modifier = Modifier.clickable {
                                     navController.navigate(Screens.YourPayments.route)
                                 }
                             )
@@ -314,12 +297,15 @@ fun HomeScreen(
                             horizontalArrangement = Arrangement.Center
                         ) {
                             Text(
-                                text = "Click on + button to add new payment", style =
+                                text = "Click on + button to add new payment",
+                                style =
                                 TextStyle(
                                     fontFamily = FontAverta,
                                     fontWeight = FontWeight.Normal,
                                     fontSize = 15.sp
-                                ), color = Color.Black, modifier = Modifier.clickable {
+                                ),
+                                color = Color.Black,
+                                modifier = Modifier.clickable {
                                     navController.navigate(Screens.YourPayments.route)
                                 }
                             )
@@ -329,7 +315,6 @@ fun HomeScreen(
 
                 if (paymentHistoryState.paymentHistory.isNotEmpty()) {
                     item {
-
                         Spacer(modifier = Modifier.height(20.dp))
                         Row(
                             modifier = Modifier
@@ -338,7 +323,8 @@ fun HomeScreen(
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Text(
-                                text = "Payments History", style =
+                                text = "Payments History",
+                                style =
                                 TextStyle(
                                     fontFamily = FontAverta,
                                     fontWeight = FontWeight.Bold,
@@ -349,12 +335,14 @@ fun HomeScreen(
                                 modifier = Modifier.clickable {
                                     navController.navigate(Screens.History.route)
                                 },
-                                text = "See all", style =
+                                text = "See all",
+                                style =
                                 TextStyle(
                                     fontFamily = FontAverta,
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 15.sp
-                                ), color = DarkGreen
+                                ),
+                                color = DarkGreen
                             )
                         }
                     }
@@ -370,11 +358,8 @@ fun HomeScreen(
                                 paymentDate = paymentHistory.paymentDate.toString(),
                                 paymentAmount = paymentHistory.paymentAmount,
                                 onClick = {
-
                                 }
                             )
-
-
                         }
                     }
                 } else {
@@ -386,7 +371,8 @@ fun HomeScreen(
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Text(
-                                text = "Payments History", style =
+                                text = "Payments History",
+                                style =
                                 TextStyle(
                                     fontFamily = FontAverta,
                                     fontWeight = FontWeight.Bold,
@@ -394,12 +380,14 @@ fun HomeScreen(
                                 )
                             )
                             Text(
-                                text = "See all", style =
+                                text = "See all",
+                                style =
                                 TextStyle(
                                     fontFamily = FontAverta,
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 15.sp
-                                ), color = DarkGreen
+                                ),
+                                color = DarkGreen
                             )
                         }
                     }
@@ -420,7 +408,6 @@ fun HomeScreen(
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
 fun PreviewHomeScreen() {
@@ -437,5 +424,4 @@ fun PreviewHomeScreen() {
         insertPaymentHistory = { /*TODO*/ },
         markPaidPaymentEvent = {}
     )
-
 }

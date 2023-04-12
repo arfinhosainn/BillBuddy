@@ -12,18 +12,6 @@ import androidx.compose.ui.unit.sp
 val Heading = 20.sp
 val BILL_AMOUNT = 18.sp
 
-
-
-
-
-
-
-
-
-
-
-
-
 @Immutable
 open class Spacing(
     open val default: Dp = 0.dp,
@@ -45,7 +33,13 @@ data class CompactSpacing(
     override val extraLarge: Dp = 32.dp,
     override val sheetHeight: Float = 1f
 ) : Spacing(
-    default, extraSmall, small, medium, large, extraLarge, sheetHeight
+    default,
+    extraSmall,
+    small,
+    medium,
+    large,
+    extraLarge,
+    sheetHeight
 )
 
 @Immutable

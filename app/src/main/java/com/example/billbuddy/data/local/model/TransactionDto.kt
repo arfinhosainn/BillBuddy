@@ -5,7 +5,6 @@ import androidx.room.PrimaryKey
 import com.example.billbuddy.domain.model.Transaction
 import java.util.*
 
-
 @Entity(tableName = "transaction_table")
 data class TransactionDto(
     @PrimaryKey

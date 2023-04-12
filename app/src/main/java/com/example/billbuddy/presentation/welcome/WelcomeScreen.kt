@@ -26,12 +26,10 @@ fun WelcomeScreen(
     navController: NavController,
     welcomeViewModel: WelcomeViewModel = hiltViewModel()
 ) {
-
     val pages by welcomeViewModel.listOfPages
     val pagerState = rememberPagerState()
 
     Surface(color = Color.White) {
-
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -59,9 +57,6 @@ fun WelcomeScreen(
                 welcomeViewModel.saveOnBoardingState(completed = true)
                 navController.navigate("${Screens.Currency.route}/${false}")
             }
-
         }
     }
-
-
 }

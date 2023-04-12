@@ -1,4 +1,4 @@
-package com.example.billbuddy.presentation.your_payments.add_edit_payment
+package com.example.billbuddy.presentation.yourpayments.writepayments
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -33,9 +33,6 @@ fun PaymentIconBottomSheetContent(onIconSelected: (PaymentIcon) -> Unit) {
         PaymentIcon.EDUCATION
     )
 
-
-
-
     LazyVerticalGrid(GridCells.Fixed(3)) {
         items(expenseIcons.size) { index ->
             PaymentIconItem(expenseIcon = expenseIcons[index], onIconSelected = onIconSelected)
@@ -43,29 +40,18 @@ fun PaymentIconBottomSheetContent(onIconSelected: (PaymentIcon) -> Unit) {
     }
 }
 
-
-
-
-
-
-
-
-
-
-
 @Composable
 fun PaymentCategoryIconItem(
-    onIconSelected: (PaymentIcon) -> Unit,
+    onIconSelected: (PaymentIcon) -> Unit
 ) {
     var isSelected by remember { mutableStateOf(false) }
-
 
     FlowRow(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 40.dp),
         mainAxisAlignment = MainAxisAlignment.SpaceBetween
-    ){
+    ) {
         PaymentIcon.values().forEach {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Box(
@@ -88,23 +74,20 @@ fun PaymentCategoryIconItem(
                             contentDescription = null,
                             modifier = Modifier
                                 .size(30.dp),
-                            colorFilter = if (isSelected) ColorFilter.tint(Color.White) else ColorFilter.tint(
-                                Color.Black
-                            )
+                            colorFilter = if (isSelected) {
+                                ColorFilter.tint(Color.White)
+                            } else {
+                                ColorFilter.tint(
+                                    Color.Black
+                                )
+                            }
                         )
                     }
                 }
             }
-
         }
-
-
     }
-
-
-
 }
-
 
 @Composable
 fun PaymentIconItem(expenseIcon: PaymentIcon, onIconSelected: (PaymentIcon) -> Unit) {

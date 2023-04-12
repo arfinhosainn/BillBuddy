@@ -11,7 +11,6 @@ class AuthScreenViewModel @Inject constructor(
     private val repository: FirebaseAuthRepository
 ) : ViewModel() {
 
-
     fun createUserWithPhone(
         mobile: String,
         activity: Activity
@@ -20,6 +19,4 @@ class AuthScreenViewModel @Inject constructor(
     fun signInWithCredential(
         code: String
     ) = repository.signWithCredential(code)
-
-
 }

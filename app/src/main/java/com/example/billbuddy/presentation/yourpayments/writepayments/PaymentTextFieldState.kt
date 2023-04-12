@@ -1,4 +1,4 @@
-package com.example.billbuddy.presentation.your_payments.add_edit_payment
+package com.example.billbuddy.presentation.yourpayments.writepayments
 
 import com.example.billbuddy.R
 import java.time.LocalDate

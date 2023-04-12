@@ -15,5 +15,4 @@ interface NotificationDao {
 
     @Query("SELECT * FROM notification_table")
     fun getAllNotification(): Flow<List<Notification>>
-
 }

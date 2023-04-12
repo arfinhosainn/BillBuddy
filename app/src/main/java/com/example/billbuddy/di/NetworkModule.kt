@@ -24,6 +24,4 @@ object NetworkModule {
     fun provideFirebaseAuthRepository(auth: FirebaseAuth): FirebaseAuthRepository {
         return FirebaseAuthRepositoryImpl(auth)
     }
-
-
 }

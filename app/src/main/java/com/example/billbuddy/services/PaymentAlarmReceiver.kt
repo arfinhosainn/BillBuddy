@@ -19,7 +19,6 @@ import kotlinx.coroutines.launch
 import java.time.LocalDate
 import javax.inject.Inject
 
-
 @AndroidEntryPoint
 class PaymentAlarmReceiver : BroadcastReceiver() {
 
@@ -31,7 +30,6 @@ class PaymentAlarmReceiver : BroadcastReceiver() {
 
     @Inject
     lateinit var notificationManager: NotificationManagerCompat
-
 
     override fun onReceive(context: Context?, intent: Intent?) {
         val paymentId = intent?.getStringExtra("PAYMENT_EXTRA") ?: return

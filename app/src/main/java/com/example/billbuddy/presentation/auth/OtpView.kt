@@ -1,6 +1,5 @@
 package com.example.billbuddy.presentation.auth
 
-
 import android.app.Activity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -31,14 +30,12 @@ import kotlinx.coroutines.launch
 const val OTP_VIEW_TYPE_UNDERLINE = 1
 const val OTP_VIEW_TYPE_BORDER = 2
 
-
 @Composable
 fun OtpVerificationScreen(
     activity: Activity,
     viewModel: AuthScreenViewModel = hiltViewModel(),
     navController: NavController
 ) {
-
     val scope = rememberCoroutineScope()
 
     var otp by remember {
@@ -46,48 +43,41 @@ fun OtpVerificationScreen(
     }
     var isDialog by remember { mutableStateOf(false) }
 
-        Column(
-            modifier = Modifier.fillMaxSize().background(DarkGreen),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-
-            OtpView(otpText = otp) {
-                otp = it
-            }
-            Spacer(modifier = Modifier.height(20.dp))
-            Button(onClick = {
-                scope.launch(Dispatchers.Main) {
-                    viewModel.signInWithCredential(
-                        otp
-                    ).collect {
-                        when (it) {
-                            is Resource.Success -> {
-                                isDialog = false
-                                activity.showMsg(it.data!!)
-                                navController.navigate(Screens.Home.route)
-                            }
-                            is Resource.Error -> {
-                                isDialog = false
-                                activity.showMsg(it.message.toString())
-                            }
-                            is Resource.Loading -> {
-                                isDialog = true
-                            }
+    Column(
+        modifier = Modifier.fillMaxSize().background(DarkGreen),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        OtpView(otpText = otp) {
+            otp = it
+        }
+        Spacer(modifier = Modifier.height(20.dp))
+        Button(onClick = {
+            scope.launch(Dispatchers.Main) {
+                viewModel.signInWithCredential(
+                    otp
+                ).collect {
+                    when (it) {
+                        is Resource.Success -> {
+                            isDialog = false
+                            activity.showMsg(it.data!!)
+                            navController.navigate(Screens.Home.route)
+                        }
+                        is Resource.Error -> {
+                            isDialog = false
+                            activity.showMsg(it.message.toString())
+                        }
+                        is Resource.Loading -> {
+                            isDialog = true
                         }
                     }
                 }
-            }) {
-                Text(text = "Verify")
             }
-
+        }) {
+            Text(text = "Verify")
         }
-
-
-
-
+    }
 }
-
 
 @Composable
 fun OtpView(
@@ -128,12 +118,13 @@ fun OtpView(
                         type = type,
                         charBackground = charBackground,
                         password = password,
-                        passwordChar = passwordChar,
+                        passwordChar = passwordChar
                     )
                     Spacer(modifier = Modifier.width(2.dp))
                 }
             }
-        })
+        }
+    )
 }
 
 @Composable
@@ -158,13 +149,15 @@ private fun CharView(
             )
             .padding(bottom = 4.dp)
             .background(charBackground)
-    } else Modifier
-        .width(containerSize)
-        .background(charBackground)
+    } else {
+        Modifier
+            .width(containerSize)
+            .background(charBackground)
+    }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Center
     ) {
         val char = when {
             index >= text.length -> ""
@@ -177,7 +170,7 @@ private fun CharView(
             modifier = modifier.wrapContentHeight(),
             style = MaterialTheme.typography.body1,
             fontSize = charSize,
-            textAlign = TextAlign.Center,
+            textAlign = TextAlign.Center
         )
         if (type == OTP_VIEW_TYPE_UNDERLINE) {
             Spacer(modifier = Modifier.height(2.dp))

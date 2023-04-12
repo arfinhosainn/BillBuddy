@@ -1,6 +1,5 @@
 package com.example.billbuddy.presentation.expense.components
 
-
 import android.graphics.Paint
 import android.graphics.Typeface
 import android.util.Log
@@ -62,7 +61,6 @@ fun PieChart(
         contentAlignment = Alignment.Center,
         modifier = Modifier.fillMaxWidth()
     ) {
-
         val sideSize = min(constraints.maxWidth, constraints.maxHeight)
         val padding = sideSize * 55 / 100f
 
@@ -88,8 +86,9 @@ fun PieChart(
 
                         progressSize.forEachIndexed { index, item ->
                             if (clickedAngle <= item) {
-                                if (activeArc != index)
+                                if (activeArc != index) {
                                     activeArc = index
+                                }
 
                                 return@detectTapGestures
                             }
@@ -97,7 +96,6 @@ fun PieChart(
                     }
                 }
         ) {
-
             Log.d("TAG", "filteredCategories size: ${filteredCategories.size}")
 
             angleProgress.forEachIndexed { index, progress ->
@@ -112,12 +110,13 @@ fun PieChart(
                 startAngle += progress
             }
 
-            if (activeArc != -1)
+            if (activeArc != -1) {
                 drawContext.canvas.nativeCanvas.apply {
                     val fontSize = 80.toDp().toPx()
                     drawText(
                         "${percentProgress[activeArc].roundToInt()}%",
-                        (sideSize / 2) + fontSize / 4, (sideSize / 3) + fontSize / 2,
+                        (sideSize / 2) + fontSize / 4,
+                        (sideSize / 3) + fontSize / 2,
                         Paint().apply {
                             color = Color.Black.toArgb()
                             textSize = fontSize
@@ -126,6 +125,7 @@ fun PieChart(
                         }
                     )
                 }
+            }
         }
     }
 }
@@ -145,7 +145,8 @@ fun DrawScope.DrawDonutArc(
         useCenter = false,
         size = size,
         topLeft = Offset(
-            padding / 2f, padding / 4f
+            padding / 2f,
+            padding / 4f
         ),
         style = Stroke(
             width = if (isActive) 160f else 120f
@@ -166,4 +167,3 @@ private fun convertTouchEventPointToAngle(
     angle = if (angle < 0) angle + 360 else angle
     return angle
 }
-

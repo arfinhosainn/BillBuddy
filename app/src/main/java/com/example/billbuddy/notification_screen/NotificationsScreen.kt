@@ -15,7 +15,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -31,28 +30,32 @@ fun NotificationsScreen(
     navController: NavController,
     notificationsViewModel: NotificationsViewModel = hiltViewModel()
 ) {
-
     val scaffoldState = rememberScaffoldState()
     val notificationState = notificationsViewModel.notificationsState.collectAsState()
 
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            TopAppBar(backgroundColor = Color.White, elevation = 0.dp,
+            TopAppBar(
+                backgroundColor = Color.White,
+                elevation = 0.dp,
                 title = {
                     Text(
-                        text = "Home", style =
+                        text = "Home",
+                        style =
                         TextStyle(
                             fontFamily = FontAverta,
                             fontWeight = FontWeight.Bold,
                             fontSize = Heading
                         )
                     )
-                }, navigationIcon = {
+                },
+                navigationIcon = {
                     IconButton(onClick = { navController.navigateUp() }) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "back", tint = Color.Black
+                            contentDescription = "back",
+                            tint = Color.Black
                         )
                     }
                 }
@@ -65,7 +68,6 @@ fun NotificationsScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -73,9 +75,9 @@ fun NotificationsScreen(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-
                 Text(
-                    text = "Payments History", style =
+                    text = "Payments History",
+                    style =
                     TextStyle(
                         fontFamily = FontAverta,
                         fontWeight = FontWeight.Bold,
@@ -86,7 +88,8 @@ fun NotificationsScreen(
                     Icon(
                         modifier = Modifier.size(28.dp),
                         imageVector = Icons.Default.Search,
-                        contentDescription = "back", tint = LightBlack200
+                        contentDescription = "back",
+                        tint = LightBlack200
                     )
                 }
             }
@@ -112,23 +115,18 @@ fun NotificationsScreen(
                     ProgressDots(modifier = Modifier.align(Alignment.Center))
                 }
             }
-
-
         }
-
     }
 }
 
-
 @Composable
 fun NotificationsCard(notification: Notification) {
-
-
     notification.notificationDesc
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(100.dp), elevation = 0.dp
+            .height(100.dp),
+        elevation = 0.dp
     ) {
         Column(
             modifier = Modifier
@@ -140,7 +138,8 @@ fun NotificationsCard(notification: Notification) {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = notification.notificationTitle, style = TextStyle(
+                    text = notification.notificationTitle,
+                    style = TextStyle(
                         color = Color.Black,
                         fontFamily = FontAverta,
                         fontSize = 15.sp,
@@ -148,7 +147,8 @@ fun NotificationsCard(notification: Notification) {
                     )
                 )
                 Text(
-                    text = notification.notificationDate.toString(), style = TextStyle(
+                    text = notification.notificationDate.toString(),
+                    style = TextStyle(
                         color = LightBlack200,
                         fontFamily = FontAverta,
                         fontSize = 10.sp,
@@ -157,7 +157,8 @@ fun NotificationsCard(notification: Notification) {
                 )
             }
             Text(
-                text = notification.notificationDesc, style = TextStyle(
+                text = notification.notificationDesc,
+                style = TextStyle(
                     color = Color.Black,
                     fontFamily = FontAverta,
                     fontWeight = FontWeight.Medium

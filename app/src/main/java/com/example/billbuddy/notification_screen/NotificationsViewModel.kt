@@ -20,7 +20,6 @@ class NotificationsViewModel @Inject constructor(
     private val _notificationsState = MutableStateFlow(NotificationListState())
     val notificationsState = _notificationsState.asStateFlow()
 
-
     init {
         getAllNotifications()
     }
@@ -44,5 +43,4 @@ class NotificationsViewModel @Inject constructor(
             }
         }.launchIn(viewModelScope)
     }
-
 }

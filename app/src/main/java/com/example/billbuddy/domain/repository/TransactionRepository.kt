@@ -5,12 +5,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface TransactionRepository {
 
-
     suspend fun insertTransaction(monthlyExpenses: TransactionDto)
 
-
     suspend fun getMonthlyTransaction(entryDate: String): Flow<List<TransactionDto>>
-
 
     fun getAllTransaction(): Flow<List<TransactionDto>>
 
@@ -22,12 +19,9 @@ interface TransactionRepository {
 
     fun get14DayTransaction(transactionType: String): Flow<List<TransactionDto>>
 
-
-
     fun getStartOfMonthTransaction(transactionType: String): Flow<List<TransactionDto>>
 
     fun getLastMonthTransaction(transactionType: String): Flow<List<TransactionDto>>
 
     fun getTransactionByType(transactionType: String): Flow<List<TransactionDto>>
-
 }

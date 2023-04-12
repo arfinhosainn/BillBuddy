@@ -30,10 +30,8 @@ import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-
 @Composable
 fun YourPaymentItem(paymentListState: PaymentListState, navController: NavController) {
-
     var selectedSectionIndex by remember { mutableStateOf(0) }
     val dateListState = rememberLazyListState()
     val itemsListState = rememberLazyListState()
@@ -55,7 +53,6 @@ fun YourPaymentItem(paymentListState: PaymentListState, navController: NavContro
             }
         )
 
-
         Spacer(modifier = Modifier.height(8.dp))
 
         YourPaymentRow(
@@ -75,7 +72,6 @@ fun YourPaymentItem(paymentListState: PaymentListState, navController: NavContro
     }
 }
 
-
 @Composable
 fun YourPaymentRow(
     paymentSections: List<Payment>,
@@ -83,7 +79,8 @@ fun YourPaymentRow(
     onPaymentScroll: () -> Unit,
     navController: NavController
 ) {
-    LazyRow(state  =itemsListState,
+    LazyRow(
+        state = itemsListState,
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 16.dp)
@@ -96,7 +93,8 @@ fun YourPaymentRow(
                     onPaymentScroll()
                     return super.onPostScroll(consumed, available, source)
                 }
-            }), horizontalArrangement = Arrangement.spacedBy(8.dp)
+            }),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         paymentSections.forEach { yourPayment ->
             item {
@@ -104,17 +102,19 @@ fun YourPaymentRow(
                     paymentIcon = yourPayment.paymentIcon,
                     paymentTitle = yourPayment.paymentTitle,
                     paymentDate = yourPayment.paymentDate.toString(),
-                    onClick = { navController.navigate(Screens.AddEditPayment.route + "?paymentId=${yourPayment.id}") },
+                    onClick = {
+                        navController.navigate(
+                            Screens.AddEditPayment.route + "?paymentId=${yourPayment.id}"
+                        )
+                    },
                     modifier = Modifier
                         .height(70.dp)
                         .width(180.dp)
                 )
             }
         }
-
     }
 }
-
 
 @Composable
 fun YourPaymentDateRow(
@@ -123,7 +123,6 @@ fun YourPaymentDateRow(
     sectionsListState: LazyListState,
     onClick: (sectionIndex: Int) -> Unit
 ) {
-
     val uniqueMonths = dateSections.groupBy { it.paymentDate.month }.values.map { it.first() }
 
     LazyRow(modifier = Modifier.padding(), state = sectionsListState) {
@@ -143,14 +142,13 @@ fun YourPaymentDateRow(
                         isSelected = selectedIndex == index,
                         modifier = Modifier
                             .padding(horizontal = 10.dp)
-                            .clickable { onClick(index) },
+                            .clickable { onClick(index) }
                     )
                 }
             }
         }
     }
 }
-
 
 @Composable
 fun DateSecText(

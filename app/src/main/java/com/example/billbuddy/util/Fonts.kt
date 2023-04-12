@@ -7,7 +7,5 @@ import com.example.billbuddy.R
 val FontAverta = FontFamily(
     Font(R.font.avertaregular, FontWeight.Normal),
     Font(R.font.avertasemibold, FontWeight.Medium),
-    Font(R.font.avertabold, FontWeight.Bold),
+    Font(R.font.avertabold, FontWeight.Bold)
 )
-
-

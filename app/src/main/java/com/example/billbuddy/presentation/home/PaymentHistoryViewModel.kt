@@ -13,23 +13,21 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PaymentHistoryViewModel @Inject constructor(
-    private val paymentHistoryRepository: PaymentHistoryRepository,
+    private val paymentHistoryRepository: PaymentHistoryRepository
 ) : ViewModel() {
 
     private val _paymentHistory = MutableStateFlow(PaymentHistoryState())
     val paymentHistory = _paymentHistory.asStateFlow()
 
-
-        init {
-            viewModelScope.launch {
-                paymentHistoryRepository.getPaymentHistory().collect {
-                    _paymentHistory.value.paymentHistory = it.map { paymentAndPaymentHistory ->
-                        paymentAndPaymentHistory.paymentHistory
-                    }
+    init {
+        viewModelScope.launch {
+            paymentHistoryRepository.getPaymentHistory().collect {
+                _paymentHistory.value.paymentHistory = it.map { paymentAndPaymentHistory ->
+                    paymentAndPaymentHistory.paymentHistory
                 }
             }
         }
-
+    }
 
     fun onEvent(event: PaymentHistoryEvent) {
         when (event) {
@@ -40,6 +38,4 @@ class PaymentHistoryViewModel @Inject constructor(
             }
         }
     }
-
-
 }
