@@ -12,6 +12,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
@@ -27,11 +29,12 @@ import com.example.billbuddy.presentation.home.PaymentHistoryViewModel
 import com.example.billbuddy.presentation.reports.ReportScreen
 import com.example.billbuddy.presentation.settings.SettingsScreen
 import com.example.billbuddy.presentation.settings.SettingsViewModel
+import com.example.billbuddy.presentation.splash.SplashScreen
 import com.example.billbuddy.presentation.welcome.CurrencyScreen
 import com.example.billbuddy.presentation.welcome.WelcomeScreen
 import com.example.billbuddy.presentation.yourpayments.YourPaymentScreen
-import com.example.billbuddy.presentation.yourpayments.writepayments.AddEditPaymentScreen
-import com.example.billbuddy.presentation.yourpayments.writepayments.AddEditPaymentViewModel
+import com.example.billbuddy.presentation.yourpayments.AddEditPaymentScreen
+import com.example.billbuddy.presentation.yourpayments.AddEditPaymentViewModel
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 
@@ -47,7 +50,7 @@ fun NavigationGraph(
 ) {
     AnimatedNavHost(
         navController = navHostController,
-        startDestination = Screens.Home.route,
+        startDestination = Screens.Splash.route,
         exitTransition = {
             slideOutHorizontally(
                 targetOffsetX = { -300 },
@@ -66,25 +69,8 @@ fun NavigationGraph(
             ) + fadeIn(animationSpec = tween(300))
         }
     ) {
-        composable(route = Screens.Home.route) {
-            val homeViewModel = hiltViewModel<HomeViewModel>()
-            val paymentHistoryViewModel = hiltViewModel<PaymentHistoryViewModel>()
-            val settingsViewModel = hiltViewModel<SettingsViewModel>()
-            val addEditPaymentViewModel = hiltViewModel<AddEditPaymentViewModel>()
+        homeRoute(navController = navHostController)
 
-            val paymentListState by homeViewModel.paymentList.collectAsState()
-            val paymentHistoryState by paymentHistoryViewModel.paymentHistory.collectAsState()
-            val expenseLimitState by settingsViewModel.expenseLimit.collectAsState()
-
-            HomeScreen(
-                navController = navHostController,
-                paymentHistoryState = paymentHistoryState,
-                paymentList = paymentListState,
-                settingState = expenseLimitState,
-                insertPaymentHistory = paymentHistoryViewModel::onEvent,
-                markPaidPaymentEvent = addEditPaymentViewModel::onEvent
-            )
-        }
         composable(
             route = Screens.AddEditPayment.route + "?paymentId={paymentId}",
             arguments = listOf(
@@ -170,5 +156,33 @@ fun NavigationGraph(
                 OtpVerificationScreen(activity = activity, navController = navHostController)
             }
         }
+        composable(route = Screens.Splash.route) {
+            SplashScreen(navController = navHostController)
+        }
+    }
+}
+
+@OptIn(ExperimentalAnimationApi::class)
+fun NavGraphBuilder.homeRoute(
+    navController: NavController
+) {
+    composable(route = Screens.Home.route) {
+        val homeViewModel = hiltViewModel<HomeViewModel>()
+        val paymentHistoryViewModel = hiltViewModel<PaymentHistoryViewModel>()
+        val settingsViewModel = hiltViewModel<SettingsViewModel>()
+        val addEditPaymentViewModel = hiltViewModel<AddEditPaymentViewModel>()
+
+        val paymentListState by homeViewModel.paymentList.collectAsState()
+        val paymentHistoryState by paymentHistoryViewModel.paymentHistory.collectAsState()
+        val expenseLimitState by settingsViewModel.expenseLimit.collectAsState()
+
+        HomeScreen(
+            navController = navController,
+            paymentHistoryState = paymentHistoryState,
+            paymentList = paymentListState,
+            settingState = expenseLimitState,
+            insertPaymentHistory = paymentHistoryViewModel::onEvent,
+            markPaidPaymentEvent = addEditPaymentViewModel::onEvent
+        )
     }
 }

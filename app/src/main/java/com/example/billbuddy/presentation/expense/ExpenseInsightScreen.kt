@@ -138,6 +138,7 @@ fun ExpenseInsightScreen(
         },
         floatingActionButton = {
             FloatingActionButton(
+                modifier = Modifier.padding(bottom = 60.dp),
                 onClick = { navController.navigate(Screens.Expense.route) },
                 backgroundColor = DarkGreen,
                 contentColor = Color.White
