@@ -16,7 +16,6 @@ import com.example.billbuddy.presentation.navigation.BottomNavBar
 import com.example.billbuddy.presentation.navigation.BottomNavItem
 import com.example.billbuddy.presentation.navigation.NavigationGraph
 import com.example.billbuddy.presentation.navigation.Screens
-import com.example.billbuddy.ui.theme.*
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,48 +27,46 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         installSplashScreen()
         setContent {
-            BillBuddyTheme {
-                val nav = rememberNavController()
-                val scaffoldState = rememberScaffoldState()
-                val remAnimNavController = rememberAnimatedNavController()
+            val nav = rememberNavController()
+            val scaffoldState = rememberScaffoldState()
+            val remAnimNavController = rememberAnimatedNavController()
 
-                Scaffold(
-                    scaffoldState = scaffoldState,
-                    bottomBar = {
-                        BottomNavBar(
-                            items = listOf(
-                                BottomNavItem(
-                                    title = "Home",
-                                    route = Screens.Home.route,
-                                    icon = ImageVector.vectorResource(id = R.drawable.home)
-                                ),
-                                BottomNavItem(
-                                    title = "Expenses",
-                                    route = Screens.ExpenseInsight.route,
-                                    icon = ImageVector.vectorResource(id = R.drawable.coins)
-                                ),
-                                BottomNavItem(
-                                    title = "Reports",
-                                    route = Screens.Reports.route,
-                                    icon = ImageVector.vectorResource(id = R.drawable.finance)
-                                ),
-                                BottomNavItem(
-                                    title = "Settings",
-                                    route = Screens.Settings.route,
-                                    icon = ImageVector.vectorResource(id = R.drawable.setting)
-                                )
+            Scaffold(
+                scaffoldState = scaffoldState,
+                bottomBar = {
+                    BottomNavBar(
+                        items = listOf(
+                            BottomNavItem(
+                                title = "Home",
+                                route = Screens.Home.route,
+                                icon = ImageVector.vectorResource(id = R.drawable.home)
                             ),
-                            navController = remAnimNavController,
-                            onItemClick = {
-                                remAnimNavController.navigate(it.route)
-                            }
-                        )
-                    }
-                ) { paddingValues ->
+                            BottomNavItem(
+                                title = "Expenses",
+                                route = Screens.ExpenseInsight.route,
+                                icon = ImageVector.vectorResource(id = R.drawable.coins)
+                            ),
+                            BottomNavItem(
+                                title = "Reports",
+                                route = Screens.Reports.route,
+                                icon = ImageVector.vectorResource(id = R.drawable.finance)
+                            ),
+                            BottomNavItem(
+                                title = "Settings",
+                                route = Screens.Settings.route,
+                                icon = ImageVector.vectorResource(id = R.drawable.setting)
+                            )
+                        ),
+                        navController = remAnimNavController,
+                        onItemClick = {
+                            remAnimNavController.navigate(it.route)
+                        }
+                    )
+                }
+            ) { paddingValues ->
 
-                    Column(modifier = Modifier.padding(paddingValues)) {
-                        NavigationGraph(navHostController = remAnimNavController)
-                    }
+                Column(modifier = Modifier.padding(paddingValues)) {
+                    NavigationGraph(navHostController = remAnimNavController)
                 }
             }
         }

@@ -1,6 +1,6 @@
 package com.example.billbuddy.notification_screen
 
-import com.example.billbuddy.data.local.model.Notification
+import com.example.util.model.Notification
 
 data class NotificationListState(
     val isLoading: Boolean = false,

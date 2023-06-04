@@ -2,8 +2,8 @@ package com.example.billbuddy.notification_screen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.billbuddy.domain.repository.NotificationsRepository
 import com.example.billbuddy.util.Resource
+import com.example.core_domain.repository.NotificationsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -40,6 +40,8 @@ class NotificationsViewModel @Inject constructor(
                     _notificationsState.value =
                         NotificationListState(payments = result.data ?: emptyList())
                 }
+
+                else -> {}
             }
         }.launchIn(viewModelScope)
     }
