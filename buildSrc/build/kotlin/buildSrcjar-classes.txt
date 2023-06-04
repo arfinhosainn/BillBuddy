@@ -1,1 +1,1 @@
-E:\BillBuddy\buildSrc\build\classes\kotlin\main\ProjectConfig.class
+C:\Users\MASUM\StudioProjects\BillBuddy\buildSrc\build\classes\kotlin\main\ProjectConfig.class

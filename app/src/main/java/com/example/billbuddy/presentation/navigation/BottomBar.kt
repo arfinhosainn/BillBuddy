@@ -16,8 +16,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.billbuddy.ui.theme.DarkGreen
-import com.example.billbuddy.ui.theme.LightBlack100
+import com.example.ui.theme.DarkGreen
+import com.example.ui.theme.LightBlack100
 
 @Composable
 fun BottomNavBar(

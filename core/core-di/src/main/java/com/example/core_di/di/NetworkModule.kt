@@ -1,7 +1,7 @@
-package com.example.billbuddy.di
+package com.example.core_di.di
 
-import com.example.billbuddy.data.local.repository.FirebaseAuthRepositoryImpl
-import com.example.billbuddy.domain.repository.FirebaseAuthRepository
+import com.example.core_database.FirebaseAuthRepositoryImpl
+import com.example.core_domain.repository.FirebaseAuthRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase

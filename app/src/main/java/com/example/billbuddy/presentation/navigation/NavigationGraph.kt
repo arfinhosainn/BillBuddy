@@ -1,6 +1,8 @@
 package com.example.billbuddy.presentation.navigation
 
 import android.app.Activity
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.*
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
@@ -18,26 +20,22 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.example.billbuddy.notification_screen.NotificationsScreen
-import com.example.billbuddy.presentation.auth.AuthScreen
-import com.example.billbuddy.presentation.auth.OtpVerificationScreen
-import com.example.billbuddy.presentation.expense.AddEditExpenseScreen
-import com.example.billbuddy.presentation.expense.ExpenseInsightScreen
-import com.example.billbuddy.presentation.home.HomeScreen
-import com.example.billbuddy.presentation.home.HomeViewModel
-import com.example.billbuddy.presentation.home.PaymentHistoryScreen
-import com.example.billbuddy.presentation.home.PaymentHistoryViewModel
-import com.example.billbuddy.presentation.reports.ReportScreen
-import com.example.billbuddy.presentation.settings.SettingsScreen
-import com.example.billbuddy.presentation.settings.SettingsViewModel
-import com.example.billbuddy.presentation.splash.SplashScreen
-import com.example.billbuddy.presentation.welcome.CurrencyScreen
-import com.example.billbuddy.presentation.welcome.WelcomeScreen
-import com.example.billbuddy.presentation.yourpayments.YourPaymentScreen
-import com.example.billbuddy.presentation.yourpayments.AddEditPaymentScreen
-import com.example.billbuddy.presentation.yourpayments.AddEditPaymentViewModel
+import com.example.feature_expense.expense.AddEditExpenseScreen
+import com.example.feature_expense.expense.ExpenseInsightScreen
+import com.example.feature_settings.SettingsScreen
+import com.example.feature_settings.SettingsViewModel
+import com.example.feature_splash.splash.SplashScreen
+import com.example.home.HomeScreen
+import com.example.home.HomeViewModel
+import com.example.home.PaymentHistoryScreen
+import com.example.home.PaymentHistoryViewModel
+import com.example.payments.AddEditPaymentScreen
+import com.example.payments.AddEditPaymentViewModel
+import com.example.payments.YourPaymentScreen
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(
     ExperimentalMaterialApi::class,
     ExperimentalUnitApi::class,
@@ -99,13 +97,13 @@ fun NavigationGraph(
                 }
             )
         ) { entry ->
-            CurrencyScreen(
+            com.example.welcome.CurrencyScreen(
                 navController = navHostController,
                 setting = entry.arguments?.getBoolean("setting")
             )
         }
         composable(route = Screens.Welcome.route) {
-            WelcomeScreen(navController = navHostController)
+            com.example.welcome.WelcomeScreen(navController = navHostController)
         }
         composable(route = Screens.Expense.route) {
             AddEditExpenseScreen(navController = navHostController)
@@ -140,20 +138,26 @@ fun NavigationGraph(
             )
         }
         composable(route = Screens.Reports.route) {
-            ReportScreen(navController = navHostController)
+            com.example.reports.ReportScreen(navController = navHostController)
         }
         composable(route = Screens.Authentication.route) {
             val context = LocalContext.current
             val activity = context as? Activity
             if (activity != null) {
-                AuthScreen(activity = activity, navController = navHostController)
+                com.example.feature_auth.auth.AuthScreen(
+                    activity = activity,
+                    navController = navHostController
+                )
             }
         }
         composable(route = Screens.OTPScreen.route) {
             val context = LocalContext.current
             val activity = context as? Activity
             if (activity != null) {
-                OtpVerificationScreen(activity = activity, navController = navHostController)
+                com.example.feature_auth.auth.OtpVerificationScreen(
+                    activity = activity,
+                    navController = navHostController
+                )
             }
         }
         composable(route = Screens.Splash.route) {
@@ -162,6 +166,7 @@ fun NavigationGraph(
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.homeRoute(
     navController: NavController

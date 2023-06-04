@@ -2,7 +2,12 @@ package com.example.billbuddy.util
 
 import androidx.compose.ui.graphics.Color
 import com.example.billbuddy.R
-import com.example.billbuddy.ui.theme.*
+import com.example.ui.theme.EntertainmentBG
+import com.example.ui.theme.FoodBG
+import com.example.ui.theme.GroceryBG
+import com.example.ui.theme.OthersBG
+import com.example.ui.theme.TravelBG
+import com.example.ui.theme.VideoGamesBG
 
 enum class ExpenseCategoryIcon(val title: String, val icon: Int, val bgRes: Color) {
     SHOPPING("Shopping", R.drawable.onlineshopping, TravelBG),

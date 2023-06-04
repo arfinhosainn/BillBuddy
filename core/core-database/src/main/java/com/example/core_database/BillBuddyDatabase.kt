@@ -29,7 +29,8 @@ import com.example.util.model.TransactionDto
             to = 4,
             spec = BillBuddyDatabase.Migration2to3::class
         )
-    ]
+    ],
+    exportSchema = true
 )
 @TypeConverters(value = [DateConverter::class])
 abstract class BillBuddyDatabase : RoomDatabase() {

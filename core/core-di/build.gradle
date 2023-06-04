@@ -37,6 +37,7 @@ dependencies {
 
     kapt libs.hilt.compiler
     implementation libs.hilt.android
+    implementation libs.firebase.auth
 
     implementation(project(":core:core-notification"))
     implementation(project(":core:core-database"))

@@ -6,6 +6,16 @@ plugins {
 }
 
 android {
+
+    defaultConfig {
+        // Other configurations...
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments["room.schemaLocation"] = "$projectDir/schemas".toString()
+            }
+        }
+    }
     namespace 'com.example.core_database'
     compileSdk 33
 
@@ -38,9 +48,9 @@ dependencies {
     implementation(project(":core:util"))
     kapt libs.hilt.compiler
     implementation libs.hilt.android
-    implementation libs.room.runtime
+    api libs.room.runtime
     implementation libs.room.ktx
-    implementation libs.room.compiler
+    kapt libs.room.compiler
     implementation libs.datastore.preferences
     implementation libs.firebase.auth
 }

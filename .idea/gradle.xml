@@ -21,9 +21,14 @@
             <option value="$PROJECT_DIR$/core/ui" />
             <option value="$PROJECT_DIR$/core/util" />
             <option value="$PROJECT_DIR$/feature" />
+            <option value="$PROJECT_DIR$/feature/feature-auth" />
+            <option value="$PROJECT_DIR$/feature/feature-expense" />
+            <option value="$PROJECT_DIR$/feature/feature-home" />
+            <option value="$PROJECT_DIR$/feature/feature-payments" />
+            <option value="$PROJECT_DIR$/feature/feature-reports" />
             <option value="$PROJECT_DIR$/feature/feature-settings" />
-            <option value="$PROJECT_DIR$/feature/home" />
-            <option value="$PROJECT_DIR$/feature/payments" />
+            <option value="$PROJECT_DIR$/feature/feature-splash" />
+            <option value="$PROJECT_DIR$/feature/feature-welcome" />
           </set>
         </option>
       </GradleProjectSettings>
