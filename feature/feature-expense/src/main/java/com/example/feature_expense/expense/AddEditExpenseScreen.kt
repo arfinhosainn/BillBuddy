@@ -153,7 +153,8 @@ fun AddEditExpenseScreen(
                         singleLine = true,
                         modifier = Modifier
                             .width(160.dp)
-                            .padding(vertical = 4.dp).focusRequester(FocusRequester())
+                            .padding(vertical = 4.dp)
+                            .focusRequester(FocusRequester())
                             .onFocusChanged { focusState ->
                                 isFieldFocused = focusState.isFocused
                             },
@@ -185,7 +186,7 @@ fun AddEditExpenseScreen(
                     FlowRow(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 40.dp)
+                            .padding(horizontal = 40.dp), horizontalArrangement = Arrangement.Center
                     ) {
                         ExpenseCategoryIcon.values().forEach { icon ->
                             ExpenseCategoryIconItem(expenseIcon = icon, onIconSelected = {
@@ -269,7 +270,7 @@ fun ExpenseCategoryIconItem(
         }
         Text(
             text = expenseIcon.title,
-            color = if (isSelected) Color.White else Color.Black,
+            color = Color.Black,
             style = MaterialTheme.typography.caption,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = 4.dp)
