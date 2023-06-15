@@ -184,9 +184,9 @@ fun AddEditExpenseScreen(
                 item {
                     Spacer(modifier = Modifier.height(15.dp))
                     FlowRow(
+                        maxItemsInEachRow = 3,
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 40.dp), horizontalArrangement = Arrangement.Center
+                            .fillMaxWidth(), horizontalArrangement = Arrangement.Center
                     ) {
                         ExpenseCategoryIcon.values().forEach { icon ->
                             ExpenseCategoryIconItem(expenseIcon = icon, onIconSelected = {
@@ -240,7 +240,7 @@ fun ExpenseCategoryIconItem(
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Box(
             modifier = Modifier
-                .padding(8.dp)
+                .padding(12.dp)
                 .clip(RoundedCornerShape(12.dp))
                 .clickable {
                     isSelected = !isSelected
