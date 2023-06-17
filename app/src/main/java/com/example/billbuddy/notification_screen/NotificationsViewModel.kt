@@ -36,7 +36,6 @@ class NotificationsViewModel @Inject constructor(
                     _notificationsState.value = NotificationListState(isLoading = true)
                 }
                 is Resource.Success -> {
-                    delay(5000L)
                     _notificationsState.value =
                         NotificationListState(payments = result.data ?: emptyList())
                 }

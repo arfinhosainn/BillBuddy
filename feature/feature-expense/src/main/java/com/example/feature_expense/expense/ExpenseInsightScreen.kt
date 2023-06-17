@@ -40,7 +40,7 @@ import kotlinx.coroutines.launch
 
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(
-    ExperimentalUnitApi::class, ExperimentalFoundationApi::class, ExperimentalMaterialApi::class,
+    ExperimentalFoundationApi::class, ExperimentalMaterialApi::class,
     ExperimentalLayoutApi::class
 )
 @Composable
@@ -248,16 +248,16 @@ fun ExpenseInsightScreen(
                             )
                         }
                     }
-                    item {
-                        FlowRow(
-                            maxItemsInEachRow = 3,
-                            modifier = Modifier
-                                .fillMaxWidth(), horizontalArrangement = Arrangement.Center
-                        ) {
-                            ExpenseItems(color = Color.Green)
-
-                        }
-                    }
+//                    item {
+//                        FlowRow(
+//                            maxItemsInEachRow = 3,
+//                            modifier = Modifier
+//                                .fillMaxWidth(), horizontalArrangement = Arrangement.Center
+//                        ) {
+//                            ExpenseItems(color = Color.Green)
+//
+//                        }
+//                    }
 
                     if (filteredExpenses.isNotEmpty()) {
                         expenseListByDate.forEach { (date, expenses) ->

@@ -134,7 +134,7 @@ fun AddEditExpenseScreen(
                 item {
                     Spacer(modifier = Modifier.height(10.dp))
                     TextField(
-                        value = expenseAmount.expenseAmount.addCommas(),
+                        value = expenseAmount.expenseAmount,
                         onValueChange = { amount ->
                             if (amount.isNotEmpty()) {
                                 addEditExpenseViewModel.onEvent(
