@@ -134,7 +134,7 @@ fun AddEditExpenseScreen(
                 item {
                     Spacer(modifier = Modifier.height(10.dp))
                     TextField(
-                        value = expenseAmount.expenseAmount.addCommas(),
+                        value = expenseAmount.expenseAmount,
                         onValueChange = { amount ->
                             if (amount.isNotEmpty()) {
                                 addEditExpenseViewModel.onEvent(
@@ -153,7 +153,8 @@ fun AddEditExpenseScreen(
                         singleLine = true,
                         modifier = Modifier
                             .width(160.dp)
-                            .padding(vertical = 4.dp).focusRequester(FocusRequester())
+                            .padding(vertical = 4.dp)
+                            .focusRequester(FocusRequester())
                             .onFocusChanged { focusState ->
                                 isFieldFocused = focusState.isFocused
                             },
@@ -183,9 +184,9 @@ fun AddEditExpenseScreen(
                 item {
                     Spacer(modifier = Modifier.height(15.dp))
                     FlowRow(
+                        maxItemsInEachRow = 3,
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 40.dp)
+                            .fillMaxWidth(), horizontalArrangement = Arrangement.Center
                     ) {
                         ExpenseCategoryIcon.values().forEach { icon ->
                             ExpenseCategoryIconItem(expenseIcon = icon, onIconSelected = {
@@ -239,7 +240,7 @@ fun ExpenseCategoryIconItem(
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Box(
             modifier = Modifier
-                .padding(8.dp)
+                .padding(12.dp)
                 .clip(RoundedCornerShape(12.dp))
                 .clickable {
                     isSelected = !isSelected
@@ -269,7 +270,7 @@ fun ExpenseCategoryIconItem(
         }
         Text(
             text = expenseIcon.title,
-            color = if (isSelected) Color.White else Color.Black,
+            color = Color.Black,
             style = MaterialTheme.typography.caption,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = 4.dp)

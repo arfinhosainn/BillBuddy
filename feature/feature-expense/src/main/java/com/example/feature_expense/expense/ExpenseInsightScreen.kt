@@ -13,7 +13,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import com.example.feature_expense.R
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -23,10 +22,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.*
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.feature_expense.expense.components.ExpenseItem
-import com.example.feature_expense.expense.components.PieChart
 import com.example.billbuddy.ui.theme.Heading
 import com.example.billbuddy.ui.theme.spacing
+import com.example.feature_expense.R
+import com.example.feature_expense.expense.components.ExpenseItem
+import com.example.feature_expense.expense.components.ExpenseItems
+import com.example.feature_expense.expense.components.PieChart
 import com.example.feature_settings.components.SetBudgetContent
 import com.example.ui.components.ListPlaceholder
 import com.example.ui.theme.DarkGreen
@@ -38,7 +39,10 @@ import com.example.util.removeCommasAndDecimals
 import kotlinx.coroutines.launch
 
 @RequiresApi(Build.VERSION_CODES.O)
-@OptIn(ExperimentalUnitApi::class, ExperimentalFoundationApi::class, ExperimentalMaterialApi::class)
+@OptIn(
+    ExperimentalFoundationApi::class, ExperimentalMaterialApi::class,
+    ExperimentalLayoutApi::class
+)
 @Composable
 fun ExpenseInsightScreen(
     expenseInsightViewModel: ExpenseInsightViewModel = hiltViewModel(),
@@ -244,6 +248,16 @@ fun ExpenseInsightScreen(
                             )
                         }
                     }
+//                    item {
+//                        FlowRow(
+//                            maxItemsInEachRow = 3,
+//                            modifier = Modifier
+//                                .fillMaxWidth(), horizontalArrangement = Arrangement.Center
+//                        ) {
+//                            ExpenseItems(color = Color.Green)
+//
+//                        }
+//                    }
 
                     if (filteredExpenses.isNotEmpty()) {
                         expenseListByDate.forEach { (date, expenses) ->

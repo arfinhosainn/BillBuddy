@@ -32,6 +32,8 @@ import com.example.home.PaymentHistoryViewModel
 import com.example.payments.AddEditPaymentScreen
 import com.example.payments.AddEditPaymentViewModel
 import com.example.payments.YourPaymentScreen
+import com.example.util.Screens
+import com.example.welcome.CurrencyScreen
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 
@@ -97,7 +99,7 @@ fun NavigationGraph(
                 }
             )
         ) { entry ->
-            com.example.welcome.CurrencyScreen(
+            CurrencyScreen(
                 navController = navHostController,
                 setting = entry.arguments?.getBoolean("setting")
             )

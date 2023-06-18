@@ -1,4 +1,4 @@
-package com.example.billbuddy.presentation.expense
+package com.example.feature_expense.expense
 
 import androidx.compose.ui.focus.FocusState
 

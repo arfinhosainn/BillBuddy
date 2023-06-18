@@ -35,7 +35,7 @@ import com.example.ui.theme.LightBlack100
 import com.example.ui.theme.LightBlack200
 import com.example.ui.theme.LightGreen100
 import com.example.util.addCommas
-import com.maxkeppeker.sheets.core.models.base.rememberSheetState
+import com.maxkeppeker.sheets.core.models.base.rememberUseCaseState
 import com.maxkeppeler.sheets.calendar.CalendarDialog
 import com.maxkeppeler.sheets.calendar.models.CalendarSelection
 import kotlinx.coroutines.flow.collectLatest
@@ -68,7 +68,7 @@ fun AddEditPaymentScreen(
         bottomSheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed)
     )
     val scope = rememberCoroutineScope()
-    val calenderState = rememberSheetState()
+    val calenderState = rememberUseCaseState()
 
     val formattedDate by remember {
         derivedStateOf {

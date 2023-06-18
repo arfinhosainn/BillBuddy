@@ -13,7 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.maxkeppeker.sheets.core.models.base.rememberSheetState
+import com.maxkeppeker.sheets.core.models.base.rememberUseCaseState
 import com.maxkeppeler.sheets.calendar.CalendarDialog
 import com.maxkeppeler.sheets.calendar.models.CalendarConfig
 import com.maxkeppeler.sheets.calendar.models.CalendarSelection
@@ -30,8 +30,8 @@ fun MonthRangeToggle(
 
     val endDate by reportsViewModel.endMonthAndYearState.collectAsState()
 
-    val startCalenderState = rememberSheetState()
-    val endCalenderState = rememberSheetState()
+    val startCalenderState = rememberUseCaseState()
+    val endCalenderState = rememberUseCaseState()
 
     var startMonthYear by remember {
         mutableStateOf(
