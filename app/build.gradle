@@ -118,7 +118,7 @@ dependencies {
     implementation 'androidx.hilt:hilt-navigation-compose:1.1.0-alpha01'
 
 
-    implementation "com.google.accompanist:accompanist-flowlayout:0.28.0"
+    implementation "com.google.accompanist:accompanist-flowlayout:0.31.3-beta"
 
     // CALENDAR
     implementation "com.maxkeppeler.sheets-compose-dialogs:calendar:1.1.0"
@@ -139,7 +139,7 @@ dependencies {
     implementation "com.google.accompanist:accompanist-pager:0.28.0"
 
     //navigation animation accompanist
-    implementation "com.google.accompanist:accompanist-navigation-animation:0.28.0"
+    implementation "com.google.accompanist:accompanist-navigation-animation:0.31.3-beta"
 
 
     //system ui controller
@@ -160,7 +160,4 @@ dependencies {
     implementation(project(":feature:feature-expense"))
     implementation(project(":feature:feature-welcome"))
     implementation(project(":feature:feature-reports"))
-
-
-
 }

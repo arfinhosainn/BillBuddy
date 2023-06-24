@@ -1,5 +1,6 @@
 package com.example.home
 
+import android.Manifest
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
@@ -16,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -41,10 +43,12 @@ import com.example.ui.theme.LightGreen100
 import com.example.util.Screens
 import com.example.util.model.PaymentHistory
 import com.google.accompanist.pager.*
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.rememberPermissionState
 import java.time.LocalDate
 
 @RequiresApi(Build.VERSION_CODES.O)
-@OptIn(ExperimentalPagerApi::class)
+@OptIn(ExperimentalPagerApi::class, ExperimentalPermissionsApi::class)
 @Composable
 fun HomeScreen(
     navController: NavController,
@@ -56,6 +60,15 @@ fun HomeScreen(
 ) {
     val pagerState = rememberPagerState()
     val scaffoldState = rememberScaffoldState()
+
+    val context = LocalContext.current
+    val permissionState = rememberPermissionState(Manifest.permission.POST_NOTIFICATIONS)
+
+    LaunchedEffect(Unit) {
+        if (permissionState.permission.isNotEmpty()) {
+            permissionState.launchPermissionRequest()
+        }
+    }
 
     Scaffold(
         scaffoldState = scaffoldState,

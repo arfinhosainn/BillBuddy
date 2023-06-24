@@ -45,6 +45,7 @@ dependencies {
     implementation libs.navigation.compose
     implementation libs.coroutines.core
     implementation libs.runtime.compose
+    implementation libs.flow.row
     kapt libs.hilt.compiler
     implementation libs.hilt.android
     implementation libs.hilt.navigation.compose

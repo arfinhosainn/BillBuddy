@@ -23,6 +23,8 @@ desugar = "1.2.0"
 compose-chart = "1.0.1"
 datastore-preferences = "1.0.0"
 work-manager = "2.8.0"
+runtime-permission  ="0.31.3-beta"
+flow-row ="0.31.3-beta"
 
 [libraries]
 core-ktx = { module = "androidx.core:core-ktx", version.ref = "core-ktx" }
@@ -59,3 +61,5 @@ desugar-jdk = { module = "com.android.tools:desugar_jdk_libs", version.ref = "de
 compose-chart = { module = "com.himanshoe:charty", version.ref = "compose-chart" }
 datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore-preferences" }
 work-manager = { module = "androidx.work:work-runtime-ktx", version.ref = "work-manager" }
+runtime-permission = { module = "com.google.accompanist:accompanist-permissions", version.ref = "runtime-permission" }
+flow-row = { module = "com.google.accompanist:accompanist-flowlayout", version.ref = "flow-row" }

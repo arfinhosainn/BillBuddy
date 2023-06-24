@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.billbuddy.util.Resource
 import com.example.core_domain.repository.DataStoreOperation
 import com.example.core_domain.repository.PaymentRepository
-import com.example.notification.AndroidAlarmScheduler
+import com.example.notification.AndroidNotificationSchedular
 import com.example.payments.components.PaymentDetailState
 import com.example.util.model.InvalidPaymentException
 import com.example.util.model.Payment
@@ -28,7 +28,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AddEditPaymentViewModel @Inject constructor(
     private val paymentRepository: PaymentRepository,
-    private val alarmScheduler: AndroidAlarmScheduler,
+    private val alarmScheduler: AndroidNotificationSchedular,
     private val dataStoreOperation: DataStoreOperation,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {

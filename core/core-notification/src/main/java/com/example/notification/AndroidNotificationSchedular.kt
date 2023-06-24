@@ -6,16 +6,16 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.example.notification.PaymentAlarmReceiver
 import com.example.util.model.Payment
 import java.time.ZoneOffset
 
-@RequiresApi(Build.VERSION_CODES.O)
-class AndroidAlarmScheduler(
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
+class AndroidNotificationSchedular(
     private val context: Context
 ) : AlarmScheduler {
 
     private val alarmManager: AlarmManager = context.getSystemService(AlarmManager::class.java)
+
 
 
     override fun schedule(item: Payment) {

@@ -1,6 +1,7 @@
 package com.example.notification
 
 import android.Manifest
+import android.app.Activity
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -20,7 +21,7 @@ import kotlinx.coroutines.launch
 import java.time.LocalDate
 import javax.inject.Inject
 
-@RequiresApi(Build.VERSION_CODES.O)
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @AndroidEntryPoint
 class PaymentAlarmReceiver : BroadcastReceiver() {
 
@@ -33,6 +34,9 @@ class PaymentAlarmReceiver : BroadcastReceiver() {
     @Inject
     lateinit var notificationManager: NotificationManagerCompat
 
+    companion object {
+        private const val PERMISSION_REQUEST_CODE = 1
+    }
 
     override fun onReceive(context: Context?, intent: Intent?) {
         val paymentId = intent?.getStringExtra("PAYMENT_EXTRA") ?: return
@@ -40,12 +44,11 @@ class PaymentAlarmReceiver : BroadcastReceiver() {
         val notificationMessage = intent.getStringExtra("NOTIFICATION_MESSAGE")
         val notificationDate = intent.getStringExtra("NOTIFICATION_DATE")
 
-        val insertNotifications =
-            Notification(
-                notificationTitle = notificationTitle!!,
-                notificationDesc = notificationMessage!!,
-                notificationDate = LocalDate.parse(notificationDate)
-            )
+        val insertNotifications = Notification(
+            notificationTitle = notificationTitle!!,
+            notificationDesc = notificationMessage!!,
+            notificationDate = LocalDate.parse(notificationDate)
+        )
 
         CoroutineScope(Dispatchers.IO).launch {
             notificationDao.insertNotifications(notification = insertNotifications)
@@ -64,8 +67,17 @@ class PaymentAlarmReceiver : BroadcastReceiver() {
                 Manifest.permission.POST_NOTIFICATIONS
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            return
+            requestNotificationPermission(context as Activity)
+        } else {
+            notificationManager.notify(0, notification)
         }
-        notificationManager.notify(0, notification)
+    }
+
+    private fun requestNotificationPermission(activity: Activity) {
+        ActivityCompat.requestPermissions(
+            activity,
+            arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+            PERMISSION_REQUEST_CODE
+        )
     }
 }

@@ -22,7 +22,7 @@ import com.example.core_domain.repository.NotificationsRepository
 import com.example.core_domain.repository.PaymentHistoryRepository
 import com.example.core_domain.repository.PaymentRepository
 import com.example.core_domain.repository.TransactionRepository
-import com.example.notification.AndroidAlarmScheduler
+import com.example.notification.AndroidNotificationSchedular
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -72,8 +72,8 @@ object LocalModule {
     }
 
     @Provides
-    fun provideAndroidAlarmScheduler(@ApplicationContext context: Context): AndroidAlarmScheduler {
-        return AndroidAlarmScheduler(context)
+    fun provideAndroidAlarmScheduler(@ApplicationContext context: Context): AndroidNotificationSchedular {
+        return AndroidNotificationSchedular(context)
     }
 
     @Provides
